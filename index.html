@@ -145,6 +145,57 @@
     .dark ::-webkit-scrollbar-thumb {
       background: #224C33;
     }
+
+    /* Sidebar Navigation styling */
+    .nav-item {
+      cursor: pointer;
+    }
+    .nav-active {
+      background: #143D26;
+      color: #FFFFFF !important;
+      box-shadow: 0 4px 14px rgba(20, 61, 38, 0.25);
+    }
+    .dark .nav-active {
+      background: #235F3E;
+      color: #FFFFFF !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    }
+    .nav-inactive {
+      color: #2D5A3F;
+    }
+    .dark .nav-inactive {
+      color: #A3C9B2;
+    }
+    .nav-inactive:hover {
+      background: rgba(20, 61, 38, 0.08);
+      color: #0E291A;
+    }
+    .dark .nav-inactive:hover {
+      background: rgba(35, 95, 62, 0.2);
+      color: #E8F3EC;
+    }
+
+    /* Print styling for Shopping List */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      #app-sidebar, header, .no-print, button {
+        display: none !important;
+      }
+      .lg\:pl-72 {
+        padding-left: 0 !important;
+      }
+      #view-shopping {
+        display: block !important;
+        padding: 0 !important;
+      }
+      .glass-card {
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-[#F8FAF9] dark:bg-[#0B1711] text-[#1A2E22] dark:text-[#E8F3EC] min-h-screen flex flex-col antialiased transition-colors duration-200">
@@ -233,10 +284,128 @@
   </div>
 
   <!-- ==================== MAIN APPLICATION SHELL ==================== -->
-  <div id="app-shell" class="hidden flex-1 flex flex-col min-h-screen">
+  <div id="app-shell" class="hidden flex min-h-screen w-full relative">
 
-    <!-- 1. TOP BOTANICAL CHRISTMAS GARLAND HEADER (With realistic evergreen leaves, berries & pine needles) -->
-    <header class="christmas-garland-wrap pt-3 pb-8 px-4 sm:px-8 text-white relative shadow-lg">
+    <!-- Mobile Sidebar Dark Overlay -->
+    <div id="sidebar-overlay" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden lg:hidden"></div>
+
+    <!-- LEFT FESTIVE SIDEBAR -->
+    <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 lg:w-72 bg-white dark:bg-[#0D1C15] border-r border-forest-100 dark:border-forest-900/60 flex flex-col justify-between transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none">
+      
+      <div class="p-5 sm:p-6 flex flex-col min-h-0 flex-1">
+        <!-- Brand Header in Sidebar -->
+        <div class="flex items-center justify-between pb-4 border-b border-forest-100 dark:border-forest-900/60 shrink-0">
+          <div class="flex items-center space-x-3 cursor-pointer select-none" onclick="switchView('dashboard')">
+            <img src="logo.jpg" alt="AvyoraCo Logo" class="w-10 h-10 rounded-2xl object-cover shadow-sm ring-2 ring-emerald-500/20">
+            <div>
+              <h1 class="text-sm font-extrabold tracking-tight text-forest-900 dark:text-forest-50 leading-tight">AvyoraCo</h1>
+              <span class="text-[10px] font-bold text-forest-500 dark:text-forest-400 block">Christmas Gift Tracker</span>
+            </div>
+          </div>
+          <button onclick="toggleMobileSidebar()" class="p-1.5 rounded-xl text-forest-400 hover:text-forest-700 dark:hover:text-forest-200 lg:hidden hover:bg-forest-50 dark:hover:bg-forest-900/40">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Holiday Navigation Menu -->
+        <nav class="mt-5 space-y-1.5 overflow-y-auto pr-1 flex-1">
+          <!-- 1. Dashboard / Recipients -->
+          <button id="nav-dashboard" onclick="switchView('dashboard')" class="nav-item nav-active w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all">
+            <div class="flex items-center space-x-3">
+              <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+              <span>Holiday Dashboard</span>
+            </div>
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          </button>
+
+          <!-- 2. Master Shopping List (New Feature!) -->
+          <button id="nav-shopping" onclick="switchView('shopping')" class="nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all">
+            <div class="flex items-center space-x-3">
+              <i data-lucide="shopping-cart" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+              <span>Shopping List</span>
+            </div>
+            <span id="sidebar-shopping-badge" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300">
+              0 To Buy
+            </span>
+          </button>
+
+          <!-- 3. Holiday Cards Section Shortcut -->
+          <button onclick="switchView('dashboard'); scrollToSection('holiday-cards');" class="nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-medium transition-all">
+            <div class="flex items-center space-x-3">
+              <i data-lucide="mail" class="w-4 h-4 text-rose-500"></i>
+              <span>Cards & Mailing</span>
+            </div>
+            <span id="sidebar-cards-badge" class="text-[10px] text-forest-400">💌</span>
+          </button>
+
+          <!-- 4. Stocking Stuffers Shortcut -->
+          <button onclick="switchView('dashboard'); scrollToSection('stocking-stuffers');" class="nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-medium transition-all">
+            <div class="flex items-center space-x-3">
+              <i data-lucide="gift" class="w-4 h-4 text-amber-600"></i>
+              <span>Stocking Stuffers</span>
+            </div>
+            <span class="text-[10px] text-forest-400">🧦</span>
+          </button>
+
+          <!-- 5. Holiday Progress Shortcut -->
+          <button onclick="switchView('dashboard'); scrollToSection('progress');" class="nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-medium transition-all">
+            <div class="flex items-center space-x-3">
+              <i data-lucide="trending-up" class="w-4 h-4 text-emerald-500"></i>
+              <span>Gift Progress</span>
+            </div>
+            <span class="text-[10px] text-forest-400">📊</span>
+          </button>
+
+          <!-- 6. Set Holiday Budget -->
+          <button onclick="openSetBudgetModal()" class="nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-medium transition-all">
+            <div class="flex items-center space-x-3">
+              <i data-lucide="wallet" class="w-4 h-4 text-champagne-gold"></i>
+              <span>Budget Settings</span>
+            </div>
+            <i data-lucide="sliders" class="w-3.5 h-3.5 text-forest-400"></i>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="p-5 sm:p-6 pt-0 space-y-3 shrink-0">
+        <!-- Festive Mindfulness Joy Card -->
+        <div onclick="triggerFestiveConfetti()" class="p-3.5 rounded-2xl bg-forest-50 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800 flex items-center justify-between cursor-pointer group hover:bg-forest-100 dark:hover:bg-forest-900/70 transition-all" title="Celebrate Holiday Progress!">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-950/80 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0 text-sm shadow-sm group-hover:scale-110 transition-transform">
+              🎄
+            </div>
+            <div>
+              <p class="text-xs font-bold text-forest-900 dark:text-forest-100 leading-tight">Peaceful Gifting</p>
+              <p class="text-[11px] text-forest-500 dark:text-forest-400">Celebrate Small Steps ✨</p>
+            </div>
+          </div>
+          <i data-lucide="sparkles" class="w-4 h-4 text-champagne-gold group-hover:rotate-12 transition-transform"></i>
+        </div>
+
+        <!-- User Profile Pill & Quick Logout -->
+        <div class="p-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-100 dark:border-forest-900 flex items-center justify-between shadow-sm">
+          <div class="flex items-center space-x-2.5 min-w-0">
+            <div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center font-bold text-xs text-emerald-800 dark:text-emerald-200 shrink-0">
+              🎅
+            </div>
+            <div class="min-w-0">
+              <p id="sidebar-user-name" class="text-xs font-bold text-forest-900 dark:text-forest-100 truncate">Holiday Host</p>
+              <p class="text-[10px] text-forest-500 dark:text-forest-400 truncate">Christmas 2026</p>
+            </div>
+          </div>
+          <button onclick="handleLogout()" title="Log Out" class="p-1.5 rounded-xl text-forest-400 hover:text-festiveRed hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT MAIN CONTENT (Padded for Desktop Sidebar: lg:pl-72) -->
+    <div class="flex-1 lg:pl-72 flex flex-col min-w-0 min-h-screen">
+
+      <!-- 1. TOP BOTANICAL CHRISTMAS GARLAND HEADER (With realistic evergreen leaves, berries & pine needles) -->
+      <header class="christmas-garland-wrap pt-3 pb-8 px-4 sm:px-8 text-white relative shadow-lg">
       
       <!-- Authentic Christmas Tree Evergreen Pine & Fir Garland Layer -->
       <svg class="garland-svg-layer" viewBox="0 0 1440 68" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice">
@@ -414,7 +583,11 @@
       <!-- Nav & Brand Line -->
       <div class="max-w-7xl mx-auto flex items-center justify-between gap-4 pt-3 relative z-20">
         <!-- Logo & Title -->
-        <div class="flex items-center space-x-3.5">
+        <div class="flex items-center space-x-3 sm:space-x-3.5">
+          <!-- Mobile Sidebar Toggle -->
+          <button onclick="toggleMobileSidebar()" class="lg:hidden p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white mr-1" title="Open Navigation">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
           <img src="logo.jpg" alt="AvyoraCo" class="w-10 h-10 rounded-full object-cover ring-2 ring-emerald-400/40 shadow">
           <div>
             <div class="flex items-center space-x-2">
@@ -480,8 +653,11 @@
     <!-- 2. MAIN DASHBOARD CONTENT (PINE FOREST GREEN + SNOW WHITE AESTHETIC) -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
 
-      <!-- A. FOUR STAT SUMMARY CARDS -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 -mt-8 relative z-20">
+      <!-- ==================== VIEW 1: HOLIDAY DASHBOARD ==================== -->
+      <div id="view-dashboard" class="space-y-8">
+
+        <!-- A. FOUR STAT SUMMARY CARDS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 -mt-8 relative z-20">
         <!-- 1. Total Holiday Budget -->
         <div class="glass-card rounded-3xl p-5 shadow-lg space-y-2 border-t-4 border-t-forest-500">
           <div class="flex items-center justify-between text-xs font-semibold text-forest-600 dark:text-forest-300">
@@ -778,6 +954,153 @@
         </div>
 
       </section>
+      </div> <!-- End #view-dashboard -->
+
+      <!-- ==================== VIEW 2: MASTER SHOPPING LIST PAGE ==================== -->
+      <div id="view-shopping" class="hidden space-y-8">
+        
+        <!-- Shopping Hero Banner -->
+        <div class="glass-card rounded-3xl p-6 sm:p-8 shadow-xl border border-emerald-100 dark:border-emerald-900/60 relative overflow-hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-forest-100 dark:border-forest-900/60 relative z-10">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-forest-600 text-white flex items-center justify-center shadow-md text-xl">
+                🛒
+              </div>
+              <div>
+                <div class="flex items-center space-x-2.5">
+                  <h2 class="text-xl sm:text-2xl font-bold font-serif-header text-forest-900 dark:text-forest-50">Master Holiday Shopping List</h2>
+                  <span id="shopping-badge-hero" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300">
+                    0 To Buy
+                  </span>
+                </div>
+                <p class="text-xs text-forest-600 dark:text-forest-300 mt-0.5">
+                  Your all-in-one gift checklist: track stores, monitor spend, and check off bought presents in one place.
+                </p>
+              </div>
+            </div>
+
+            <!-- Action Buttons: Quick Add & Print -->
+            <div class="flex items-center space-x-2.5 shrink-0 no-print">
+              <button onclick="window.print()" class="px-3.5 py-2 rounded-xl bg-forest-100 dark:bg-forest-900 text-forest-800 dark:text-forest-200 text-xs font-bold hover:bg-forest-200 dark:hover:bg-forest-800 transition-colors flex items-center space-x-1.5 shadow-sm" title="Print Checklist for Shopping">
+                <i data-lucide="printer" class="w-4 h-4"></i>
+                <span class="hidden sm:inline">Print Checklist</span>
+              </button>
+              <button onclick="openAddShoppingItemModal()" class="px-4 py-2 rounded-xl bg-festiveRed hover:bg-red-700 text-white text-xs font-bold transition-all shadow-md flex items-center space-x-1.5">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>+ Add Item</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Shopping Stat Cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
+            <!-- 1. Total Shopping Items -->
+            <div class="p-4 rounded-2xl bg-white/70 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800 space-y-1">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-forest-500">Total Items</span>
+              <h3 id="shop-stat-total-items" class="text-2xl font-extrabold text-forest-900 dark:text-forest-100 font-serif-header">0</h3>
+              <p class="text-[11px] text-forest-500">Gifts & stocking treats</p>
+            </div>
+
+            <!-- 2. Purchased & Checked Off -->
+            <div class="p-4 rounded-2xl bg-white/70 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800 space-y-1">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Already Bought</span>
+              <h3 id="shop-stat-bought-items" class="text-2xl font-extrabold text-emerald-700 dark:text-emerald-400 font-serif-header">0</h3>
+              <p id="shop-stat-bought-sub" class="text-[11px] text-emerald-600 dark:text-emerald-500 font-medium">0% completed</p>
+            </div>
+
+            <!-- 3. Still To Buy -->
+            <div class="p-4 rounded-2xl bg-white/70 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800 space-y-1">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Still To Buy</span>
+              <h3 id="shop-stat-tobuy-items" class="text-2xl font-extrabold text-amber-700 dark:text-amber-400 font-serif-header">0</h3>
+              <p class="text-[11px] text-amber-600 dark:text-amber-500 font-medium">Items pending purchase</p>
+            </div>
+
+            <!-- 4. Estimated Remaining Cost -->
+            <div class="p-4 rounded-2xl bg-white/70 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800 space-y-1">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-forest-500">Remaining to Spend</span>
+              <h3 id="shop-stat-remaining-cost" class="text-2xl font-extrabold text-forest-900 dark:text-forest-100 font-serif-header">$0</h3>
+              <p id="shop-stat-spent-so-far" class="text-[11px] text-forest-500">$0 spent so far</p>
+            </div>
+          </div>
+
+          <!-- Overall Shopping Progress Bar -->
+          <div class="space-y-2 relative z-10">
+            <div class="flex items-center justify-between text-xs font-semibold">
+              <span id="shop-progress-label" class="text-forest-700 dark:text-forest-300">Shopping Completion</span>
+              <span id="shop-progress-pct" class="font-bold text-emerald-700 dark:text-emerald-400">0%</span>
+            </div>
+            <div class="w-full h-3 rounded-full bg-forest-100 dark:bg-forest-900 overflow-hidden shadow-inner">
+              <div id="shop-progress-fill" class="h-full bg-gradient-to-r from-emerald-500 to-forest-600 rounded-full transition-all duration-500" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter, Group & Search Controls for Shopping List -->
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 no-print">
+          <!-- Status Tabs -->
+          <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs font-bold" id="shopping-status-tabs">
+            <button onclick="setShoppingFilter('all')" class="shop-filter-btn px-4 py-2 rounded-2xl bg-forest-600 text-white shadow-sm transition-all" data-filter="all">
+              All Items (<span id="tab-cnt-all">0</span>)
+            </button>
+            <button onclick="setShoppingFilter('tobuy')" class="shop-filter-btn px-4 py-2 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all" data-filter="tobuy">
+              🛒 To Buy (<span id="tab-cnt-tobuy">0</span>)
+            </button>
+            <button onclick="setShoppingFilter('bought')" class="shop-filter-btn px-4 py-2 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all" data-filter="bought">
+              ✅ Bought (<span id="tab-cnt-bought">0</span>)
+            </button>
+            <button onclick="setShoppingFilter('wrapped')" class="shop-filter-btn px-4 py-2 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all" data-filter="wrapped">
+              🎀 Wrapped (<span id="tab-cnt-wrapped">0</span>)
+            </button>
+          </div>
+
+          <!-- Search & Dropdown Filters -->
+          <div class="flex items-center space-x-2.5">
+            <!-- Filter by Recipient -->
+            <select id="shopping-recipient-filter" onchange="handleShoppingRecipientFilter(this.value)" class="px-3 py-2 rounded-2xl glass-card text-xs font-bold text-forest-900 dark:text-forest-100 focus:outline-none focus:ring-2 focus:ring-forest-500">
+              <option value="all">All People</option>
+              <!-- Populated dynamically -->
+            </select>
+
+            <!-- Search input -->
+            <div class="relative w-48 sm:w-64">
+              <i data-lucide="search" class="w-4 h-4 text-forest-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="shopping-search-input" oninput="handleShoppingSearch(this.value)" placeholder="Search item or store..." class="w-full pl-9 pr-3 py-2 rounded-2xl glass-card text-xs font-semibold text-forest-900 dark:text-forest-100 focus:outline-none focus:ring-2 focus:ring-forest-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Master Shopping List Container (Table / Cards) -->
+        <div class="glass-card rounded-3xl overflow-hidden shadow-lg border border-forest-100 dark:border-forest-900/60">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-forest-50/80 dark:bg-forest-900/50 border-b border-forest-100 dark:border-forest-900 text-forest-600 dark:text-forest-300 font-bold uppercase tracking-wider text-[11px]">
+                  <th class="py-3.5 px-4 w-12 text-center">Done</th>
+                  <th class="py-3.5 px-4">Gift Item</th>
+                  <th class="py-3.5 px-4">Recipient</th>
+                  <th class="py-3.5 px-4">Store / Retailer</th>
+                  <th class="py-3.5 px-4">Estimated Price</th>
+                  <th class="py-3.5 px-4">Status</th>
+                  <th class="py-3.5 px-4 w-20 text-right no-print">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="shopping-table-body" class="divide-y divide-forest-100/60 dark:divide-forest-900/60">
+                <!-- Dynamically populated via renderShoppingList() -->
+              </tbody>
+            </table>
+          </div>
+          <!-- Empty State -->
+          <div id="shopping-empty-state" class="hidden py-16 text-center space-y-3">
+            <span class="text-4xl">🛍️</span>
+            <h4 class="font-bold text-base text-forest-800 dark:text-forest-100">No shopping items matching filter</h4>
+            <p class="text-xs text-forest-500">All caught up or try switching your search/filter!</p>
+            <button onclick="openAddShoppingItemModal()" class="px-4 py-2 rounded-2xl bg-forest-600 text-white font-bold text-xs no-print">
+              + Add Shopping Item
+            </button>
+          </div>
+        </div>
+
+      </div> <!-- End #view-shopping -->
 
     </main>
 
@@ -792,7 +1115,8 @@
         <span class="text-[11px] text-forest-400">Automatic Cloud Sync Enabled</span>
       </div>
     </footer>
-  </div>
+  </div> <!-- End Right Main Content lg:pl-72 -->
+  </div> <!-- End #app-shell -->
 
   <!-- ==================== MODALS ==================== -->
 
@@ -915,6 +1239,65 @@
     </div>
   </div>
 
+  <!-- 5. QUICK ADD SHOPPING ITEM MODAL -->
+  <div id="modal-add-shopping-item" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-add-shopping-item')"></div>
+    <div class="w-full max-w-md glass-card rounded-3xl p-6 sm:p-7 shadow-2xl relative z-10 space-y-4">
+      <div class="flex items-center justify-between pb-2 border-b border-forest-100 dark:border-forest-900">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">🛍️</span>
+          <h3 class="font-bold font-serif-header text-lg text-forest-900 dark:text-forest-50">Add Shopping Item</h3>
+        </div>
+        <button onclick="closeModal('modal-add-shopping-item')" class="p-1 rounded-lg text-forest-400 hover:text-forest-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <form onsubmit="handleSaveShoppingItemSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-forest-700 dark:text-forest-200 mb-1">Item / Gift Name *</label>
+          <input type="text" id="shop-input-name" required placeholder="e.g. Cashmere Scarf, Board Game, LEGO Set" class="w-full px-3.5 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 font-medium focus:ring-2 focus:ring-forest-500 focus:outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-200 mb-1">Recipient *</label>
+            <select id="shop-input-recipient" required class="w-full px-3 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 font-medium focus:ring-2 focus:ring-forest-500 focus:outline-none">
+              <!-- Dynamically populated with recipients + 'Stocking Stuffer' option -->
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-200 mb-1">Estimated Price (<span class="currency-label">$</span>)</label>
+            <input type="number" id="shop-input-price" step="0.01" min="0" placeholder="0.00" class="w-full px-3.5 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 font-medium focus:ring-2 focus:ring-forest-500 focus:outline-none">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-200 mb-1">Store / Retailer</label>
+            <input type="text" id="shop-input-store" placeholder="e.g. Amazon, Target, Etsy" class="w-full px-3.5 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 font-medium focus:ring-2 focus:ring-forest-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-200 mb-1">Initial Status</label>
+            <select id="shop-input-status" class="w-full px-3 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 font-medium focus:ring-2 focus:ring-forest-500 focus:outline-none">
+              <option value="idea">🛒 To Buy (Idea)</option>
+              <option value="purchased">✅ Already Bought</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold text-forest-700 dark:text-forest-200 mb-1">Store Link / Notes (Optional)</label>
+          <input type="text" id="shop-input-link" placeholder="https://... or notes like 'Color navy blue, size L'" class="w-full px-3.5 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 font-medium focus:ring-2 focus:ring-forest-500 focus:outline-none">
+        </div>
+        <div class="flex items-center justify-end space-x-2 pt-2 border-t border-forest-100 dark:border-forest-900">
+          <button type="button" onclick="closeModal('modal-add-shopping-item')" class="px-4 py-2 rounded-xl text-forest-600 hover:bg-forest-100 dark:hover:bg-forest-900 font-bold">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-forest-600 hover:bg-forest-500 text-white font-bold shadow-md">
+            Save Item
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
     <div class="px-5 py-3 rounded-2xl glass-card shadow-2xl border border-emerald-300 dark:border-emerald-700 text-xs font-bold text-forest-900 dark:text-forest-50 flex items-center space-x-2">
@@ -934,6 +1317,10 @@
     let currencySymbol = '$';
     let currentGroupFilter = 'all';
     let currentSearchQuery = '';
+    let currentView = 'dashboard';
+    let currentShoppingFilter = 'all';
+    let currentShoppingRecipientFilter = 'all';
+    let currentShoppingSearch = '';
 
     // Standard Christmas App Data Model
     let holidayData = {
@@ -1219,7 +1606,82 @@
       renderRecipientsGrid();
       renderHolidayCards();
       renderStockingItems();
+      renderShoppingList();
       if (window.lucide) lucide.createIcons();
+    }
+
+    function toggleMobileSidebar() {
+      const sb = document.getElementById('app-sidebar');
+      const ov = document.getElementById('sidebar-overlay');
+      if (sb && ov) {
+        const isClosed = sb.classList.contains('-translate-x-full');
+        if (isClosed) {
+          sb.classList.remove('-translate-x-full');
+          ov.classList.remove('hidden');
+        } else {
+          sb.classList.add('-translate-x-full');
+          ov.classList.add('hidden');
+        }
+      }
+    }
+
+    function closeMobileSidebar() {
+      const sb = document.getElementById('app-sidebar');
+      const ov = document.getElementById('sidebar-overlay');
+      if (sb) sb.classList.add('-translate-x-full');
+      if (ov) ov.classList.add('hidden');
+    }
+
+    function switchView(viewName) {
+      currentView = viewName;
+      const vDash = document.getElementById('view-dashboard');
+      const vShop = document.getElementById('view-shopping');
+      const navDash = document.getElementById('nav-dashboard');
+      const navShop = document.getElementById('nav-shopping');
+
+      if (vDash) vDash.classList.toggle('hidden', viewName !== 'dashboard');
+      if (vShop) vShop.classList.toggle('hidden', viewName !== 'shopping');
+
+      if (navDash) {
+        if (viewName === 'dashboard') {
+          navDash.className = 'nav-item nav-active w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all';
+        } else {
+          navDash.className = 'nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all';
+        }
+      }
+      if (navShop) {
+        if (viewName === 'shopping') {
+          navShop.className = 'nav-item nav-active w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all';
+        } else {
+          navShop.className = 'nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all';
+        }
+      }
+
+      closeMobileSidebar();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (viewName === 'shopping') {
+        renderShoppingList();
+      } else {
+        renderAll();
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function scrollToSection(sectionKey) {
+      closeMobileSidebar();
+      setTimeout(() => {
+        if (sectionKey === 'holiday-cards') {
+          const el = document.getElementById('holiday-cards-container');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (sectionKey === 'stocking-stuffers') {
+          const el = document.getElementById('stocking-items-container');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (sectionKey === 'progress') {
+          const el = document.getElementById('section-holiday-progress');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
     }
 
     function scrollToRecipient(id) {
@@ -1423,6 +1885,353 @@
           <span class="px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300">🎀 ${wrappedCount} Ready</span>
         `;
       }
+
+      // 8. Update Sidebar Shopping Badge
+      const totalToBuy = ideaCount + (holidayData.stockingItems || []).filter(s => !s.purchased).length;
+      const sideShopBadge = document.getElementById('sidebar-shopping-badge');
+      if (sideShopBadge) sideShopBadge.textContent = `${totalToBuy} To Buy`;
+    }
+
+    // ==========================================
+    // MASTER SHOPPING LIST MANAGEMENT
+    // ==========================================
+    function renderShoppingList() {
+      // 1. Compile all items (Gifts from recipients + Stocking items)
+      const allItems = [];
+
+      (holidayData.recipients || []).forEach(r => {
+        (r.gifts || []).forEach(g => {
+          allItems.push({
+            id: g.id,
+            name: g.name,
+            price: parseFloat(g.price) || 0,
+            status: g.status || 'idea',
+            storeLink: g.storeLink || '',
+            recipientId: r.id,
+            recipientName: r.name,
+            recipientGroup: r.group || 'Family',
+            isStocking: false
+          });
+        });
+      });
+
+      (holidayData.stockingItems || []).forEach(s => {
+        allItems.push({
+          id: s.id,
+          name: s.name,
+          price: parseFloat(s.price) || 0,
+          status: s.purchased ? 'purchased' : 'idea',
+          storeLink: '',
+          recipientId: 'stocking',
+          recipientName: 'Stocking Stuffer 🧦',
+          recipientGroup: 'Stocking',
+          isStocking: true
+        });
+      });
+
+      // 2. Calculations
+      const totalItems = allItems.length;
+      const boughtItems = allItems.filter(item => item.status === 'purchased' || item.status === 'shipped' || item.status === 'wrapped');
+      const boughtCount = boughtItems.length;
+      const toBuyItems = allItems.filter(item => item.status === 'idea');
+      const toBuyCount = toBuyItems.length;
+      const wrappedCount = allItems.filter(item => item.status === 'wrapped').length;
+      const shippedCount = allItems.filter(item => item.status === 'shipped').length;
+
+      let totalSpent = boughtItems.reduce((sum, item) => sum + item.price, 0);
+      let estimatedRemainingCost = toBuyItems.reduce((sum, item) => sum + item.price, 0);
+      const boughtPct = totalItems > 0 ? Math.round((boughtCount / totalItems) * 100) : 0;
+
+      // 3. Update Stat Elements
+      const elSideBadge = document.getElementById('sidebar-shopping-badge');
+      if (elSideBadge) elSideBadge.textContent = `${toBuyCount} To Buy`;
+      const elHeroBadge = document.getElementById('shopping-badge-hero');
+      if (elHeroBadge) elHeroBadge.textContent = `${toBuyCount} To Buy`;
+
+      const elTotalItems = document.getElementById('shop-stat-total-items');
+      if (elTotalItems) elTotalItems.textContent = totalItems;
+      const elBoughtItems = document.getElementById('shop-stat-bought-items');
+      if (elBoughtItems) elBoughtItems.textContent = boughtCount;
+      const elBoughtSub = document.getElementById('shop-stat-bought-sub');
+      if (elBoughtSub) elBoughtSub.textContent = `${boughtPct}% completed`;
+      const elToBuyItems = document.getElementById('shop-stat-tobuy-items');
+      if (elToBuyItems) elToBuyItems.textContent = toBuyCount;
+      const elRemainingCost = document.getElementById('shop-stat-remaining-cost');
+      if (elRemainingCost) elRemainingCost.textContent = formatMoney(estimatedRemainingCost);
+      const elSpentSoFar = document.getElementById('shop-stat-spent-so-far');
+      if (elSpentSoFar) elSpentSoFar.textContent = `${formatMoney(totalSpent)} spent so far`;
+
+      const elProgressFill = document.getElementById('shop-progress-fill');
+      if (elProgressFill) elProgressFill.style.width = `${boughtPct}%`;
+      const elProgressPct = document.getElementById('shop-progress-pct');
+      if (elProgressPct) elProgressPct.textContent = `${boughtPct}%`;
+
+      // 4. Update Tab Counters
+      const elTabAll = document.getElementById('tab-cnt-all');
+      if (elTabAll) elTabAll.textContent = totalItems;
+      const elTabToBuy = document.getElementById('tab-cnt-tobuy');
+      if (elTabToBuy) elTabToBuy.textContent = toBuyCount;
+      const elTabBought = document.getElementById('tab-cnt-bought');
+      if (elTabBought) elTabBought.textContent = boughtCount;
+      const elTabWrapped = document.getElementById('tab-cnt-wrapped');
+      if (elTabWrapped) elTabWrapped.textContent = wrappedCount;
+
+      // 5. Populate Recipient Filter Dropdown if needed
+      const recipSelect = document.getElementById('shopping-recipient-filter');
+      if (recipSelect) {
+        const prevVal = currentShoppingRecipientFilter;
+        let optHtml = '<option value="all">All People</option>';
+        (holidayData.recipients || []).forEach(r => {
+          optHtml += `<option value="${r.id}">${escapeHtml(r.name)} (${r.group || 'Family'})</option>`;
+        });
+        optHtml += '<option value="stocking">Stocking Stuffers 🧦</option>';
+        recipSelect.innerHTML = optHtml;
+        recipSelect.value = prevVal;
+      }
+
+      // 6. Filter Items
+      let filtered = [...allItems];
+
+      // Status Tab filter
+      if (currentShoppingFilter === 'tobuy') {
+        filtered = filtered.filter(item => item.status === 'idea');
+      } else if (currentShoppingFilter === 'bought') {
+        filtered = filtered.filter(item => item.status === 'purchased' || item.status === 'shipped' || item.status === 'wrapped');
+      } else if (currentShoppingFilter === 'wrapped') {
+        filtered = filtered.filter(item => item.status === 'wrapped');
+      }
+
+      // Recipient filter
+      if (currentShoppingRecipientFilter !== 'all') {
+        filtered = filtered.filter(item => item.recipientId === currentShoppingRecipientFilter);
+      }
+
+      // Search Query filter
+      if (currentShoppingSearch) {
+        const q = currentShoppingSearch.toLowerCase();
+        filtered = filtered.filter(item => {
+          const matchName = (item.name || '').toLowerCase().includes(q);
+          const matchRecip = (item.recipientName || '').toLowerCase().includes(q);
+          const matchStore = (item.storeLink || '').toLowerCase().includes(q);
+          return matchName || matchRecip || matchStore;
+        });
+      }
+
+      // 7. Render Table Rows
+      const tbody = document.getElementById('shopping-table-body');
+      const emptyState = document.getElementById('shopping-empty-state');
+      if (!tbody) return;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        if (emptyState) emptyState.classList.remove('hidden');
+        return;
+      }
+
+      if (emptyState) emptyState.classList.add('hidden');
+
+      tbody.innerHTML = filtered.map(item => {
+        const isDone = item.status === 'purchased' || item.status === 'shipped' || item.status === 'wrapped';
+        
+        let statusBadge = '';
+        if (item.status === 'wrapped') {
+          statusBadge = '<span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300">🎀 Wrapped</span>';
+        } else if (item.status === 'shipped') {
+          statusBadge = '<span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">📦 Shipped</span>';
+        } else if (item.status === 'purchased') {
+          statusBadge = '<span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">✅ Bought</span>';
+        } else {
+          statusBadge = '<span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">🛒 To Buy</span>';
+        }
+
+        // Extract clean store name if URL
+        let storeDisplay = 'Store / Online';
+        if (item.storeLink) {
+          try {
+            if (item.storeLink.startsWith('http')) {
+              const url = new URL(item.storeLink);
+              storeDisplay = url.hostname.replace('www.', '');
+            } else {
+              storeDisplay = item.storeLink;
+            }
+          } catch(e) {
+            storeDisplay = item.storeLink;
+          }
+        } else if (item.isStocking) {
+          storeDisplay = 'Small Treats';
+        }
+
+        return `
+          <tr class="hover:bg-forest-50/50 dark:hover:bg-forest-900/30 transition-colors ${isDone ? 'opacity-80' : ''}">
+            <td class="py-3 px-4 text-center">
+              <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleShoppingItemBought('${item.recipientId}', '${item.id}', ${item.isStocking})" class="w-4 h-4 rounded text-forest-600 focus:ring-forest-500 cursor-pointer accent-forest-600">
+            </td>
+            <td class="py-3 px-4">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-forest-900 dark:text-forest-100 ${isDone ? 'line-through text-forest-400 dark:text-forest-500' : ''}">
+                  ${escapeHtml(item.name)}
+                </span>
+                ${item.storeLink && item.storeLink.startsWith('http') ? `
+                  <a href="${escapeHtml(item.storeLink)}" target="_blank" rel="noopener noreferrer" class="text-forest-400 hover:text-forest-700 dark:hover:text-forest-200" title="Visit Store Link">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5 inline"></i>
+                  </a>
+                ` : ''}
+              </div>
+            </td>
+            <td class="py-3 px-4">
+              <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-xl text-[10px] font-bold bg-forest-100 dark:bg-forest-900 text-forest-700 dark:text-forest-300">
+                <span>${escapeHtml(item.recipientName)}</span>
+              </span>
+            </td>
+            <td class="py-3 px-4 text-forest-600 dark:text-forest-400 font-medium">
+              ${escapeHtml(storeDisplay)}
+            </td>
+            <td class="py-3 px-4 font-extrabold text-forest-900 dark:text-forest-100">
+              ${formatMoney(item.price)}
+            </td>
+            <td class="py-3 px-4">
+              ${statusBadge}
+            </td>
+            <td class="py-3 px-4 text-right no-print">
+              <button onclick="deleteShoppingItem('${item.recipientId}', '${item.id}', ${item.isStocking})" class="p-1.5 rounded-lg text-forest-400 hover:text-festiveRed hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors" title="Delete from list">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function setShoppingFilter(filter) {
+      currentShoppingFilter = filter;
+      document.querySelectorAll('.shop-filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-filter') === filter) {
+          btn.className = 'shop-filter-btn px-4 py-2 rounded-2xl bg-forest-600 text-white shadow-sm transition-all font-bold';
+        } else {
+          btn.className = 'shop-filter-btn px-4 py-2 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all font-bold';
+        }
+      });
+      renderShoppingList();
+    }
+
+    function handleShoppingRecipientFilter(recId) {
+      currentShoppingRecipientFilter = recId;
+      renderShoppingList();
+    }
+
+    function handleShoppingSearch(query) {
+      currentShoppingSearch = (query || '').trim();
+      renderShoppingList();
+    }
+
+    function toggleShoppingItemBought(recipientId, giftId, isStocking) {
+      if (isStocking) {
+        const item = (holidayData.stockingItems || []).find(s => s.id === giftId);
+        if (item) {
+          item.purchased = !item.purchased;
+          if (item.purchased) {
+            triggerFestiveConfetti();
+            showToast(`Marked "${item.name}" as Bought! 🛒✨`);
+          } else {
+            showToast(`Moved "${item.name}" back to To Buy`);
+          }
+        }
+      } else {
+        const recip = (holidayData.recipients || []).find(r => r.id === recipientId);
+        if (recip) {
+          const gift = (recip.gifts || []).find(g => g.id === giftId);
+          if (gift) {
+            if (gift.status === 'idea') {
+              gift.status = 'purchased';
+              triggerFestiveConfetti();
+              showToast(`Marked "${gift.name}" for ${recip.name} as Bought! 🛒✨`);
+            } else {
+              gift.status = 'idea';
+              showToast(`Moved "${gift.name}" back to To Buy`);
+            }
+          }
+        }
+      }
+
+      saveUserData();
+      renderSummaryCards();
+      renderShoppingList();
+    }
+
+    function openAddShoppingItemModal() {
+      const recipSelect = document.getElementById('shop-input-recipient');
+      if (recipSelect) {
+        let optHtml = '';
+        (holidayData.recipients || []).forEach(r => {
+          optHtml += `<option value="${r.id}">${escapeHtml(r.name)} (${r.group || 'Family'})</option>`;
+        });
+        optHtml += '<option value="stocking">Stocking Stuffer 🧦</option>';
+        recipSelect.innerHTML = optHtml;
+      }
+      document.getElementById('shop-input-name').value = '';
+      document.getElementById('shop-input-price').value = '';
+      document.getElementById('shop-input-store').value = '';
+      document.getElementById('shop-input-link').value = '';
+      document.getElementById('shop-input-status').value = 'idea';
+      openModal('modal-add-shopping-item');
+    }
+
+    function handleSaveShoppingItemSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('shop-input-name').value.trim();
+      const recipId = document.getElementById('shop-input-recipient').value;
+      const price = parseFloat(document.getElementById('shop-input-price').value) || 0;
+      const store = document.getElementById('shop-input-store').value.trim();
+      const link = document.getElementById('shop-input-link').value.trim();
+      const status = document.getElementById('shop-input-status').value;
+
+      if (!name) return;
+
+      if (recipId === 'stocking') {
+        holidayData.stockingItems = holidayData.stockingItems || [];
+        holidayData.stockingItems.push({
+          id: 'stock_' + Date.now(),
+          name: name,
+          price: price,
+          purchased: status === 'purchased'
+        });
+      } else {
+        const recip = (holidayData.recipients || []).find(r => r.id === recipId);
+        if (recip) {
+          recip.gifts = recip.gifts || [];
+          recip.gifts.push({
+            id: 'g_' + Date.now(),
+            name: name,
+            price: price,
+            status: status,
+            storeLink: link || store
+          });
+        }
+      }
+
+      saveUserData();
+      renderAll();
+      closeModal('modal-add-shopping-item');
+      showToast(`Added "${name}" to shopping list! 🎁`);
+    }
+
+    function deleteShoppingItem(recipientId, giftId, isStocking) {
+      if (!confirm('Are you sure you want to remove this item from your shopping list?')) return;
+
+      if (isStocking) {
+        holidayData.stockingItems = (holidayData.stockingItems || []).filter(s => s.id !== giftId);
+      } else {
+        const recip = (holidayData.recipients || []).find(r => r.id === recipientId);
+        if (recip) {
+          recip.gifts = (recip.gifts || []).filter(g => g.id !== giftId);
+        }
+      }
+
+      saveUserData();
+      renderAll();
+      showToast('Item removed from shopping list');
     }
 
     function renderRecipientsGrid() {
