@@ -595,42 +595,6 @@
               0 To Buy
             </span>
           </button>
-
-          <!-- 3. Holiday Cards Section Shortcut -->
-          <button onclick="switchView('dashboard'); scrollToSection('holiday-cards');" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all">
-            <div class="flex items-center space-x-2.5">
-              <i data-lucide="mail" class="w-3.5 h-3.5 text-rose-500"></i>
-              <span>Cards & Mailing</span>
-            </div>
-            <span id="sidebar-cards-badge" class="text-[9px] text-forest-400">💌</span>
-          </button>
-
-          <!-- 4. Stocking Stuffers Shortcut -->
-          <button onclick="switchView('dashboard'); scrollToSection('stocking-stuffers');" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all">
-            <div class="flex items-center space-x-2.5">
-              <i data-lucide="gift" class="w-3.5 h-3.5 text-amber-600"></i>
-              <span>Stocking Stuffers</span>
-            </div>
-            <span class="text-[9px] text-forest-400">🧦</span>
-          </button>
-
-          <!-- 5. Holiday Progress Shortcut -->
-          <button onclick="switchView('dashboard'); scrollToSection('progress');" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all">
-            <div class="flex items-center space-x-2.5">
-              <i data-lucide="trending-up" class="w-3.5 h-3.5 text-emerald-500"></i>
-              <span>Gift Progress</span>
-            </div>
-            <span class="text-[9px] text-forest-400">📊</span>
-          </button>
-
-          <!-- 6. Set Holiday Budget -->
-          <button onclick="openSetBudgetModal()" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all">
-            <div class="flex items-center space-x-2.5">
-              <i data-lucide="wallet" class="w-3.5 h-3.5 text-champagne-gold"></i>
-              <span>Budget Settings</span>
-            </div>
-            <i data-lucide="sliders" class="w-3 h-3 text-forest-400"></i>
-          </button>
         </nav>
       </div>
 
@@ -679,19 +643,35 @@
       <!-- TOP NAVIGATION PILL TABS (MATCHING ETSY SCREENSHOT) -->
       <div class="flex items-center justify-between gap-2.5 flex-wrap no-print pb-3.5 sm:pb-4 border-b border-forest-100 dark:border-forest-900/60">
         <div class="flex items-center space-x-1.5 overflow-x-auto pb-0.5 text-xs font-bold" id="top-pill-navigation">
-          <button onclick="switchView('dashboard')" id="pill-nav-dashboard" class="pill-tab-btn px-3.5 py-1.5 rounded-full bg-forest-600 text-white shadow-xs flex items-center space-x-1.5 transition-all">
+          <button onclick="switchView('dashboard')" id="pill-nav-dashboard" class="pill-tab-btn px-3.5 py-1.5 rounded-full bg-forest-600 text-white shadow-xs flex items-center space-x-1.5 transition-all whitespace-nowrap">
             <span>🌟</span>
             <span>Dashboard</span>
           </button>
-          <button onclick="switchView('gifts')" id="pill-nav-gifts" class="pill-tab-btn px-3.5 py-1.5 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all">
+          <button onclick="switchView('gifts')" id="pill-nav-gifts" class="pill-tab-btn px-3.5 py-1.5 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all whitespace-nowrap">
             <span>🎁</span>
             <span>Gifts Table</span>
             <span id="pill-gifts-badge" class="ml-1 px-1.5 py-0.2 rounded-full text-[9px] bg-festiveRed text-white">0</span>
           </button>
-          <button onclick="switchView('shopping')" id="pill-nav-shopping" class="pill-tab-btn px-3.5 py-1.5 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all">
+          <button onclick="switchView('shopping')" id="pill-nav-shopping" class="pill-tab-btn px-3.5 py-1.5 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all whitespace-nowrap">
             <span>🛍️</span>
             <span>Shopping List</span>
             <span id="pill-shopping-badge" class="ml-1 px-1.5 py-0.2 rounded-full text-[9px] bg-amber-500 text-white">0</span>
+          </button>
+          <button onclick="switchView('dashboard'); scrollToSection('holiday-cards');" id="pill-nav-cards" class="pill-tab-btn px-3.5 py-1.5 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all whitespace-nowrap">
+            <span>💌</span>
+            <span>Cards & Mailing</span>
+          </button>
+          <button onclick="switchView('dashboard'); scrollToSection('stocking-stuffers');" id="pill-nav-stockings" class="pill-tab-btn px-3.5 py-1.5 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all whitespace-nowrap">
+            <span>🧦</span>
+            <span>Stocking Stuffers</span>
+          </button>
+          <button onclick="switchView('dashboard'); scrollToSection('progress');" id="pill-nav-progress" class="pill-tab-btn px-3.5 py-1.5 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all whitespace-nowrap">
+            <span>📊</span>
+            <span>Gift Progress</span>
+          </button>
+          <button onclick="openSetBudgetModal()" id="pill-nav-budget" class="pill-tab-btn px-3.5 py-1.5 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all whitespace-nowrap">
+            <span>⚙️</span>
+            <span>Budget Settings</span>
           </button>
         </div>
         <div class="flex items-center space-x-2 text-xs">
@@ -806,10 +786,10 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 relative z-10">
           
           <!-- Module 1: Christmas Readiness Circular Gauge -->
-          <div class="p-3.5 rounded-xl bg-white/70 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800/80 flex items-center space-x-4 shadow-xs">
+          <div class="p-3.5 rounded-xl bg-white/70 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800/80 flex items-center space-x-3.5 shadow-xs">
             <!-- Circular SVG Ring Gauge -->
-            <div class="relative w-18 h-18 shrink-0 flex items-center justify-center">
-              <svg class="w-18 h-18 transform -rotate-90" viewBox="0 0 100 100">
+            <div class="relative w-20 h-20 shrink-0 flex items-center justify-center" style="width: 76px; height: 76px; min-width: 76px; min-height: 76px;">
+              <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" class="text-forest-100 dark:text-forest-800" fill="transparent"/>
                 <circle id="circular-progress-ring" cx="50" cy="50" r="40" stroke="url(#progressRingGrad)" stroke-width="8" stroke-linecap="round" class="transition-all duration-700 ease-out" fill="transparent" stroke-dasharray="251.32" stroke-dashoffset="251.32"/>
                 <defs>
@@ -820,12 +800,12 @@
                 </defs>
               </svg>
               <div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
-                <span id="progress-circle-pct" class="text-lg font-extrabold font-serif-header text-forest-900 dark:text-forest-50 leading-none">33%</span>
+                <span id="progress-circle-pct" class="text-base font-extrabold font-serif-header text-forest-900 dark:text-forest-50 leading-none">33%</span>
                 <span class="text-[8px] font-bold text-forest-500 uppercase tracking-tighter mt-0.5">Ready 🎀</span>
               </div>
             </div>
             <!-- Textual Breakdown -->
-            <div class="space-y-0.5 min-w-0">
+            <div class="space-y-0.5 min-w-0 flex-1">
               <span class="text-[10px] font-bold uppercase tracking-wider text-forest-500 block">Wrapping Milestone</span>
               <h4 id="progress-readiness-count" class="text-sm font-bold text-forest-900 dark:text-forest-100 truncate">1 of 3 Wrapped</h4>
               <p id="progress-readiness-sub" class="text-[11px] text-forest-500 dark:text-forest-400">Presents ready for the tree</p>
