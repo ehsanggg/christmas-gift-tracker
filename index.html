@@ -318,7 +318,18 @@
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
           </button>
 
-          <!-- 2. Master Shopping List (New Feature!) -->
+          <!-- 2. Master Gifts Table (Matching Screenshot) -->
+          <button id="nav-gifts" onclick="switchView('gifts')" class="nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all">
+            <div class="flex items-center space-x-3">
+              <i data-lucide="gift" class="w-4 h-4 text-festiveRed"></i>
+              <span>Gifts Table</span>
+            </div>
+            <span id="sidebar-gifts-badge" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-300">
+              0
+            </span>
+          </button>
+
+          <!-- 3. Master Shopping List (New Feature!) -->
           <button id="nav-shopping" onclick="switchView('shopping')" class="nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all">
             <div class="flex items-center space-x-3">
               <i data-lucide="shopping-cart" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
@@ -651,7 +662,33 @@
     </header>
 
     <!-- 2. MAIN DASHBOARD CONTENT (PINE FOREST GREEN + SNOW WHITE AESTHETIC) -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+      <!-- TOP NAVIGATION PILL TABS (MATCHING ETSY SCREENSHOT) -->
+      <div class="flex items-center justify-between gap-3 flex-wrap no-print pb-1">
+        <div class="flex items-center space-x-2 overflow-x-auto pb-1 text-xs font-bold" id="top-pill-navigation">
+          <button onclick="switchView('dashboard')" id="pill-nav-dashboard" class="pill-tab-btn px-4 py-2 rounded-full bg-forest-600 text-white shadow-sm flex items-center space-x-1.5 transition-all">
+            <span>🌟</span>
+            <span>Dashboard</span>
+          </button>
+          <button onclick="switchView('gifts')" id="pill-nav-gifts" class="pill-tab-btn px-4 py-2 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all">
+            <span>🎁</span>
+            <span>Gifts Table</span>
+            <span id="pill-gifts-badge" class="ml-1 px-2 py-0.5 rounded-full text-[10px] bg-festiveRed text-white">0</span>
+          </button>
+          <button onclick="switchView('shopping')" id="pill-nav-shopping" class="pill-tab-btn px-4 py-2 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all">
+            <span>🛍️</span>
+            <span>Shopping List</span>
+            <span id="pill-shopping-badge" class="ml-1 px-2 py-0.5 rounded-full text-[10px] bg-amber-500 text-white">0</span>
+          </button>
+        </div>
+        <div class="flex items-center space-x-2 text-xs">
+          <button onclick="openAddGiftModal()" class="px-4 py-2 rounded-full bg-forest-600 hover:bg-forest-500 text-white font-bold shadow-sm flex items-center space-x-1.5 transition-all">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>+ Add Gift</span>
+          </button>
+        </div>
+      </div>
 
       <!-- ==================== VIEW 1: HOLIDAY DASHBOARD ==================== -->
       <div id="view-dashboard" class="space-y-8">
@@ -956,7 +993,135 @@
       </section>
       </div> <!-- End #view-dashboard -->
 
-      <!-- ==================== VIEW 2: MASTER SHOPPING LIST PAGE ==================== -->
+      <!-- ==================== VIEW 2: MASTER GIFTS TABLE (EXACT ETSY FORMAT) ==================== -->
+      <div id="view-gifts" class="hidden space-y-6">
+
+        <!-- Gifts Table Hero Bar -->
+        <div class="glass-card rounded-3xl p-6 sm:p-7 shadow-xl border border-emerald-100 dark:border-emerald-900/60 relative overflow-hidden space-y-5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-forest-100 dark:border-forest-900/60 relative z-10">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-festiveRed text-white flex items-center justify-center shadow-md text-xl">
+                🎁
+              </div>
+              <div>
+                <div class="flex items-center space-x-2.5">
+                  <h2 class="text-xl sm:text-2xl font-bold font-serif-header text-forest-900 dark:text-forest-50">Master Gifts Tracker</h2>
+                  <span id="gifts-badge-count" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
+                    0 Gifts Total
+                  </span>
+                </div>
+                <p class="text-xs text-forest-600 dark:text-forest-300 mt-0.5">
+                  Three simple checkboxes per gift: Bought, Wrapped, Sent — with real-time budget variance and live editing.
+                </p>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center space-x-2.5 shrink-0 no-print">
+              <button onclick="window.print()" class="px-3.5 py-2 rounded-xl bg-forest-100 dark:bg-forest-900 text-forest-800 dark:text-forest-200 text-xs font-bold hover:bg-forest-200 dark:hover:bg-forest-800 transition-colors flex items-center space-x-1.5 shadow-sm" title="Print Master Table">
+                <i data-lucide="printer" class="w-4 h-4"></i>
+                <span class="hidden sm:inline">Print Table</span>
+              </button>
+              <button onclick="openAddGiftModal()" class="px-4 py-2 rounded-xl bg-forest-600 hover:bg-forest-500 text-white text-xs font-bold transition-all shadow-md flex items-center space-x-1.5">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>+ New Gift</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Metric Stats Ribbon matching the Etsy spreadsheet -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 relative z-10 text-xs">
+            <div class="p-3.5 rounded-2xl bg-white/70 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-forest-500 block">Total Budgeted</span>
+              <span id="gifts-stat-budgeted" class="text-xl font-extrabold text-forest-900 dark:text-forest-100 font-serif-header">$0</span>
+              <p class="text-[10px] text-forest-400 mt-0.5">Planned spend</p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-white/70 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-forest-500 block">Actual Spent</span>
+              <span id="gifts-stat-actual" class="text-xl font-extrabold text-forest-900 dark:text-forest-100 font-serif-header">$0</span>
+              <p class="text-[10px] text-forest-400 mt-0.5">Paid so far</p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-white/70 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-forest-500 block">Net Variance (+/-)</span>
+              <span id="gifts-stat-variance" class="text-xl font-extrabold font-serif-header text-emerald-700 dark:text-emerald-400">$0</span>
+              <p id="gifts-stat-variance-sub" class="text-[10px] text-emerald-600 mt-0.5">Under budget</p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-white/70 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-forest-500 block">Progress</span>
+              <span id="gifts-stat-progress" class="text-xl font-extrabold text-forest-900 dark:text-forest-100 font-serif-header">0%</span>
+              <p id="gifts-stat-progress-sub" class="text-[10px] text-forest-400 mt-0.5">0 of 0 Ready 🎀</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 no-print">
+          <!-- Group Filter Tabs -->
+          <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs font-bold" id="gifts-group-filter-bar">
+            <button onclick="setGiftsGroupFilter('all')" class="gifts-filter-btn px-3.5 py-1.5 rounded-2xl bg-forest-600 text-white shadow-sm transition-all" data-filter="all">All Groups</button>
+            <button onclick="setGiftsGroupFilter('Family')" class="gifts-filter-btn px-3.5 py-1.5 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all" data-filter="Family">Family</button>
+            <button onclick="setGiftsGroupFilter('Friends')" class="gifts-filter-btn px-3.5 py-1.5 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all" data-filter="Friends">Friends</button>
+            <button onclick="setGiftsGroupFilter('Kids')" class="gifts-filter-btn px-3.5 py-1.5 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all" data-filter="Kids">Kids</button>
+            <button onclick="setGiftsGroupFilter('Coworkers')" class="gifts-filter-btn px-3.5 py-1.5 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all" data-filter="Coworkers">Coworkers</button>
+          </div>
+
+          <!-- Right Filters: Delivery Method, Search -->
+          <div class="flex items-center space-x-2">
+            <!-- Filter by Status -->
+            <select id="gifts-status-filter" onchange="handleGiftsStatusFilter(this.value)" class="px-3 py-1.5 rounded-2xl glass-card text-xs font-bold text-forest-900 dark:text-forest-100 focus:outline-none focus:ring-2 focus:ring-forest-500">
+              <option value="all">All Stages</option>
+              <option value="pending-buy">🛒 Need To Buy</option>
+              <option value="pending-wrap">🎁 Need To Wrap</option>
+              <option value="ready">🎀 Ready / Sent</option>
+            </select>
+
+            <!-- Search input -->
+            <div class="relative w-48 sm:w-60">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-forest-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="gifts-search-input" oninput="handleGiftsSearch(this.value)" placeholder="Search gift, person, store..." class="w-full pl-8 pr-3 py-1.5 rounded-2xl glass-card text-xs font-semibold text-forest-900 dark:text-forest-100 focus:outline-none focus:ring-2 focus:ring-forest-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Master Gifts Table (Styling Matching Exactly The Screenshot) -->
+        <div class="glass-card rounded-3xl overflow-hidden shadow-xl border border-forest-100 dark:border-forest-900/60">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-forest-50/90 dark:bg-forest-900/60 border-b border-forest-100 dark:border-forest-900 text-forest-600 dark:text-forest-300 font-bold uppercase tracking-wider text-[10px]">
+                  <th class="py-3 px-3">Group</th>
+                  <th class="py-3 px-3">Recipient</th>
+                  <th class="py-3 px-4">Gift Item</th>
+                  <th class="py-3 px-3">Store / Site</th>
+                  <th class="py-3 px-3 text-right">Budget</th>
+                  <th class="py-3 px-3 text-right">Actual</th>
+                  <th class="py-3 px-3 text-right">Diff (+/-)</th>
+                  <th class="py-3 px-2 text-center" title="Bought Checkbox">Bought</th>
+                  <th class="py-3 px-2 text-center" title="Wrapped Checkbox">Wrapped</th>
+                  <th class="py-3 px-2 text-center" title="Sent / Delivered Checkbox">Sent</th>
+                  <th class="py-3 px-3 text-center">Delivery</th>
+                  <th class="py-3 px-3 text-center w-28 no-print">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="gifts-master-table-body" class="divide-y divide-forest-100/70 dark:divide-forest-900/60 font-medium">
+                <!-- Dynamically rendered via renderGiftsTable() -->
+              </tbody>
+            </table>
+          </div>
+          <!-- Empty State -->
+          <div id="gifts-table-empty-state" class="hidden py-16 text-center space-y-3">
+            <span class="text-4xl">🎁</span>
+            <h4 class="font-bold text-base text-forest-800 dark:text-forest-100">No gifts matching criteria</h4>
+            <p class="text-xs text-forest-500">Add a new gift or adjust filters to view your gifts.</p>
+            <button onclick="openAddGiftModal()" class="px-4 py-2 rounded-2xl bg-forest-600 text-white font-bold text-xs no-print">
+              + Add Gift Item
+            </button>
+          </div>
+        </div>
+
+      </div> <!-- End #view-gifts -->
+
+      <!-- ==================== VIEW 3: MASTER SHOPPING LIST PAGE ==================== -->
       <div id="view-shopping" class="hidden space-y-8">
         
         <!-- Shopping Hero Banner -->
@@ -1239,6 +1404,109 @@
     </div>
   </div>
 
+  <!-- 4B. EDIT GIFT ITEM MODAL (FULL EDITING SUITE) -->
+  <div id="modal-edit-gift-item" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-edit-gift-item')"></div>
+    <div class="w-full max-w-lg glass-card rounded-3xl p-6 sm:p-7 shadow-2xl relative z-10 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-forest-100 dark:border-forest-900">
+        <div class="flex items-center space-x-2.5">
+          <span class="text-xl">✏️</span>
+          <div>
+            <h3 class="font-bold font-serif-header text-lg text-forest-900 dark:text-forest-50">Edit Gift Item</h3>
+            <p class="text-[11px] text-forest-500">Update item details, prices, delivery, and checkboxes</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-edit-gift-item')" class="p-1.5 rounded-lg text-forest-400 hover:text-forest-600 dark:hover:text-forest-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleSaveEditedGiftSubmit(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="edit-gift-id">
+        <input type="hidden" id="edit-gift-orig-recip-id">
+
+        <!-- Gift Name -->
+        <div>
+          <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Gift Item Name *</label>
+          <input type="text" id="edit-gift-name" required class="w-full px-3.5 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 font-semibold text-forest-900 dark:text-forest-100 focus:ring-2 focus:ring-forest-500 focus:outline-none">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Recipient Selector -->
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Recipient *</label>
+            <select id="edit-gift-recipient-select" required class="w-full px-3 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 font-semibold text-forest-900 dark:text-forest-100 focus:ring-2 focus:ring-forest-500 focus:outline-none">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <!-- Store / Retailer -->
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Store / Retailer</label>
+            <input type="text" id="edit-gift-store" placeholder="e.g. Amazon, Macy's, Target" class="w-full px-3.5 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 font-semibold text-forest-900 dark:text-forest-100 focus:ring-2 focus:ring-forest-500 focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Budget Price & Actual Price Grid -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Budget Price (<span class="currency-label">$</span>)</label>
+            <input type="number" step="0.01" min="0" id="edit-gift-budget-price" placeholder="0.00" class="w-full px-3.5 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 font-bold text-forest-900 dark:text-forest-100 focus:ring-2 focus:ring-forest-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Actual Price Spent (<span class="currency-label">$</span>)</label>
+            <input type="number" step="0.01" min="0" id="edit-gift-actual-price" placeholder="0.00" class="w-full px-3.5 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 font-bold text-forest-900 dark:text-forest-100 focus:ring-2 focus:ring-forest-500 focus:outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Delivery Method -->
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Delivery Method</label>
+            <select id="edit-gift-delivery-method" class="w-full px-3 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 font-semibold text-forest-900 dark:text-forest-100 focus:ring-2 focus:ring-forest-500 focus:outline-none">
+              <option value="In Person">🤝 In Person</option>
+              <option value="Mail">📦 Mail / Ship</option>
+            </select>
+          </div>
+
+          <!-- Store URL / Link -->
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Website Link (Optional)</label>
+            <input type="url" id="edit-gift-link" placeholder="https://..." class="w-full px-3.5 py-2.5 rounded-xl border border-forest-200 dark:border-forest-800 bg-white/70 dark:bg-forest-950 text-forest-900 dark:text-forest-100 focus:ring-2 focus:ring-forest-500 focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Three Checkboxes Box -->
+        <div class="p-3.5 rounded-2xl bg-forest-50 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800 space-y-2">
+          <span class="block text-[11px] font-bold uppercase tracking-wider text-forest-700 dark:text-forest-300">Gift Checkbox Stages</span>
+          <div class="flex items-center space-x-6 flex-wrap gap-y-2">
+            <label class="inline-flex items-center space-x-2 cursor-pointer font-bold text-forest-800 dark:text-forest-200">
+              <input type="checkbox" id="edit-gift-bought" class="w-4 h-4 rounded text-forest-600 focus:ring-forest-500 accent-forest-600 cursor-pointer">
+              <span>1. Bought</span>
+            </label>
+            <label class="inline-flex items-center space-x-2 cursor-pointer font-bold text-forest-800 dark:text-forest-200">
+              <input type="checkbox" id="edit-gift-wrapped" class="w-4 h-4 rounded text-forest-600 focus:ring-forest-500 accent-forest-600 cursor-pointer">
+              <span>2. Wrapped</span>
+            </label>
+            <label class="inline-flex items-center space-x-2 cursor-pointer font-bold text-forest-800 dark:text-forest-200">
+              <input type="checkbox" id="edit-gift-sent" class="w-4 h-4 rounded text-forest-600 focus:ring-forest-500 accent-forest-600 cursor-pointer">
+              <span>3. Sent / Under Tree</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end space-x-2.5 pt-2 border-t border-forest-100 dark:border-forest-900">
+          <button type="button" onclick="closeModal('modal-edit-gift-item')" class="px-4 py-2 rounded-xl text-forest-600 hover:bg-forest-100 dark:hover:bg-forest-900 font-bold">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-forest-600 hover:bg-forest-500 text-white font-bold shadow-md">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- 5. QUICK ADD SHOPPING ITEM MODAL -->
   <div id="modal-add-shopping-item" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-add-shopping-item')"></div>
@@ -1318,6 +1586,10 @@
     let currentGroupFilter = 'all';
     let currentSearchQuery = '';
     let currentView = 'dashboard';
+    let currentGiftsGroupFilter = 'all';
+    let currentGiftsStatusFilter = 'all';
+    let currentGiftsSearch = '';
+    let currentEditingGift = null;
     let currentShoppingFilter = 'all';
     let currentShoppingRecipientFilter = 'all';
     let currentShoppingSearch = '';
@@ -1604,6 +1876,7 @@
     function renderAll() {
       renderSummaryCards();
       renderRecipientsGrid();
+      renderGiftsTable();
       renderHolidayCards();
       renderStockingItems();
       renderShoppingList();
@@ -1635,32 +1908,37 @@
     function switchView(viewName) {
       currentView = viewName;
       const vDash = document.getElementById('view-dashboard');
+      const vGifts = document.getElementById('view-gifts');
       const vShop = document.getElementById('view-shopping');
-      const navDash = document.getElementById('nav-dashboard');
-      const navShop = document.getElementById('nav-shopping');
 
       if (vDash) vDash.classList.toggle('hidden', viewName !== 'dashboard');
+      if (vGifts) vGifts.classList.toggle('hidden', viewName !== 'gifts');
       if (vShop) vShop.classList.toggle('hidden', viewName !== 'shopping');
 
-      if (navDash) {
-        if (viewName === 'dashboard') {
-          navDash.className = 'nav-item nav-active w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all';
-        } else {
-          navDash.className = 'nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all';
-        }
-      }
-      if (navShop) {
-        if (viewName === 'shopping') {
-          navShop.className = 'nav-item nav-active w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all';
-        } else {
-          navShop.className = 'nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all';
-        }
-      }
+      // Sidebar nav buttons
+      const navDash = document.getElementById('nav-dashboard');
+      const navGifts = document.getElementById('nav-gifts');
+      const navShop = document.getElementById('nav-shopping');
+
+      if (navDash) navDash.className = viewName === 'dashboard' ? 'nav-item nav-active w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all' : 'nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all';
+      if (navGifts) navGifts.className = viewName === 'gifts' ? 'nav-item nav-active w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all' : 'nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all';
+      if (navShop) navShop.className = viewName === 'shopping' ? 'nav-item nav-active w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all' : 'nav-item nav-inactive w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold transition-all';
+
+      // Top horizontal pill buttons
+      const pillDash = document.getElementById('pill-nav-dashboard');
+      const pillGifts = document.getElementById('pill-nav-gifts');
+      const pillShop = document.getElementById('pill-nav-shopping');
+
+      if (pillDash) pillDash.className = viewName === 'dashboard' ? 'pill-tab-btn px-4 py-2 rounded-full bg-forest-600 text-white shadow-sm flex items-center space-x-1.5 transition-all font-bold' : 'pill-tab-btn px-4 py-2 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all font-bold';
+      if (pillGifts) pillGifts.className = viewName === 'gifts' ? 'pill-tab-btn px-4 py-2 rounded-full bg-forest-600 text-white shadow-sm flex items-center space-x-1.5 transition-all font-bold' : 'pill-tab-btn px-4 py-2 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all font-bold';
+      if (pillShop) pillShop.className = viewName === 'shopping' ? 'pill-tab-btn px-4 py-2 rounded-full bg-forest-600 text-white shadow-sm flex items-center space-x-1.5 transition-all font-bold' : 'pill-tab-btn px-4 py-2 rounded-full glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 flex items-center space-x-1.5 transition-all font-bold';
 
       closeMobileSidebar();
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      if (viewName === 'shopping') {
+      if (viewName === 'gifts') {
+        renderGiftsTable();
+      } else if (viewName === 'shopping') {
         renderShoppingList();
       } else {
         renderAll();
@@ -1890,6 +2168,445 @@
       const totalToBuy = ideaCount + (holidayData.stockingItems || []).filter(s => !s.purchased).length;
       const sideShopBadge = document.getElementById('sidebar-shopping-badge');
       if (sideShopBadge) sideShopBadge.textContent = `${totalToBuy} To Buy`;
+    }
+
+    // ==========================================
+    // MASTER GIFTS TABLE (EXACT ETSY SCREENSHOT FORMAT) & LIVE EDITING
+    // ==========================================
+    function renderGiftsTable() {
+      // 1. Gather all gifts from all recipients
+      const allGifts = [];
+      let totalBudgeted = 0;
+      let totalActual = 0;
+      let totalGifts = 0;
+      let wrappedCount = 0;
+
+      (holidayData.recipients || []).forEach(r => {
+        (r.gifts || []).forEach(g => {
+          totalGifts++;
+          const budgetPrice = parseFloat(g.budgetPrice !== undefined ? g.budgetPrice : g.price) || 0;
+          const actualPrice = parseFloat(g.actualPrice !== undefined ? g.actualPrice : (g.status !== 'idea' ? g.price : 0)) || 0;
+          
+          totalBudgeted += budgetPrice;
+          totalActual += actualPrice;
+          if (g.status === 'wrapped') wrappedCount++;
+
+          const isBought = g.isBought !== undefined ? g.isBought : (g.status === 'purchased' || g.status === 'shipped' || g.status === 'wrapped');
+          const isWrapped = g.isWrapped !== undefined ? g.isWrapped : (g.status === 'wrapped');
+          const isSent = g.isSent !== undefined ? g.isSent : (g.status === 'shipped');
+          const deliveryMethod = g.deliveryMethod || 'In Person';
+
+          allGifts.push({
+            id: g.id,
+            name: g.name,
+            budgetPrice: budgetPrice,
+            actualPrice: actualPrice,
+            variance: actualPrice - budgetPrice,
+            isBought: isBought,
+            isWrapped: isWrapped,
+            isSent: isSent,
+            deliveryMethod: deliveryMethod,
+            store: g.store || (g.storeLink ? g.storeLink.replace(/^https?:\/\/(www\.)?/, '').split('/')[0] : 'Online / Store'),
+            storeLink: g.storeLink || '',
+            recipientId: r.id,
+            recipientName: r.name,
+            recipientGroup: r.group || 'Family'
+          });
+        });
+      });
+
+      // Update badge counts
+      const badgeCountEl = document.getElementById('gifts-badge-count');
+      if (badgeCountEl) badgeCountEl.textContent = `${totalGifts} Gifts Total`;
+      const pillBadgeEl = document.getElementById('pill-gifts-badge');
+      if (pillBadgeEl) pillBadgeEl.textContent = totalGifts;
+      const sideBadgeEl = document.getElementById('sidebar-gifts-badge');
+      if (sideBadgeEl) sideBadgeEl.textContent = totalGifts;
+
+      // Update Quick Metric Stats
+      const statBudgetedEl = document.getElementById('gifts-stat-budgeted');
+      if (statBudgetedEl) statBudgetedEl.textContent = formatMoney(totalBudgeted);
+      const statActualEl = document.getElementById('gifts-stat-actual');
+      if (statActualEl) statActualEl.textContent = formatMoney(totalActual);
+
+      const netVariance = totalActual - totalBudgeted;
+      const statVarianceEl = document.getElementById('gifts-stat-variance');
+      const statVarianceSubEl = document.getElementById('gifts-stat-variance-sub');
+      if (statVarianceEl) {
+        if (netVariance > 0) {
+          statVarianceEl.textContent = `+${formatMoney(netVariance)}`;
+          statVarianceEl.className = 'text-xl font-extrabold font-serif-header text-festiveRed';
+          if (statVarianceSubEl) {
+            statVarianceSubEl.textContent = 'Over budget limit';
+            statVarianceSubEl.className = 'text-[10px] text-festiveRed mt-0.5 font-bold';
+          }
+        } else if (netVariance < 0) {
+          statVarianceEl.textContent = `-${formatMoney(Math.abs(netVariance))}`;
+          statVarianceEl.className = 'text-xl font-extrabold font-serif-header text-emerald-700 dark:text-emerald-400';
+          if (statVarianceSubEl) {
+            statVarianceSubEl.textContent = 'Under budget bachat! 💰';
+            statVarianceSubEl.className = 'text-[10px] text-emerald-600 mt-0.5 font-medium';
+          }
+        } else {
+          statVarianceEl.textContent = formatMoney(0);
+          statVarianceEl.className = 'text-xl font-extrabold font-serif-header text-forest-700 dark:text-forest-300';
+          if (statVarianceSubEl) {
+            statVarianceSubEl.textContent = 'Exact on target';
+            statVarianceSubEl.className = 'text-[10px] text-forest-500 mt-0.5';
+          }
+        }
+      }
+
+      const progressPct = totalGifts > 0 ? Math.round((wrappedCount / totalGifts) * 100) : 0;
+      const statProgressEl = document.getElementById('gifts-stat-progress');
+      if (statProgressEl) statProgressEl.textContent = `${progressPct}%`;
+      const statProgressSubEl = document.getElementById('gifts-stat-progress-sub');
+      if (statProgressSubEl) statProgressSubEl.textContent = `${wrappedCount} of ${totalGifts} Ready 🎀`;
+
+      // Filter gifts
+      let filtered = [...allGifts];
+
+      if (currentGiftsGroupFilter !== 'all') {
+        filtered = filtered.filter(g => g.recipientGroup === currentGiftsGroupFilter);
+      }
+
+      if (currentGiftsStatusFilter === 'pending-buy') {
+        filtered = filtered.filter(g => !g.isBought);
+      } else if (currentGiftsStatusFilter === 'pending-wrap') {
+        filtered = filtered.filter(g => g.isBought && !g.isWrapped);
+      } else if (currentGiftsStatusFilter === 'ready') {
+        filtered = filtered.filter(g => g.isWrapped || g.isSent);
+      }
+
+      if (currentGiftsSearch) {
+        const q = currentGiftsSearch.toLowerCase();
+        filtered = filtered.filter(g => {
+          return (g.name || '').toLowerCase().includes(q) ||
+                 (g.recipientName || '').toLowerCase().includes(q) ||
+                 (g.store || '').toLowerCase().includes(q);
+        });
+      }
+
+      // Render table
+      const tbody = document.getElementById('gifts-master-table-body');
+      const emptyState = document.getElementById('gifts-table-empty-state');
+      if (!tbody) return;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        if (emptyState) emptyState.classList.remove('hidden');
+        return;
+      }
+
+      if (emptyState) emptyState.classList.add('hidden');
+
+      // Helper for pastel group pill colors matching screenshot
+      function getGroupPillStyle(group) {
+        const g = (group || '').toLowerCase();
+        if (g === 'family') return 'bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200/60';
+        if (g === 'friends') return 'bg-blue-50 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 border border-blue-200/60';
+        if (g === 'kids') return 'bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border border-rose-200/60';
+        if (g === 'coworkers') return 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/60';
+        return 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200/60';
+      }
+
+      tbody.innerHTML = filtered.map(item => {
+        const isComplete = item.isBought && item.isWrapped;
+        
+        let diffDisplay = '';
+        if (item.variance > 0) {
+          diffDisplay = `<span class="font-extrabold text-festiveRed">+${formatMoney(item.variance)}</span>`;
+        } else if (item.variance < 0) {
+          diffDisplay = `<span class="font-semibold text-emerald-700 dark:text-emerald-400">-${formatMoney(Math.abs(item.variance))}</span>`;
+        } else {
+          diffDisplay = `<span class="text-forest-400">$0.00</span>`;
+        }
+
+        return `
+          <tr class="hover:bg-forest-50/60 dark:hover:bg-forest-900/40 transition-colors ${isComplete ? 'bg-emerald-50/20 dark:bg-emerald-950/10' : ''}">
+            <!-- 1. Group -->
+            <td class="py-3 px-3">
+              <span class="inline-block px-2.5 py-1 rounded-xl text-[10px] font-bold ${getGroupPillStyle(item.recipientGroup)}">
+                ${escapeHtml(item.recipientGroup)}
+              </span>
+            </td>
+
+            <!-- 2. Recipient -->
+            <td class="py-3 px-3 font-bold text-forest-900 dark:text-forest-100 ${isComplete ? 'line-through opacity-70' : ''}">
+              ${escapeHtml(item.recipientName)}
+            </td>
+
+            <!-- 3. Gift Item -->
+            <td class="py-3 px-4">
+              <div class="flex items-center space-x-1.5">
+                <span class="font-semibold text-forest-900 dark:text-forest-100 ${isComplete ? 'line-through opacity-70' : ''}">
+                  ${escapeHtml(item.name)}
+                </span>
+                ${item.storeLink && item.storeLink.startsWith('http') ? `
+                  <a href="${escapeHtml(item.storeLink)}" target="_blank" rel="noopener noreferrer" class="text-forest-400 hover:text-forest-700 dark:hover:text-forest-200 inline-block ml-1" title="Open Store URL">
+                    <i data-lucide="external-link" class="w-3 h-3 inline"></i>
+                  </a>
+                ` : ''}
+              </div>
+            </td>
+
+            <!-- 4. Store -->
+            <td class="py-3 px-3 text-forest-600 dark:text-forest-400 text-[11px]">
+              ${escapeHtml(item.store)}
+            </td>
+
+            <!-- 5. Budget -->
+            <td class="py-3 px-3 text-right font-medium text-forest-700 dark:text-forest-300">
+              ${formatMoney(item.budgetPrice)}
+            </td>
+
+            <!-- 6. Actual -->
+            <td class="py-3 px-3 text-right font-bold text-forest-900 dark:text-forest-100">
+              ${formatMoney(item.actualPrice)}
+            </td>
+
+            <!-- 7. Variance (+/-) -->
+            <td class="py-3 px-3 text-right text-[11px]">
+              ${diffDisplay}
+            </td>
+
+            <!-- 8. Bought Checkbox -->
+            <td class="py-3 px-2 text-center">
+              <input type="checkbox" ${item.isBought ? 'checked' : ''} onchange="toggleGiftCheckbox('${item.recipientId}', '${item.id}', 'bought')" class="w-4 h-4 rounded text-forest-600 focus:ring-forest-500 cursor-pointer accent-forest-600">
+            </td>
+
+            <!-- 9. Wrapped Checkbox -->
+            <td class="py-3 px-2 text-center">
+              <input type="checkbox" ${item.isWrapped ? 'checked' : ''} onchange="toggleGiftCheckbox('${item.recipientId}', '${item.id}', 'wrapped')" class="w-4 h-4 rounded text-forest-600 focus:ring-forest-500 cursor-pointer accent-forest-600">
+            </td>
+
+            <!-- 10. Sent Checkbox -->
+            <td class="py-3 px-2 text-center">
+              <input type="checkbox" ${item.isSent ? 'checked' : ''} onchange="toggleGiftCheckbox('${item.recipientId}', '${item.id}', 'sent')" class="w-4 h-4 rounded text-forest-600 focus:ring-forest-500 cursor-pointer accent-forest-600">
+            </td>
+
+            <!-- 11. Delivery Method Toggle -->
+            <td class="py-3 px-3 text-center">
+              <button onclick="toggleGiftDeliveryMethod('${item.recipientId}', '${item.id}')" class="px-2.5 py-1 rounded-xl text-[10px] font-bold transition-all shadow-xs ${item.deliveryMethod === 'Mail' ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-200' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200'}" title="Click to toggle between In Person and Mail">
+                ${item.deliveryMethod === 'Mail' ? '📦 Mail' : '🤝 In Person'}
+              </button>
+            </td>
+
+            <!-- 12. Actions (Edit & Del) -->
+            <td class="py-3 px-3 text-center no-print">
+              <div class="inline-flex items-center space-x-1.5">
+                <button onclick="openEditGiftModal('${item.recipientId}', '${item.id}')" class="px-2.5 py-1 rounded-lg bg-forest-100 hover:bg-forest-200 dark:bg-forest-900/80 dark:hover:bg-forest-800 text-forest-800 dark:text-forest-200 text-[10px] font-extrabold transition-all border border-forest-200/80 shadow-xs" title="Edit this gift">
+                  Edit
+                </button>
+                <button onclick="deleteGiftItem('${item.recipientId}', '${item.id}')" class="px-2 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900 text-festiveRed text-[10px] font-bold transition-all border border-rose-200/60 shadow-xs" title="Delete gift">
+                  Del
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function toggleGiftCheckbox(recipId, giftId, boxType) {
+      const recip = (holidayData.recipients || []).find(r => r.id === recipId);
+      if (!recip) return;
+      const gift = (recip.gifts || []).find(g => g.id === giftId);
+      if (!gift) return;
+
+      const budgetPrice = parseFloat(gift.budgetPrice !== undefined ? gift.budgetPrice : gift.price) || 0;
+
+      if (boxType === 'bought') {
+        const newVal = gift.isBought !== undefined ? !gift.isBought : (gift.status === 'idea');
+        gift.isBought = newVal;
+        if (!newVal) {
+          gift.isWrapped = false;
+          gift.isSent = false;
+          gift.status = 'idea';
+          gift.actualPrice = 0;
+          showToast(`Moved "${gift.name}" back to Idea`);
+        } else {
+          gift.status = 'purchased';
+          if (!gift.actualPrice) gift.actualPrice = budgetPrice;
+          triggerFestiveConfetti();
+          showToast(`Marked "${gift.name}" as Bought! 🛒`);
+        }
+      } else if (boxType === 'wrapped') {
+        const newVal = gift.isWrapped !== undefined ? !gift.isWrapped : (gift.status !== 'wrapped');
+        gift.isWrapped = newVal;
+        if (newVal) {
+          gift.isBought = true;
+          gift.status = 'wrapped';
+          if (!gift.actualPrice) gift.actualPrice = budgetPrice;
+          triggerFestiveConfetti();
+          showToast(`Marked "${gift.name}" as Wrapped 🎀`);
+        } else {
+          gift.status = gift.isBought ? 'purchased' : 'idea';
+          showToast(`Unwrapped "${gift.name}"`);
+        }
+      } else if (boxType === 'sent') {
+        const newVal = gift.isSent !== undefined ? !gift.isSent : (gift.status !== 'shipped');
+        gift.isSent = newVal;
+        if (newVal) {
+          gift.isBought = true;
+          gift.isWrapped = true;
+          gift.status = 'wrapped';
+          if (!gift.actualPrice) gift.actualPrice = budgetPrice;
+          triggerFestiveConfetti();
+          showToast(`Marked "${gift.name}" as Sent / Under Tree! 🎄`);
+        } else {
+          showToast(`Unsent "${gift.name}"`);
+        }
+      }
+
+      saveUserData();
+      renderAll();
+      renderGiftsTable();
+      renderShoppingList();
+    }
+
+    function toggleGiftDeliveryMethod(recipId, giftId) {
+      const recip = (holidayData.recipients || []).find(r => r.id === recipId);
+      if (!recip) return;
+      const gift = (recip.gifts || []).find(g => g.id === giftId);
+      if (!gift) return;
+
+      gift.deliveryMethod = (gift.deliveryMethod === 'Mail') ? 'In Person' : 'Mail';
+      saveUserData();
+      renderGiftsTable();
+      showToast(`Delivery for "${gift.name}": ${gift.deliveryMethod}`);
+    }
+
+    function setGiftsGroupFilter(group) {
+      currentGiftsGroupFilter = group;
+      document.querySelectorAll('.gifts-filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-filter') === group) {
+          btn.className = 'gifts-filter-btn px-3.5 py-1.5 rounded-2xl bg-forest-600 text-white shadow-sm transition-all font-bold';
+        } else {
+          btn.className = 'gifts-filter-btn px-3.5 py-1.5 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all font-bold';
+        }
+      });
+      renderGiftsTable();
+    }
+
+    function handleGiftsStatusFilter(status) {
+      currentGiftsStatusFilter = status;
+      renderGiftsTable();
+    }
+
+    function handleGiftsSearch(query) {
+      currentGiftsSearch = (query || '').trim();
+      renderGiftsTable();
+    }
+
+    function openEditGiftModal(recipId, giftId) {
+      const recip = (holidayData.recipients || []).find(r => r.id === recipId);
+      if (!recip) return;
+      const gift = (recip.gifts || []).find(g => g.id === giftId);
+      if (!gift) return;
+
+      currentEditingGift = { recipId, giftId };
+
+      document.getElementById('edit-gift-id').value = gift.id;
+      document.getElementById('edit-gift-orig-recip-id').value = recip.id;
+      document.getElementById('edit-gift-name').value = gift.name || '';
+      document.getElementById('edit-gift-store').value = gift.store || '';
+
+      const budgetPrice = gift.budgetPrice !== undefined ? gift.budgetPrice : gift.price;
+      const actualPrice = gift.actualPrice !== undefined ? gift.actualPrice : (gift.status !== 'idea' ? gift.price : 0);
+
+      document.getElementById('edit-gift-budget-price').value = budgetPrice || '';
+      document.getElementById('edit-gift-actual-price').value = actualPrice || '';
+      document.getElementById('edit-gift-delivery-method').value = gift.deliveryMethod || 'In Person';
+      document.getElementById('edit-gift-link').value = gift.storeLink || '';
+
+      const isBought = gift.isBought !== undefined ? gift.isBought : (gift.status === 'purchased' || gift.status === 'shipped' || gift.status === 'wrapped');
+      const isWrapped = gift.isWrapped !== undefined ? gift.isWrapped : (gift.status === 'wrapped');
+      const isSent = gift.isSent !== undefined ? gift.isSent : (gift.status === 'shipped');
+
+      document.getElementById('edit-gift-bought').checked = isBought;
+      document.getElementById('edit-gift-wrapped').checked = isWrapped;
+      document.getElementById('edit-gift-sent').checked = isSent;
+
+      // Populate recipient select
+      const selectEl = document.getElementById('edit-gift-recipient-select');
+      if (selectEl) {
+        selectEl.innerHTML = (holidayData.recipients || []).map(r => `
+          <option value="${r.id}" ${r.id === recip.id ? 'selected' : ''}>
+            ${escapeHtml(r.name)} (${escapeHtml(r.group || 'Family')})
+          </option>
+        `).join('');
+      }
+
+      openModal('modal-edit-gift-item');
+    }
+
+    function handleSaveEditedGiftSubmit(e) {
+      e.preventDefault();
+      const giftId = document.getElementById('edit-gift-id').value;
+      const origRecipId = document.getElementById('edit-gift-orig-recip-id').value;
+      const targetRecipId = document.getElementById('edit-gift-recipient-select').value;
+
+      const origRecip = (holidayData.recipients || []).find(r => r.id === origRecipId);
+      if (!origRecip) return;
+
+      const giftIndex = (origRecip.gifts || []).findIndex(g => g.id === giftId);
+      if (giftIndex === -1) return;
+
+      const gift = origRecip.gifts[giftIndex];
+
+      const name = document.getElementById('edit-gift-name').value.trim();
+      const store = document.getElementById('edit-gift-store').value.trim();
+      const budgetPrice = parseFloat(document.getElementById('edit-gift-budget-price').value) || 0;
+      const actualPrice = parseFloat(document.getElementById('edit-gift-actual-price').value) || 0;
+      const deliveryMethod = document.getElementById('edit-gift-delivery-method').value;
+      const link = document.getElementById('edit-gift-link').value.trim();
+
+      const isBought = document.getElementById('edit-gift-bought').checked;
+      const isWrapped = document.getElementById('edit-gift-wrapped').checked;
+      const isSent = document.getElementById('edit-gift-sent').checked;
+
+      // Update gift object
+      gift.name = name;
+      gift.store = store;
+      gift.budgetPrice = budgetPrice;
+      gift.actualPrice = actualPrice;
+      gift.price = actualPrice > 0 ? actualPrice : budgetPrice;
+      gift.deliveryMethod = deliveryMethod;
+      gift.storeLink = link;
+      gift.isBought = isBought;
+      gift.isWrapped = isWrapped;
+      gift.isSent = isSent;
+
+      // Sync status
+      if (isWrapped) {
+        gift.status = 'wrapped';
+      } else if (isSent) {
+        gift.status = 'shipped';
+      } else if (isBought) {
+        gift.status = 'purchased';
+      } else {
+        gift.status = 'idea';
+      }
+
+      // If user moved gift to a different recipient
+      if (targetRecipId !== origRecipId) {
+        origRecip.gifts.splice(giftIndex, 1);
+        const targetRecip = (holidayData.recipients || []).find(r => r.id === targetRecipId);
+        if (targetRecip) {
+          targetRecip.gifts = targetRecip.gifts || [];
+          targetRecip.gifts.push(gift);
+        }
+      }
+
+      saveUserData();
+      renderAll();
+      renderGiftsTable();
+      renderShoppingList();
+      closeModal('modal-edit-gift-item');
+      showToast(`Updated "${gift.name}" successfully! ✨`);
     }
 
     // ==========================================
