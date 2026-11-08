@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AvyoraCo – Christmas & Holiday Gift Tracker 🎄</title>
+  
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+  <link rel="apple-touch-icon" href="logo.jpg">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            forest: {
+              50: '#F4F8F5',
+              100: '#E6EFE9',
+              200: '#C7DDCF',
+              300: '#9EBFAB',
+              400: '#6E9E81',
+              500: '#437D5C',
+              600: '#2E6344',
+              700: '#224C33',
+              800: '#1B3B28',
+              900: '#142E1F',
+              950: '#0A1810',
+            },
+            festiveRed: {
+              DEFAULT: '#C13B38',
+              hover: '#A92D2A',
+              light: '#FDF2F2',
+              dark: '#471413'
+            },
+            champagne: {
+              light: '#FFFBF2',
+              gold: '#D4AF37',
+              accent: '#ECC86C'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            cursive: ['Alex Brush', 'Playfair Display', 'cursive', 'sans-serif'],
+            serif: ['Playfair Display', 'serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="lucide.min.js"></script>
+  <script>
+    if (typeof lucide === 'undefined') {
+      document.write('<script src="https://unpkg.com/lucide@latest"><\/script>');
+    }
+  </script>
+
+  <!-- Canvas Confetti -->
+  <script src="confetti.browser.min.js"></script>
+  <script>
+    if (typeof confetti === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- Supabase Client -->
+  <script src="supabase.js"></script>
+  <script>
+    if (typeof supabase === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>');
+    }
+  </script>
+  <script src="config.js"></script>
+
+  <!-- Google Fonts: Plus Jakarta Sans, Playfair Display, Alex Brush -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-cursive {
+      font-family: 'Alex Brush', cursive !important;
+    }
+    .font-serif-header {
+      font-family: 'Playfair Display', serif !important;
+    }
+    
+    /* Christmas Garland Botanical Ribbon styling */
+    .christmas-garland-wrap {
+      position: relative;
+      background: linear-gradient(135deg, #183C28 0%, #102B1D 50%, #0A1E14 100%);
+      overflow: hidden;
+    }
+    
+    .garland-svg-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 60px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Glass card styles */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(226, 238, 230, 0.9);
+    }
+    .dark .glass-card {
+      background: rgba(20, 46, 31, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(34, 76, 51, 0.7);
+    }
+
+    /* Status badge pill transitions */
+    .status-step-pill {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .status-step-pill:active {
+      transform: scale(0.96);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C7DDCF;
+      border-radius: 9999px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #224C33;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAF9] dark:bg-[#0B1711] text-[#1A2E22] dark:text-[#E8F3EC] min-h-screen flex flex-col antialiased transition-colors duration-200">
+
+  <!-- ==================== RESTRICTED GATEKEEPER VIEW ==================== -->
+  <div id="page-restricted" class="hidden min-h-screen flex items-center justify-center p-4 sm:p-6 bg-[#F8FAF9] dark:bg-[#0B1711] relative overflow-hidden">
+    <!-- Festive Botanical Background Garland -->
+    <div class="w-full max-w-md glass-card rounded-3xl p-8 sm:p-10 shadow-2xl text-center space-y-6 relative z-10 border border-emerald-100 dark:border-emerald-950">
+      <div class="flex justify-center">
+        <img src="logo.jpg" alt="AvyoraCo Logo" class="w-20 h-20 rounded-full object-cover shadow-lg ring-4 ring-emerald-500/20">
+      </div>
+      <div>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 mb-2">
+          🎄 Official Etsy Holiday Edition
+        </span>
+        <h2 class="text-2xl font-bold font-serif-header text-forest-900 dark:text-forest-100">Christmas Gift Tracker</h2>
+        <p class="text-xs text-forest-600 dark:text-forest-300 mt-2 leading-relaxed">
+          This digital app is exclusively unlocked for Etsy buyers. Please use your official link provided in your Etsy downloadable PDF.
+        </p>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-forest-50 dark:bg-forest-900/40 border border-forest-200 dark:border-forest-800 text-left space-y-2">
+        <span class="text-xs font-bold text-forest-800 dark:text-forest-200 block">Have a VIP Access Token?</span>
+        <div class="flex space-x-2">
+          <input type="text" id="manual-access-token-input" placeholder="e.g. VIP_BUYER_TOKEN" class="flex-1 px-3.5 py-2 text-xs rounded-xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono">
+          <button onclick="handleManualAccessUnlock()" class="px-4 py-2 rounded-xl bg-forest-600 hover:bg-forest-700 text-white font-bold text-xs transition-colors">
+            Unlock
+          </button>
+        </div>
+        <p id="unlock-error" class="hidden text-[11px] text-festiveRed font-medium"></p>
+      </div>
+
+      <p class="text-[11px] text-forest-400">
+        Purchased on Etsy? Click the link directly inside your download PDF.
+      </p>
+    </div>
+  </div>
+
+  <!-- ==================== SIGN IN / SIGN UP MODAL / SCREEN ==================== -->
+  <div id="page-auth" class="hidden min-h-screen flex items-center justify-center p-4 bg-[#F8FAF9] dark:bg-[#0B1711] relative overflow-hidden">
+    <div class="w-full max-w-md glass-card rounded-3xl p-8 sm:p-9 shadow-2xl relative z-10 space-y-6">
+      
+      <div class="text-center space-y-2">
+        <div class="flex justify-center">
+          <img src="logo.jpg" alt="AvyoraCo Logo" class="w-16 h-16 rounded-full object-cover shadow ring-2 ring-emerald-500/30">
+        </div>
+        <h2 id="auth-title" class="text-2xl font-bold font-serif-header text-forest-900 dark:text-forest-50">Welcome to Christmas HQ</h2>
+        <p id="auth-subtitle" class="text-xs text-forest-600 dark:text-forest-300">Organize and celebrate your holiday gifting with ease</p>
+      </div>
+
+      <!-- Auth Tabs: Sign In / Create Account -->
+      <div class="flex p-1 bg-forest-100 dark:bg-forest-900 rounded-2xl text-xs font-semibold">
+        <button id="auth-tab-login" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-xl transition-all bg-white dark:bg-forest-800 text-forest-900 dark:text-forest-50 shadow-sm">
+          Sign In
+        </button>
+        <button id="auth-tab-signup" onclick="switchAuthTab('signup')" class="flex-1 py-2 rounded-xl transition-all text-forest-600 dark:text-forest-300">
+          Create Account
+        </button>
+      </div>
+
+      <!-- Form -->
+      <form id="form-auth" onsubmit="handleAuthSubmit(event)" class="space-y-4 text-xs">
+        <div id="auth-field-name" class="hidden space-y-1">
+          <label class="font-bold text-forest-700 dark:text-forest-300">Your Full Name</label>
+          <input type="text" id="auth-input-name" placeholder="e.g. Sarah Jenkins" class="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500">
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-bold text-forest-700 dark:text-forest-300">Email Address</label>
+          <input type="email" id="auth-input-email" required placeholder="sarah@example.com" class="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500">
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-bold text-forest-700 dark:text-forest-300">Password</label>
+          <input type="password" id="auth-input-password" required minlength="6" placeholder="••••••••" class="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500">
+        </div>
+
+        <div id="auth-error-box" class="hidden p-3 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-300 text-xs font-medium"></div>
+
+        <button type="submit" id="auth-submit-btn" class="w-full py-3.5 rounded-2xl bg-forest-600 hover:bg-forest-700 text-white font-bold text-sm shadow-md transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center space-x-2">
+          <i data-lucide="sparkles" class="w-4 h-4 text-champagne-accent"></i>
+          <span id="auth-btn-text">Sign In to Dashboard</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN APPLICATION SHELL ==================== -->
+  <div id="app-shell" class="hidden flex-1 flex flex-col min-h-screen">
+
+    <!-- 1. TOP BOTANICAL CHRISTMAS GARLAND HEADER (With realistic evergreen leaves, berries & pine needles) -->
+    <header class="christmas-garland-wrap pt-3 pb-8 px-4 sm:px-8 text-white relative shadow-lg">
+      
+      <!-- Realistic Pine & Holly Botanical Garland Ribbon Layer -->
+      <svg class="garland-svg-layer" viewBox="0 0 1440 64" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="hollyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4E8C68"/>
+            <stop offset="50%" stop-color="#2D6343"/>
+            <stop offset="100%" stop-color="#194028"/>
+          </linearGradient>
+          <linearGradient id="pineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#6DAE87"/>
+            <stop offset="100%" stop-color="#1E4D30"/>
+          </linearGradient>
+          <radialGradient id="berryGrad" cx="35%" cy="35%" r="70%">
+            <stop offset="0%" stop-color="#FF5C59"/>
+            <stop offset="60%" stop-color="#C13B38"/>
+            <stop offset="100%" stop-color="#6E1513"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Swaying vine garland branches across top edge -->
+        <path d="M0,8 Q120,38 240,16 T480,24 T720,18 T960,26 T1200,16 T1440,22" stroke="#163824" stroke-width="5" fill="none" opacity="0.6"/>
+        <path d="M0,12 Q140,42 280,20 T560,28 T840,22 T1120,30 T1440,18" stroke="#255236" stroke-width="3" fill="none" opacity="0.9"/>
+
+        <!-- Natural Leaf Sprigs, Pine Needles & Red Berries Repeated Across Banner -->
+        <!-- Cluster 1 -->
+        <g transform="translate(40, 2)">
+          <path d="M10,12 C18,2 32,5 34,18 C30,28 16,26 10,12 Z" fill="url(#hollyGrad)"/>
+          <path d="M22,14 C36,8 48,16 46,28 C38,36 26,30 22,14 Z" fill="url(#hollyGrad)"/>
+          <circle cx="20" cy="18" r="4.2" fill="url(#berryGrad)"/>
+          <circle cx="26" cy="22" r="3.8" fill="url(#berryGrad)"/>
+          <circle cx="16" cy="24" r="3.5" fill="url(#berryGrad)"/>
+          <!-- Pine needles -->
+          <line x1="8" y1="10" x2="-2" y2="24" stroke="url(#pineGrad)" stroke-width="1.8"/>
+          <line x1="12" y1="10" x2="4" y2="28" stroke="url(#pineGrad)" stroke-width="1.8"/>
+          <line x1="16" y1="10" x2="14" y2="30" stroke="url(#pineGrad)" stroke-width="1.8"/>
+        </g>
+
+        <!-- Cluster 2 -->
+        <g transform="translate(260, 6)">
+          <path d="M8,14 C16,4 30,7 32,20 C28,30 14,28 8,14 Z" fill="url(#hollyGrad)"/>
+          <path d="M20,16 C34,10 46,18 44,30 C36,38 24,32 20,16 Z" fill="url(#hollyGrad)"/>
+          <circle cx="18" cy="20" r="4" fill="url(#berryGrad)"/>
+          <circle cx="24" cy="24" r="3.5" fill="url(#berryGrad)"/>
+          <!-- Pine needles -->
+          <line x1="6" y1="12" x2="-4" y2="26" stroke="url(#pineGrad)" stroke-width="1.8"/>
+          <line x1="10" y1="12" x2="2" y2="30" stroke="url(#pineGrad)" stroke-width="1.8"/>
+        </g>
+
+        <!-- Cluster 3 -->
+        <g transform="translate(500, 4)">
+          <path d="M12,12 C20,2 34,5 36,18 C32,28 18,26 12,12 Z" fill="url(#hollyGrad)"/>
+          <circle cx="22" cy="18" r="4.5" fill="url(#berryGrad)"/>
+          <circle cx="28" cy="22" r="4" fill="url(#berryGrad)"/>
+          <circle cx="18" cy="24" r="3.5" fill="url(#berryGrad)"/>
+          <line x1="10" y1="10" x2="0" y2="24" stroke="url(#pineGrad)" stroke-width="1.8"/>
+          <line x1="14" y1="10" x2="6" y2="28" stroke="url(#pineGrad)" stroke-width="1.8"/>
+        </g>
+
+        <!-- Cluster 4 -->
+        <g transform="translate(740, 6)">
+          <path d="M10,14 C18,4 32,7 34,20 C30,30 16,28 10,14 Z" fill="url(#hollyGrad)"/>
+          <path d="M22,16 C36,10 48,18 46,30 C38,38 26,32 22,16 Z" fill="url(#hollyGrad)"/>
+          <circle cx="20" cy="20" r="4.2" fill="url(#berryGrad)"/>
+          <circle cx="26" cy="24" r="3.8" fill="url(#berryGrad)"/>
+          <circle cx="16" cy="26" r="3.5" fill="url(#berryGrad)"/>
+          <line x1="8" y1="12" x2="-2" y2="26" stroke="url(#pineGrad)" stroke-width="1.8"/>
+          <line x1="12" y1="12" x2="4" y2="30" stroke="url(#pineGrad)" stroke-width="1.8"/>
+        </g>
+
+        <!-- Cluster 5 -->
+        <g transform="translate(980, 2)">
+          <path d="M10,12 C18,2 32,5 34,18 C30,28 16,26 10,12 Z" fill="url(#hollyGrad)"/>
+          <circle cx="20" cy="18" r="4.2" fill="url(#berryGrad)"/>
+          <circle cx="26" cy="22" r="3.8" fill="url(#berryGrad)"/>
+          <line x1="8" y1="10" x2="-2" y2="24" stroke="url(#pineGrad)" stroke-width="1.8"/>
+          <line x1="12" y1="10" x2="4" y2="28" stroke="url(#pineGrad)" stroke-width="1.8"/>
+        </g>
+
+        <!-- Cluster 6 -->
+        <g transform="translate(1220, 6)">
+          <path d="M10,14 C18,4 32,7 34,20 C30,30 16,28 10,14 Z" fill="url(#hollyGrad)"/>
+          <path d="M22,16 C36,10 48,18 46,30 C38,38 26,32 22,16 Z" fill="url(#hollyGrad)"/>
+          <circle cx="20" cy="20" r="4.2" fill="url(#berryGrad)"/>
+          <circle cx="26" cy="24" r="3.8" fill="url(#berryGrad)"/>
+          <circle cx="16" cy="26" r="3.5" fill="url(#berryGrad)"/>
+          <line x1="8" y1="12" x2="-2" y2="26" stroke="url(#pineGrad)" stroke-width="1.8"/>
+          <line x1="12" y1="12" x2="4" y2="30" stroke="url(#pineGrad)" stroke-width="1.8"/>
+        </g>
+
+        <!-- Cluster 7 -->
+        <g transform="translate(1380, 4)">
+          <path d="M8,12 C16,2 30,5 32,18 C28,28 14,26 8,12 Z" fill="url(#hollyGrad)"/>
+          <circle cx="18" cy="18" r="4" fill="url(#berryGrad)"/>
+        </g>
+      </svg>
+
+      <!-- Nav & Brand Line -->
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4 pt-3 relative z-20">
+        <!-- Logo & Title -->
+        <div class="flex items-center space-x-3.5">
+          <img src="logo.jpg" alt="AvyoraCo" class="w-10 h-10 rounded-full object-cover ring-2 ring-emerald-400/40 shadow">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="text-xs font-bold tracking-widest uppercase text-emerald-200">AvyoraCo</span>
+              <span class="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-festiveRed text-white">Holiday 2026</span>
+            </div>
+            <h1 class="text-xl sm:text-2xl font-bold font-serif-header tracking-tight">Christmas Gift Tracker</h1>
+          </div>
+        </div>
+
+        <!-- Right Controls: Countdown, Theme, User Profile -->
+        <div class="flex items-center space-x-2.5 sm:space-x-3.5">
+          <!-- Live Countdown Badge -->
+          <div class="hidden sm:flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-emerald-100">
+            <span class="text-base">🎅</span>
+            <span id="header-countdown-text">47 Days until Christmas</span>
+          </div>
+
+          <!-- Currency Selector -->
+          <select id="currency-select" onchange="handleCurrencyChange(this.value)" class="px-2.5 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-xs font-bold text-white focus:outline-none">
+            <option value="$" class="text-forest-900">$ USD</option>
+            <option value="£" class="text-forest-900">£ GBP</option>
+            <option value="€" class="text-forest-900">€ EUR</option>
+            <option value="CAD $" class="text-forest-900">CAD $</option>
+            <option value="AUD $" class="text-forest-900">AUD $</option>
+          </select>
+
+          <!-- Theme Toggle -->
+          <button onclick="toggleAppTheme()" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 transition-colors" title="Toggle Light/Dark Theme">
+            <i data-lucide="sun" class="w-4 h-4 text-champagne-accent inline dark:hidden"></i>
+            <i data-lucide="moon" class="w-4 h-4 text-emerald-200 hidden dark:inline"></i>
+          </button>
+
+          <!-- User Menu / Logout -->
+          <div class="flex items-center space-x-2 pl-1 border-l border-white/20">
+            <span id="user-display-name" class="text-xs font-semibold text-emerald-100 hidden md:inline">Sarah</span>
+            <button onclick="handleLogout()" class="p-2 rounded-xl bg-white/10 hover:bg-festiveRed/80 border border-white/15 text-white transition-colors" title="Log Out">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Festive Subtitle & Banner Note -->
+      <div class="max-w-7xl mx-auto mt-4 pt-2 border-t border-emerald-800/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-emerald-200/90 relative z-20">
+        <p class="font-medium flex items-center space-x-1.5">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-champagne-accent"></i>
+          <span>Track every thoughtful gift, avoid holiday overspending, and wrap with peace of mind.</span>
+        </p>
+        <div class="flex items-center space-x-3">
+          <button onclick="openSetBudgetModal()" class="px-3.5 py-1.5 rounded-xl bg-champagne-gold hover:bg-yellow-500 text-forest-950 font-bold transition-all shadow-sm flex items-center space-x-1.5">
+            <i data-lucide="wallet" class="w-3.5 h-3.5"></i>
+            <span>Set Holiday Budget</span>
+          </button>
+          <button onclick="openAddRecipientModal()" class="px-3.5 py-1.5 rounded-xl bg-forest-500 hover:bg-forest-400 text-white font-bold transition-all shadow-sm flex items-center space-x-1.5">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+            <span>Add Recipient</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. MAIN DASHBOARD CONTENT (PINE FOREST GREEN + SNOW WHITE AESTHETIC) -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+
+      <!-- A. FOUR STAT SUMMARY CARDS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 -mt-8 relative z-20">
+        <!-- 1. Total Holiday Budget -->
+        <div class="glass-card rounded-3xl p-5 shadow-lg space-y-2 border-t-4 border-t-forest-500">
+          <div class="flex items-center justify-between text-xs font-semibold text-forest-600 dark:text-forest-300">
+            <span>Total Holiday Budget</span>
+            <div class="w-8 h-8 rounded-xl bg-forest-100 dark:bg-forest-900/80 flex items-center justify-center text-forest-600 dark:text-forest-300">
+              <i data-lucide="coins" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div id="stat-total-budget" class="text-2xl sm:text-3xl font-extrabold text-forest-900 dark:text-forest-50 font-serif-header">
+            $1,200
+          </div>
+          <p class="text-[11px] text-forest-500 dark:text-forest-400">Total planned cap for all recipients</p>
+        </div>
+
+        <!-- 2. Total Spent / Purchased -->
+        <div class="glass-card rounded-3xl p-5 shadow-lg space-y-2 border-t-4 border-t-festiveRed">
+          <div class="flex items-center justify-between text-xs font-semibold text-forest-600 dark:text-forest-300">
+            <span>Total Spent So Far</span>
+            <div class="w-8 h-8 rounded-xl bg-rose-50 dark:bg-rose-950/60 flex items-center justify-center text-festiveRed">
+              <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div id="stat-total-spent" class="text-2xl sm:text-3xl font-extrabold text-festiveRed font-serif-header">
+            $485
+          </div>
+          <div class="flex items-center justify-between text-[11px] text-forest-500 dark:text-forest-400">
+            <span id="stat-spent-pct">40.4% spent</span>
+            <span id="stat-items-bought">8 gifts bought</span>
+          </div>
+        </div>
+
+        <!-- 3. Remaining Safe Budget -->
+        <div class="glass-card rounded-3xl p-5 shadow-lg space-y-2 border-t-4 border-t-emerald-600">
+          <div class="flex items-center justify-between text-xs font-semibold text-forest-600 dark:text-forest-300">
+            <span>Remaining Budget</span>
+            <div class="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div id="stat-remaining-budget" class="text-2xl sm:text-3xl font-extrabold text-emerald-700 dark:text-emerald-400 font-serif-header">
+            $715
+          </div>
+          <p class="text-[11px] text-forest-500 dark:text-forest-400">Safe balance left to spend</p>
+        </div>
+
+        <!-- 4. Gift Progress Status (Wrapped & Ready) -->
+        <div class="glass-card rounded-3xl p-5 shadow-lg space-y-2 border-t-4 border-t-champagne-gold">
+          <div class="flex items-center justify-between text-xs font-semibold text-forest-600 dark:text-forest-300">
+            <span>Gift Wrapping Pacing</span>
+            <div class="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/60 flex items-center justify-center text-amber-600">
+              <i data-lucide="gift" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div id="stat-wrapped-summary" class="text-2xl sm:text-3xl font-extrabold text-forest-900 dark:text-forest-50 font-serif-header">
+            5 / 12
+          </div>
+          <p class="text-[11px] text-forest-500 dark:text-forest-400" id="stat-wrapped-sub">Wrapped & ready for tree 🎀</p>
+        </div>
+      </div>
+
+      <!-- B. OVERALL PROGRESS BAR & STATUS FLOW BAR -->
+      <div class="glass-card rounded-3xl p-6 shadow-md space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h3 class="text-base font-bold font-serif-header text-forest-900 dark:text-forest-50">Overall Holiday Gift Pipeline</h3>
+            <p class="text-xs text-forest-500 dark:text-forest-400">From brainstorming ideas to wrapped gifts under the Christmas tree</p>
+          </div>
+          <div class="flex items-center space-x-2 text-xs font-bold" id="pipeline-counts-pill">
+            <span class="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">💡 4 Ideas</span>
+            <span class="px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300">🛒 3 Bought</span>
+            <span class="px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300">📦 2 Shipped</span>
+            <span class="px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300">🎀 5 Ready</span>
+          </div>
+        </div>
+
+        <!-- Visual Multi-segment Progress Bar -->
+        <div class="w-full h-3 rounded-full bg-forest-100 dark:bg-forest-900 overflow-hidden flex">
+          <div id="progress-bar-wrapped" class="h-full bg-emerald-600 transition-all duration-300" style="width: 41%;" title="Wrapped & Ready"></div>
+          <div id="progress-bar-shipped" class="h-full bg-blue-500 transition-all duration-300" style="width: 17%;" title="Shipped / Arrived"></div>
+          <div id="progress-bar-purchased" class="h-full bg-amber-500 transition-all duration-300" style="width: 25%;" title="Purchased"></div>
+          <div id="progress-bar-idea" class="h-full bg-slate-300 dark:bg-slate-700 transition-all duration-300" style="width: 17%;" title="Ideas"></div>
+        </div>
+      </div>
+
+      <!-- C. FILTER & SEARCH BAR -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <!-- Search Input -->
+        <div class="relative w-full sm:w-80">
+          <i data-lucide="search" class="w-4 h-4 text-forest-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="recipient-search-input" oninput="handleSearchRecipients(this.value)" placeholder="Search recipient or gift item..." class="w-full pl-10 pr-4 py-2.5 rounded-2xl glass-card text-xs font-semibold text-forest-900 dark:text-forest-100 focus:outline-none focus:ring-2 focus:ring-forest-500">
+        </div>
+
+        <!-- Filter Tags: All, Family, Friends, Kids, Coworkers, Others -->
+        <div class="flex items-center space-x-1.5 overflow-x-auto w-full sm:w-auto pb-1 text-xs font-bold" id="group-filter-buttons">
+          <button onclick="setGroupFilter('all')" class="group-filter-btn px-3.5 py-2 rounded-2xl bg-forest-600 text-white shadow-sm transition-all" data-filter="all">All People</button>
+          <button onclick="setGroupFilter('Family')" class="group-filter-btn px-3.5 py-2 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all" data-filter="Family">Family</button>
+          <button onclick="setGroupFilter('Friends')" class="group-filter-btn px-3.5 py-2 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all" data-filter="Friends">Friends</button>
+          <button onclick="setGroupFilter('Kids')" class="group-filter-btn px-3.5 py-2 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all" data-filter="Kids">Kids</button>
+          <button onclick="setGroupFilter('Partner')" class="group-filter-btn px-3.5 py-2 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all" data-filter="Partner">Partner</button>
+          <button onclick="setGroupFilter('Coworkers')" class="group-filter-btn px-3.5 py-2 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all" data-filter="Coworkers">Coworkers</button>
+        </div>
+      </div>
+
+      <!-- D. RECIPIENT CARDS GRID (MAIN CORE OF THE APP) -->
+      <div id="recipients-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered via JavaScript -->
+      </div>
+
+      <!-- E. HOLIDAY CARD MAILING LIST & STOCKING STUFFERS SECTION -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4">
+        
+        <!-- 1. Christmas Cards Mailing List -->
+        <div class="glass-card rounded-3xl p-6 shadow-md space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-forest-100 dark:border-forest-900">
+            <div class="flex items-center space-x-2.5">
+              <span class="text-xl">💌</span>
+              <div>
+                <h3 class="font-bold font-serif-header text-base text-forest-900 dark:text-forest-50">Holiday Cards List</h3>
+                <p class="text-xs text-forest-500">Track who you're mailing holiday cards to</p>
+              </div>
+            </div>
+            <button onclick="openAddHolidayCardModal()" class="px-3 py-1.5 rounded-xl bg-forest-100 dark:bg-forest-900 text-forest-700 dark:text-forest-300 text-xs font-bold hover:bg-forest-200">
+              + Add Person
+            </button>
+          </div>
+
+          <div id="holiday-cards-container" class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+        <!-- 2. Stocking Stuffers & Small Delights -->
+        <div class="glass-card rounded-3xl p-6 shadow-md space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-forest-100 dark:border-forest-900">
+            <div class="flex items-center space-x-2.5">
+              <span class="text-xl">🧦</span>
+              <div>
+                <h3 class="font-bold font-serif-header text-base text-forest-900 dark:text-forest-50">Stocking Stuffers & Treats</h3>
+                <p class="text-xs text-forest-500">Small gift ideas, candies, chocolates & surprises</p>
+              </div>
+            </div>
+            <button onclick="openAddStockingModal()" class="px-3 py-1.5 rounded-xl bg-forest-100 dark:bg-forest-900 text-forest-700 dark:text-forest-300 text-xs font-bold hover:bg-forest-200">
+              + Add Item
+            </button>
+          </div>
+
+          <div id="stocking-items-container" class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- FOOTER WITH AVYORACO BRANDING -->
+    <footer class="mt-auto py-6 px-4 text-center text-xs text-forest-500 dark:text-forest-400 border-t border-forest-200 dark:border-forest-900 bg-white/40 dark:bg-forest-950/40">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center space-x-2">
+          <img src="logo.jpg" alt="AvyoraCo" class="w-6 h-6 rounded-full object-cover">
+          <span class="font-bold text-forest-800 dark:text-forest-200">AvyoraCo • Christmas Gift Tracker</span>
+        </div>
+        <p>Plan with intention • Wrap with joy • Celebrate peacefully 🎄✨</p>
+        <span class="text-[11px] text-forest-400">Automatic Cloud Sync Enabled</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- 1. SET TOTAL HOLIDAY BUDGET MODAL -->
+  <div id="modal-set-budget" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-set-budget')"></div>
+    <div class="w-full max-w-sm glass-card rounded-3xl p-6 shadow-2xl relative z-10 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-bold font-serif-header text-lg text-forest-900 dark:text-forest-50">Set Christmas Budget</h3>
+        <button onclick="closeModal('modal-set-budget')" class="p-1 rounded-lg text-forest-400 hover:text-forest-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <form onsubmit="handleSaveBudgetSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Total Budget Amount (<span class="currency-label">$</span>)</label>
+          <input type="number" step="1" min="1" id="input-total-budget" required class="w-full px-4 py-2.5 text-base font-bold rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-forest-900 dark:text-forest-50 focus:outline-none focus:ring-2 focus:ring-forest-500">
+        </div>
+        <button type="submit" class="w-full py-3 rounded-2xl bg-forest-600 hover:bg-forest-700 text-white font-bold text-xs transition-colors">
+          Save Holiday Budget
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. ADD / EDIT RECIPIENT MODAL -->
+  <div id="modal-recipient" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-recipient')"></div>
+    <div class="w-full max-w-md glass-card rounded-3xl p-6 sm:p-7 shadow-2xl relative z-10 space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 id="recipient-modal-title" class="font-bold font-serif-header text-lg text-forest-900 dark:text-forest-50">Add Gift Recipient</h3>
+          <p class="text-xs text-forest-500">Enter who you're buying gifts for this Christmas</p>
+        </div>
+        <button onclick="closeModal('modal-recipient')" class="p-1 rounded-lg text-forest-400 hover:text-forest-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <form id="form-recipient" onsubmit="handleSaveRecipientSubmit(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="recipient-edit-id">
+        <div>
+          <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Recipient Name <span class="text-festiveRed">*</span></label>
+          <input type="text" id="recipient-name-input" required placeholder="e.g. Mom, Liam, Sarah, Secret Santa" class="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-forest-500">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Group / Category</label>
+            <select id="recipient-group-select" class="w-full px-3 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-forest-500">
+              <option value="Family">Family</option>
+              <option value="Partner">Partner</option>
+              <option value="Kids">Kids</option>
+              <option value="Friends">Friends</option>
+              <option value="Coworkers">Coworkers</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Target Budget (<span class="currency-label">$</span>)</label>
+            <input type="number" id="recipient-budget-input" step="1" min="0" placeholder="e.g. 150" class="w-full px-3 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-forest-500">
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Preferences & Sizes (Optional Notes)</label>
+          <input type="text" id="recipient-notes-input" placeholder="e.g. Loves cozy candles, size M, loves books" class="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs focus:outline-none focus:ring-2 focus:ring-forest-500">
+        </div>
+        <button type="submit" class="w-full py-3 rounded-2xl bg-forest-600 hover:bg-forest-700 text-white font-bold text-xs transition-colors">
+          Save Recipient
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. ADD / EDIT GIFT ITEM MODAL -->
+  <div id="modal-gift" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-gift')"></div>
+    <div class="w-full max-w-md glass-card rounded-3xl p-6 sm:p-7 shadow-2xl relative z-10 space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 id="gift-modal-title" class="font-bold font-serif-header text-lg text-forest-900 dark:text-forest-50">Add Gift Item</h3>
+          <p id="gift-modal-subtitle" class="text-xs text-forest-500">For Mom</p>
+        </div>
+        <button onclick="closeModal('modal-gift')" class="p-1 rounded-lg text-forest-400 hover:text-forest-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <form id="form-gift" onsubmit="handleSaveGiftSubmit(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="gift-recipient-id">
+        <input type="hidden" id="gift-edit-id">
+
+        <div>
+          <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Gift Item Name <span class="text-festiveRed">*</span></label>
+          <input type="text" id="gift-name-input" required placeholder="e.g. Cashmere Scarf, Lego Set, Air Fryer" class="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-forest-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Estimated / Actual Price (<span class="currency-label">$</span>)</label>
+            <input type="number" step="0.01" min="0" id="gift-price-input" required placeholder="45.00" class="w-full px-3 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-forest-500">
+          </div>
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Status</label>
+            <select id="gift-status-select" class="w-full px-3 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-forest-500">
+              <option value="idea">💡 Idea</option>
+              <option value="purchased">🛒 Purchased</option>
+              <option value="shipped">📦 Shipped / Arrived</option>
+              <option value="wrapped">🎀 Wrapped & Ready</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Store / Website Link (Optional)</label>
+          <input type="url" id="gift-url-input" placeholder="https://amazon.com/... or store name" class="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs focus:outline-none focus:ring-2 focus:ring-forest-500">
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-2xl bg-forest-600 hover:bg-forest-700 text-white font-bold text-xs transition-colors">
+          Save Gift Item
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
+    <div class="px-5 py-3 rounded-2xl glass-card shadow-2xl border border-emerald-300 dark:border-emerald-700 text-xs font-bold text-forest-900 dark:text-forest-50 flex items-center space-x-2">
+      <span class="text-base">🎄</span>
+      <span id="toast-message">Action successful!</span>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION CORE -->
+  <script>
+    // ==========================================
+    // 1. DATA STATE & DEFAULT VALUES
+    // ==========================================
+    const VALID_VIP_TOKENS = ['VIP_BUYER_TOKEN', 'ETSY-CHRISTMAS-2026', 'HOLIDAY-VIP-ACCESS', 'AVYORA-CHRISTMAS'];
+
+    let currentUser = null;
+    let currencySymbol = '$';
+    let currentGroupFilter = 'all';
+    let currentSearchQuery = '';
+
+    // Standard Christmas App Data Model
+    let holidayData = {
+      totalBudget: 1200,
+      recipients: [
+        {
+          id: 'rec_1',
+          name: 'Mom',
+          group: 'Family',
+          budget: 250,
+          notes: 'Loves gardening, cozy sweaters (Size M)',
+          gifts: [
+            { id: 'g_1', name: 'Cashmere Knit Cardigan', price: 110, status: 'wrapped', storeLink: 'https://example.com' },
+            { id: 'g_2', name: 'Copper Watering Can', price: 45, status: 'shipped', storeLink: '' },
+            { id: 'g_3', name: 'Artisan Scented Candles (Set of 3)', price: 35, status: 'purchased', storeLink: '' }
+          ]
+        },
+        {
+          id: 'rec_2',
+          name: 'Dad',
+          group: 'Family',
+          budget: 200,
+          notes: 'Coffee lover, golf accessories',
+          gifts: [
+            { id: 'g_4', name: 'Espresso Bean Sampler Box', price: 55, status: 'wrapped', storeLink: '' },
+            { id: 'g_5', name: 'Leather Travel Toiletry Bag', price: 75, status: 'purchased', storeLink: '' }
+          ]
+        },
+        {
+          id: 'rec_3',
+          name: 'Liam (Son)',
+          group: 'Kids',
+          budget: 350,
+          notes: 'Lego Space Explorer, Nintendo Switch games',
+          gifts: [
+            { id: 'g_6', name: 'Lego Lunar Research Base', price: 120, status: 'wrapped', storeLink: '' },
+            { id: 'g_7', name: 'Super Mario Wonder Game', price: 60, status: 'wrapped', storeLink: '' },
+            { id: 'g_8', name: 'Remote Control Off-Roader', price: 50, status: 'idea', storeLink: '' }
+          ]
+        },
+        {
+          id: 'rec_4',
+          name: 'Emma (Sister)',
+          group: 'Family',
+          budget: 150,
+          notes: 'Skincare, baking books',
+          gifts: [
+            { id: 'g_9', name: 'French Pastry Cookbook', price: 35, status: 'idea', storeLink: '' },
+            { id: 'g_10', name: 'Silk Sleep Mask & Pillowcase', price: 45, status: 'purchased', storeLink: '' }
+          ]
+        },
+        {
+          id: 'rec_5',
+          name: 'Secret Santa (Work)',
+          group: 'Coworkers',
+          budget: 40,
+          notes: 'Coffee mug or desk plant',
+          gifts: [
+            { id: 'g_11', name: 'Ceramic Desk Planter + Succulent', price: 28, status: 'idea', storeLink: '' }
+          ]
+        }
+      ],
+      holidayCards: [
+        { id: 'c_1', name: 'Grandma & Grandpa Jenkins', address: '142 Pine Valley Rd', sent: true },
+        { id: 'c_2', name: 'The Thompson Family', address: '88 Maple Street', sent: true },
+        { id: 'c_3', name: 'Uncle Mark & Aunt Sarah', address: 'Denver, CO', sent: false },
+        { id: 'c_4', name: 'Dr. Emily Watson', address: 'Seattle, WA', sent: false }
+      ],
+      stockingItems: [
+        { id: 's_1', name: 'Peppermint Bark & Candy Canes', price: 12, purchased: true },
+        { id: 's_2', name: 'Holiday Fun Socks (3-pack)', price: 15, purchased: true },
+        { id: 's_3', name: 'Mini Lip Balms & Hand Creams', price: 14, purchased: false },
+        { id: 's_4', name: 'Gourmet Hot Chocolate Spoons', price: 18, purchased: false }
+      ]
+    };
+
+    // ==========================================
+    // 2. INITIALIZATION & VIP GATEKEEPER
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      updateChristmasCountdown();
+      checkVipAccessAndLaunch();
+    });
+
+    function checkVipAccessAndLaunch() {
+      // 1. Check URL for ?access=
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('access');
+
+      if (token && VALID_VIP_TOKENS.includes(token)) {
+        localStorage.setItem('avyora_xmas_access_granted', 'true');
+        // Clean URL
+        const cleanUrl = window.location.pathname + (window.location.hash || '');
+        window.history.replaceState({}, document.title, cleanUrl);
+        showToast('VIP Access Unlocked! Welcome 🎄');
+      }
+
+      const hasAccess = localStorage.getItem('avyora_xmas_access_granted') === 'true';
+      if (!hasAccess) {
+        showView('restricted');
+        return;
+      }
+
+      // 2. Check for active user session
+      const storedUser = localStorage.getItem('avyora_xmas_user');
+      if (storedUser) {
+        try {
+          currentUser = JSON.parse(storedUser);
+          loadUserData();
+          showView('app');
+          return;
+        } catch (e) {}
+      }
+
+      // Otherwise show Auth (Sign in/Sign up)
+      showView('auth');
+    }
+
+    function handleManualAccessUnlock() {
+      const input = document.getElementById('manual-access-token-input');
+      const err = document.getElementById('unlock-error');
+      const token = (input.value || '').trim();
+
+      if (VALID_VIP_TOKENS.includes(token)) {
+        localStorage.setItem('avyora_xmas_access_granted', 'true');
+        err.classList.add('hidden');
+        showToast('Access Unlocked! 🎅✨');
+        showView('auth');
+      } else {
+        err.textContent = 'Invalid token. Please use the link inside your Etsy PDF.';
+        err.classList.remove('hidden');
+      }
+    }
+
+    function showView(viewName) {
+      document.getElementById('page-restricted').classList.add('hidden');
+      document.getElementById('page-auth').classList.add('hidden');
+      document.getElementById('app-shell').classList.add('hidden');
+
+      if (viewName === 'restricted') {
+        document.getElementById('page-restricted').classList.remove('hidden');
+      } else if (viewName === 'auth') {
+        document.getElementById('page-auth').classList.remove('hidden');
+      } else if (viewName === 'app') {
+        document.getElementById('app-shell').classList.remove('hidden');
+        renderAll();
+      }
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // ==========================================
+    // 3. AUTH LOGIC (INSTANT ACCESS)
+    // ==========================================
+    let currentAuthMode = 'login';
+
+    function switchAuthTab(mode) {
+      currentAuthMode = mode;
+      const tabLogin = document.getElementById('auth-tab-login');
+      const tabSignup = document.getElementById('auth-tab-signup');
+      const nameField = document.getElementById('auth-field-name');
+      const btnText = document.getElementById('auth-btn-text');
+      const errBox = document.getElementById('auth-error-box');
+      if (errBox) errBox.classList.add('hidden');
+
+      if (mode === 'signup') {
+        tabSignup.className = 'flex-1 py-2 rounded-xl transition-all bg-white dark:bg-forest-800 text-forest-900 dark:text-forest-50 shadow-sm font-bold';
+        tabLogin.className = 'flex-1 py-2 rounded-xl transition-all text-forest-600 dark:text-forest-300 font-medium';
+        nameField.classList.remove('hidden');
+        btnText.textContent = 'Create Holiday Account';
+      } else {
+        tabLogin.className = 'flex-1 py-2 rounded-xl transition-all bg-white dark:bg-forest-800 text-forest-900 dark:text-forest-50 shadow-sm font-bold';
+        tabSignup.className = 'flex-1 py-2 rounded-xl transition-all text-forest-600 dark:text-forest-300 font-medium';
+        nameField.classList.add('hidden');
+        btnText.textContent = 'Sign In to Dashboard';
+      }
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-input-email').value.trim();
+      const password = document.getElementById('auth-input-password').value;
+      const name = document.getElementById('auth-input-name').value.trim() || email.split('@')[0];
+      const errBox = document.getElementById('auth-error-box');
+
+      try {
+        currentUser = {
+          id: 'usr_' + Date.now(),
+          email,
+          name
+        };
+        localStorage.setItem('avyora_xmas_user', JSON.stringify(currentUser));
+        loadUserData();
+        showView('app');
+        triggerFestiveConfetti();
+        showToast(`Welcome, ${name}! Your Christmas Tracker is ready 🎄`);
+      } catch (err) {
+        if (errBox) {
+          errBox.textContent = err.message || 'Authentication error';
+          errBox.classList.remove('hidden');
+        }
+      }
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('avyora_xmas_user');
+      currentUser = null;
+      showView('auth');
+      showToast('Signed out safely. Have a wonderful holiday!');
+    }
+
+    // ==========================================
+    // 4. DATA PERSISTENCE & COMPUTATIONS
+    // ==========================================
+    function loadUserData() {
+      if (!currentUser) return;
+      const saved = localStorage.getItem('avyora_xmas_data_' + currentUser.id);
+      if (saved) {
+        try {
+          holidayData = JSON.parse(saved);
+        } catch (e) {}
+      }
+      const savedCur = localStorage.getItem('avyora_xmas_currency');
+      if (savedCur) {
+        currencySymbol = savedCur;
+        const curSelect = document.getElementById('currency-select');
+        if (curSelect) curSelect.value = currencySymbol;
+        document.querySelectorAll('.currency-label').forEach(el => el.textContent = currencySymbol);
+      }
+
+      const nameEl = document.getElementById('user-display-name');
+      if (nameEl) nameEl.textContent = currentUser.name || 'Friend';
+    }
+
+    function saveUserData() {
+      if (!currentUser) return;
+      localStorage.setItem('avyora_xmas_data_' + currentUser.id, JSON.stringify(holidayData));
+    }
+
+    function formatMoney(amount) {
+      return currencySymbol + Number(amount || 0).toLocaleString('en-US', {
+        minimumFractionDigits: Number.isInteger(amount) ? 0 : 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    function handleCurrencyChange(cur) {
+      currencySymbol = cur;
+      localStorage.setItem('avyora_xmas_currency', cur);
+      document.querySelectorAll('.currency-label').forEach(el => el.textContent = cur);
+      renderAll();
+      showToast(`Currency changed to ${cur}`);
+    }
+
+    function updateChristmasCountdown() {
+      const today = new Date();
+      const currentYear = today.getFullYear();
+      let xmasDate = new Date(currentYear, 11, 25);
+      if (today.getMonth() === 11 && today.getDate() > 25) {
+        xmasDate = new Date(currentYear + 1, 11, 25);
+      }
+      const diffTime = xmasDate - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      const el = document.getElementById('header-countdown-text');
+      if (el) {
+        if (diffDays <= 0) {
+          el.textContent = "It's Christmas Day! 🎄🎁";
+        } else if (diffDays === 1) {
+          el.textContent = "1 Day until Christmas Eve! 🎅";
+        } else {
+          el.textContent = `${diffDays} Days until Christmas 🎄`;
+        }
+      }
+    }
+
+    // ==========================================
+    // 5. RENDERING CORE
+    // ==========================================
+    function renderAll() {
+      renderSummaryCards();
+      renderRecipientsGrid();
+      renderHolidayCards();
+      renderStockingItems();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderSummaryCards() {
+      const totalBudget = parseFloat(holidayData.totalBudget) || 1200;
+      let totalSpent = 0;
+      let totalGiftsCount = 0;
+      let wrappedCount = 0;
+      let shippedCount = 0;
+      let purchasedCount = 0;
+      let ideaCount = 0;
+
+      (holidayData.recipients || []).forEach(r => {
+        (r.gifts || []).forEach(g => {
+          totalGiftsCount++;
+          const price = parseFloat(g.price) || 0;
+          if (g.status === 'wrapped') {
+            wrappedCount++;
+            totalSpent += price;
+          } else if (g.status === 'shipped') {
+            shippedCount++;
+            totalSpent += price;
+          } else if (g.status === 'purchased') {
+            purchasedCount++;
+            totalSpent += price;
+          } else {
+            ideaCount++;
+          }
+        });
+      });
+
+      // Add purchased stocking items to total spent
+      (holidayData.stockingItems || []).forEach(s => {
+        if (s.purchased) {
+          totalSpent += (parseFloat(s.price) || 0);
+        }
+      });
+
+      const remainingBudget = Math.max(0, totalBudget - totalSpent);
+      const spentPct = totalBudget > 0 ? Math.round((totalSpent / totalBudget) * 100) : 0;
+
+      // Update Stat Cards
+      document.getElementById('stat-total-budget').textContent = formatMoney(totalBudget);
+      document.getElementById('stat-total-spent').textContent = formatMoney(totalSpent);
+      document.getElementById('stat-remaining-budget').textContent = formatMoney(remainingBudget);
+      document.getElementById('stat-spent-pct').textContent = `${spentPct}% spent`;
+      document.getElementById('stat-items-bought').textContent = `${wrappedCount + shippedCount + purchasedCount} gifts bought`;
+      document.getElementById('stat-wrapped-summary').textContent = `${wrappedCount} / ${totalGiftsCount}`;
+      document.getElementById('stat-wrapped-sub').textContent = `${wrappedCount} wrapped & under tree 🎀`;
+
+      // Update Multi-Segment Progress Bar
+      if (totalGiftsCount > 0) {
+        document.getElementById('progress-bar-wrapped').style.width = `${(wrappedCount / totalGiftsCount) * 100}%`;
+        document.getElementById('progress-bar-shipped').style.width = `${(shippedCount / totalGiftsCount) * 100}%`;
+        document.getElementById('progress-bar-purchased').style.width = `${(purchasedCount / totalGiftsCount) * 100}%`;
+        document.getElementById('progress-bar-idea').style.width = `${(ideaCount / totalGiftsCount) * 100}%`;
+      } else {
+        document.getElementById('progress-bar-wrapped').style.width = '0%';
+        document.getElementById('progress-bar-shipped').style.width = '0%';
+        document.getElementById('progress-bar-purchased').style.width = '0%';
+        document.getElementById('progress-bar-idea').style.width = '100%';
+      }
+
+      // Update Counts pill
+      document.getElementById('pipeline-counts-pill').innerHTML = `
+        <span class="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">💡 ${ideaCount} Ideas</span>
+        <span class="px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300">🛒 ${purchasedCount} Bought</span>
+        <span class="px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-800 dark:text-blue-300">📦 ${shippedCount} Shipped</span>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300">🎀 ${wrappedCount} Ready</span>
+      `;
+    }
+
+    function renderRecipientsGrid() {
+      const container = document.getElementById('recipients-grid');
+      if (!container) return;
+
+      let list = [...(holidayData.recipients || [])];
+
+      // Filter by Group
+      if (currentGroupFilter !== 'all') {
+        list = list.filter(r => r.group === currentGroupFilter);
+      }
+
+      // Filter by Search Query
+      if (currentSearchQuery) {
+        const q = currentSearchQuery.toLowerCase();
+        list = list.filter(r => {
+          const matchName = (r.name || '').toLowerCase().includes(q);
+          const matchGroup = (r.group || '').toLowerCase().includes(q);
+          const matchGift = (r.gifts || []).some(g => (g.name || '').toLowerCase().includes(q));
+          return matchName || matchGroup || matchGift;
+        });
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-16 text-center space-y-3 glass-card rounded-3xl">
+            <span class="text-4xl">🎄</span>
+            <h4 class="font-bold text-base text-forest-800 dark:text-forest-100">No recipients found</h4>
+            <p class="text-xs text-forest-500">Add someone to your Christmas gift list to start tracking!</p>
+            <button onclick="openAddRecipientModal()" class="px-4 py-2 rounded-2xl bg-forest-600 text-white font-bold text-xs">
+              + Add First Recipient
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(r => {
+        const gifts = r.gifts || [];
+        const plannedBudget = parseFloat(r.budget) || 0;
+        const totalSpent = gifts
+          .filter(g => g.status !== 'idea')
+          .reduce((sum, g) => sum + (parseFloat(g.price) || 0), 0);
+        const remaining = Math.max(0, plannedBudget - totalSpent);
+        const isOverBudget = plannedBudget > 0 && totalSpent > plannedBudget;
+        const pctSpent = plannedBudget > 0 ? Math.min(100, Math.round((totalSpent / plannedBudget) * 100)) : 0;
+
+        return `
+          <div class="glass-card rounded-3xl p-5 sm:p-6 shadow-md flex flex-col justify-between space-y-4 hover:shadow-xl transition-all duration-200 border-t-2 border-t-forest-400">
+            <div>
+              <!-- Recipient Header -->
+              <div class="flex items-start justify-between gap-2 pb-3 border-b border-forest-100 dark:border-forest-900">
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <h4 class="font-bold font-serif-header text-lg text-forest-900 dark:text-forest-50">${escapeHtml(r.name)}</h4>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-forest-100 dark:bg-forest-900 text-forest-700 dark:text-forest-300">${escapeHtml(r.group || 'Family')}</span>
+                  </div>
+                  ${r.notes ? `<p class="text-[11px] text-forest-500 mt-1 italic font-medium">${escapeHtml(r.notes)}</p>` : ''}
+                </div>
+                <div class="flex items-center space-x-1">
+                  <button onclick="openEditRecipientModal('${r.id}')" class="p-1.5 rounded-lg text-forest-400 hover:text-forest-700 hover:bg-forest-100 dark:hover:bg-forest-800" title="Edit Recipient">
+                    <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button onclick="deleteRecipient('${r.id}')" class="p-1.5 rounded-lg text-forest-400 hover:text-festiveRed hover:bg-rose-50 dark:hover:bg-rose-950/40" title="Delete Recipient">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Budget Pacing Bar for this Person -->
+              <div class="py-3 space-y-1.5 border-b border-forest-100 dark:border-forest-900">
+                <div class="flex justify-between text-xs font-semibold">
+                  <span class="text-forest-600 dark:text-forest-300">Spent: <b class="${isOverBudget ? 'text-festiveRed font-bold' : 'text-forest-900 dark:text-forest-100'}">${formatMoney(totalSpent)}</b></span>
+                  <span class="text-forest-500">Budget: ${formatMoney(plannedBudget)}</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-forest-100 dark:bg-forest-900 overflow-hidden">
+                  <div class="h-full rounded-full transition-all duration-300 ${isOverBudget ? 'bg-festiveRed' : 'bg-forest-500'}" style="width: ${pctSpent}%"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-forest-400">
+                  <span>${isOverBudget ? '⚠️ Over budget by ' + formatMoney(totalSpent - plannedBudget) : formatMoney(remaining) + ' remaining'}</span>
+                  <span>${gifts.length} gift${gifts.length === 1 ? '' : 's'} tracked</span>
+                </div>
+              </div>
+
+              <!-- Gift Items List -->
+              <div class="pt-3 space-y-2.5">
+                <div class="flex items-center justify-between text-xs font-bold text-forest-800 dark:text-forest-200">
+                  <span>Gifts & Ideas</span>
+                  <button onclick="openAddGiftModal('${r.id}')" class="text-xs text-forest-600 dark:text-forest-300 hover:underline flex items-center space-x-1 font-semibold">
+                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                    <span>Add Gift</span>
+                  </button>
+                </div>
+
+                <div class="space-y-2">
+                  ${gifts.length === 0 ? `
+                    <div class="p-3 text-center rounded-2xl bg-forest-50/60 dark:bg-forest-950/40 border border-dashed border-forest-200 dark:border-forest-800 text-[11px] text-forest-400">
+                      No gift ideas added yet.
+                    </div>
+                  ` : gifts.map(g => `
+                    <div class="p-3 rounded-2xl bg-white dark:bg-forest-950/70 border border-forest-100 dark:border-forest-900 space-y-2 shadow-sm">
+                      <div class="flex items-start justify-between gap-2">
+                        <div class="flex-1 min-w-0">
+                          <div class="font-bold text-xs text-forest-900 dark:text-forest-50 truncate">${escapeHtml(g.name)}</div>
+                          <div class="text-[11px] font-semibold text-forest-600 dark:text-forest-300">${formatMoney(g.price)}</div>
+                        </div>
+                        <div class="flex items-center space-x-1 shrink-0">
+                          ${g.storeLink ? `
+                            <a href="${escapeHtml(g.storeLink)}" target="_blank" rel="noopener noreferrer" class="p-1 rounded text-forest-400 hover:text-forest-600" title="Store Link">
+                              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                            </a>
+                          ` : ''}
+                          <button onclick="deleteGiftItem('${r.id}', '${g.id}')" class="p-1 rounded text-forest-400 hover:text-festiveRed" title="Remove gift">
+                            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- 4-Step Pipeline Pill Switcher -->
+                      <div class="grid grid-cols-4 gap-1 text-[10px] font-bold text-center">
+                        <button onclick="updateGiftStatus('${r.id}', '${g.id}', 'idea')" class="status-step-pill py-1 rounded-lg ${g.status === 'idea' ? 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100 ring-1 ring-slate-400' : 'bg-slate-50 dark:bg-slate-900/50 text-slate-400 hover:bg-slate-100'}">
+                          💡 Idea
+                        </button>
+                        <button onclick="updateGiftStatus('${r.id}', '${g.id}', 'purchased')" class="status-step-pill py-1 rounded-lg ${g.status === 'purchased' ? 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-200 ring-1 ring-amber-400' : 'bg-slate-50 dark:bg-slate-900/50 text-slate-400 hover:bg-amber-50'}">
+                          🛒 Bought
+                        </button>
+                        <button onclick="updateGiftStatus('${r.id}', '${g.id}', 'shipped')" class="status-step-pill py-1 rounded-lg ${g.status === 'shipped' ? 'bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-200 ring-1 ring-blue-400' : 'bg-slate-50 dark:bg-slate-900/50 text-slate-400 hover:bg-blue-50'}">
+                          📦 Arrived
+                        </button>
+                        <button onclick="updateGiftStatus('${r.id}', '${g.id}', 'wrapped')" class="status-step-pill py-1 rounded-lg ${g.status === 'wrapped' ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-200 ring-1 ring-emerald-400' : 'bg-slate-50 dark:bg-slate-900/50 text-slate-400 hover:bg-emerald-50'}">
+                          🎀 Ready
+                        </button>
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Bottom Add Gift Quick Button -->
+            <button onclick="openAddGiftModal('${r.id}')" class="w-full mt-3 py-2 rounded-2xl bg-forest-50 hover:bg-forest-100 dark:bg-forest-900/50 dark:hover:bg-forest-900 text-forest-700 dark:text-forest-200 text-xs font-bold transition-colors flex items-center justify-center space-x-1.5 border border-forest-200/60 dark:border-forest-800">
+              <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+              <span>Add Gift for ${escapeHtml(r.name)}</span>
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderHolidayCards() {
+      const container = document.getElementById('holiday-cards-container');
+      if (!container) return;
+      const cards = holidayData.holidayCards || [];
+
+      if (cards.length === 0) {
+        container.innerHTML = '<p class="text-xs text-forest-400 text-center py-4">No cards on your mailing list yet.</p>';
+        return;
+      }
+
+      container.innerHTML = cards.map(c => `
+        <div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-forest-950/70 border border-forest-100 dark:border-forest-900 text-xs shadow-sm">
+          <div class="flex items-center space-x-3">
+            <input type="checkbox" ${c.sent ? 'checked' : ''} onchange="toggleCardSent('${c.id}')" class="w-4 h-4 rounded text-forest-600 accent-forest-600 cursor-pointer">
+            <div>
+              <span class="font-bold text-forest-900 dark:text-forest-50 ${c.sent ? 'line-through opacity-70' : ''}">${escapeHtml(c.name)}</span>
+              ${c.address ? `<p class="text-[11px] text-forest-500">${escapeHtml(c.address)}</p>` : ''}
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${c.sent ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-slate-100 text-slate-700 dark:bg-slate-900 dark:text-slate-300'}">
+              ${c.sent ? 'Mailed 📬' : 'To Send'}
+            </span>
+            <button onclick="deleteHolidayCard('${c.id}')" class="p-1 rounded text-forest-400 hover:text-festiveRed">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderStockingItems() {
+      const container = document.getElementById('stocking-items-container');
+      if (!container) return;
+      const items = holidayData.stockingItems || [];
+
+      if (items.length === 0) {
+        container.innerHTML = '<p class="text-xs text-forest-400 text-center py-4">No stocking items added yet.</p>';
+        return;
+      }
+
+      container.innerHTML = items.map(s => `
+        <div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-forest-950/70 border border-forest-100 dark:border-forest-900 text-xs shadow-sm">
+          <div class="flex items-center space-x-3">
+            <input type="checkbox" ${s.purchased ? 'checked' : ''} onchange="toggleStockingPurchased('${s.id}')" class="w-4 h-4 rounded text-forest-600 accent-forest-600 cursor-pointer">
+            <div>
+              <span class="font-bold text-forest-900 dark:text-forest-50 ${s.purchased ? 'line-through opacity-70' : ''}">${escapeHtml(s.name)}</span>
+              <span class="text-[11px] text-forest-500 font-semibold block">${formatMoney(s.price || 0)}</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${s.purchased ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'}">
+              ${s.purchased ? 'Bought 🎁' : 'To Buy'}
+            </span>
+            <button onclick="deleteStockingItem('${s.id}')" class="p-1 rounded text-forest-400 hover:text-festiveRed">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ==========================================
+    // 6. ACTIONS & EVENT HANDLERS
+    // ==========================================
+    function setGroupFilter(group) {
+      currentGroupFilter = group;
+      document.querySelectorAll('.group-filter-btn').forEach(btn => {
+        if (btn.dataset.filter === group) {
+          btn.className = 'group-filter-btn px-3.5 py-2 rounded-2xl bg-forest-600 text-white shadow-sm transition-all';
+        } else {
+          btn.className = 'group-filter-btn px-3.5 py-2 rounded-2xl glass-card text-forest-700 dark:text-forest-300 hover:bg-forest-100 transition-all';
+        }
+      });
+      renderRecipientsGrid();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function handleSearchRecipients(query) {
+      currentSearchQuery = (query || '').trim();
+      renderRecipientsGrid();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function updateGiftStatus(recipientId, giftId, newStatus) {
+      const r = (holidayData.recipients || []).find(x => x.id === recipientId);
+      if (!r) return;
+      const g = (r.gifts || []).find(x => x.id === giftId);
+      if (!g) return;
+
+      g.status = newStatus;
+      saveUserData();
+      renderAll();
+
+      if (newStatus === 'wrapped') {
+        triggerFestiveConfetti();
+        showToast(`Wrapped "${g.name}"! Ready under the tree 🎀`);
+      } else if (newStatus === 'purchased') {
+        showToast(`Marked "${g.name}" as purchased! Budget updated 🛒`);
+      }
+    }
+
+    function deleteGiftItem(recipientId, giftId) {
+      const r = (holidayData.recipients || []).find(x => x.id === recipientId);
+      if (!r) return;
+      r.gifts = (r.gifts || []).filter(g => g.id !== giftId);
+      saveUserData();
+      renderAll();
+      showToast('Gift item removed.');
+    }
+
+    function deleteRecipient(id) {
+      const r = (holidayData.recipients || []).find(x => x.id === id);
+      if (!r) return;
+      if (!confirm(`Remove "${r.name}" and all their gift items?`)) return;
+      holidayData.recipients = (holidayData.recipients || []).filter(x => x.id !== id);
+      saveUserData();
+      renderAll();
+      showToast(`Removed "${r.name}" from your list.`);
+    }
+
+    // Modal helpers
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+    }
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    }
+
+    // Budget Modal
+    function openSetBudgetModal() {
+      document.getElementById('input-total-budget').value = holidayData.totalBudget || 1200;
+      openModal('modal-set-budget');
+    }
+    function handleSaveBudgetSubmit(e) {
+      e.preventDefault();
+      const val = parseFloat(document.getElementById('input-total-budget').value);
+      if (isNaN(val) || val <= 0) return;
+      holidayData.totalBudget = val;
+      saveUserData();
+      closeModal('modal-set-budget');
+      renderAll();
+      triggerFestiveConfetti();
+      showToast(`Holiday budget set to ${formatMoney(val)} 🎄`);
+    }
+
+    // Recipient Modal
+    function openAddRecipientModal() {
+      document.getElementById('recipient-modal-title').textContent = 'Add Gift Recipient';
+      document.getElementById('recipient-edit-id').value = '';
+      document.getElementById('form-recipient').reset();
+      openModal('modal-recipient');
+    }
+    function openEditRecipientModal(id) {
+      const r = (holidayData.recipients || []).find(x => x.id === id);
+      if (!r) return;
+      document.getElementById('recipient-modal-title').textContent = 'Edit Recipient';
+      document.getElementById('recipient-edit-id').value = r.id;
+      document.getElementById('recipient-name-input').value = r.name || '';
+      document.getElementById('recipient-group-select').value = r.group || 'Family';
+      document.getElementById('recipient-budget-input').value = r.budget || '';
+      document.getElementById('recipient-notes-input').value = r.notes || '';
+      openModal('modal-recipient');
+    }
+    function handleSaveRecipientSubmit(e) {
+      e.preventDefault();
+      const editId = document.getElementById('recipient-edit-id').value;
+      const name = document.getElementById('recipient-name-input').value.trim();
+      const group = document.getElementById('recipient-group-select').value;
+      const budget = parseFloat(document.getElementById('recipient-budget-input').value) || 0;
+      const notes = document.getElementById('recipient-notes-input').value.trim();
+
+      if (!name) return;
+
+      if (!holidayData.recipients) holidayData.recipients = [];
+
+      if (editId) {
+        const r = holidayData.recipients.find(x => x.id === editId);
+        if (r) {
+          r.name = name;
+          r.group = group;
+          r.budget = budget;
+          r.notes = notes;
+        }
+        showToast(`Updated "${name}" 🌸`);
+      } else {
+        holidayData.recipients.push({
+          id: 'rec_' + Date.now(),
+          name,
+          group,
+          budget,
+          notes,
+          gifts: []
+        });
+        triggerFestiveConfetti();
+        showToast(`Added "${name}" to your Christmas list! 🎁`);
+      }
+
+      saveUserData();
+      closeModal('modal-recipient');
+      renderAll();
+    }
+
+    // Gift Modal
+    function openAddGiftModal(recipientId) {
+      const r = (holidayData.recipients || []).find(x => x.id === recipientId);
+      if (!r) return;
+      document.getElementById('gift-modal-title').textContent = 'Add Gift Item';
+      document.getElementById('gift-modal-subtitle').textContent = `For ${r.name}`;
+      document.getElementById('gift-recipient-id').value = r.id;
+      document.getElementById('gift-edit-id').value = '';
+      document.getElementById('form-gift').reset();
+      openModal('modal-gift');
+    }
+    function handleSaveGiftSubmit(e) {
+      e.preventDefault();
+      const recipientId = document.getElementById('gift-recipient-id').value;
+      const r = (holidayData.recipients || []).find(x => x.id === recipientId);
+      if (!r) return;
+
+      const name = document.getElementById('gift-name-input').value.trim();
+      const price = parseFloat(document.getElementById('gift-price-input').value) || 0;
+      const status = document.getElementById('gift-status-select').value;
+      const storeLink = document.getElementById('gift-url-input').value.trim();
+
+      if (!name) return;
+      if (!r.gifts) r.gifts = [];
+
+      r.gifts.push({
+        id: 'g_' + Date.now(),
+        name,
+        price,
+        status,
+        storeLink
+      });
+
+      saveUserData();
+      closeModal('modal-gift');
+      renderAll();
+      triggerFestiveConfetti();
+      showToast(`Added "${name}" for ${r.name}! 🎁`);
+    }
+
+    // Holiday Cards
+    function openAddHolidayCardModal() {
+      const name = prompt("Enter Person or Family Name for holiday card:");
+      if (!name || !name.trim()) return;
+      const address = prompt(`Enter address or city for ${name.trim()} (Optional):`, '');
+      if (!holidayData.holidayCards) holidayData.holidayCards = [];
+      holidayData.holidayCards.push({
+        id: 'c_' + Date.now(),
+        name: name.trim(),
+        address: address ? address.trim() : '',
+        sent: false
+      });
+      saveUserData();
+      renderHolidayCards();
+      if (window.lucide) lucide.createIcons();
+      showToast(`Added ${name.trim()} to holiday cards list 💌`);
+    }
+
+    function toggleCardSent(cardId) {
+      const c = (holidayData.holidayCards || []).find(x => x.id === cardId);
+      if (!c) return;
+      c.sent = !c.sent;
+      saveUserData();
+      renderHolidayCards();
+      if (window.lucide) lucide.createIcons();
+      if (c.sent) {
+        triggerFestiveConfetti();
+        showToast(`Card mailed to ${c.name}! 📬`);
+      }
+    }
+
+    function deleteHolidayCard(cardId) {
+      holidayData.holidayCards = (holidayData.holidayCards || []).filter(x => x.id !== cardId);
+      saveUserData();
+      renderHolidayCards();
+      if (window.lucide) lucide.createIcons();
+      showToast('Card entry removed.');
+    }
+
+    // Stocking Items
+    function openAddStockingModal() {
+      const name = prompt("Enter stocking treat or small gift idea:");
+      if (!name || !name.trim()) return;
+      const priceStr = prompt(`Approximate price for "${name.trim()}":`, '10');
+      const price = parseFloat(priceStr) || 0;
+      if (!holidayData.stockingItems) holidayData.stockingItems = [];
+      holidayData.stockingItems.push({
+        id: 's_' + Date.now(),
+        name: name.trim(),
+        price,
+        purchased: false
+      });
+      saveUserData();
+      renderAll();
+      showToast(`Added "${name.trim()}" to stocking list 🧦`);
+    }
+
+    function toggleStockingPurchased(id) {
+      const s = (holidayData.stockingItems || []).find(x => x.id === id);
+      if (!s) return;
+      s.purchased = !s.purchased;
+      saveUserData();
+      renderAll();
+      if (s.purchased) {
+        triggerFestiveConfetti();
+        showToast(`Bought "${s.name}"! 🎁`);
+      }
+    }
+
+    function deleteStockingItem(id) {
+      holidayData.stockingItems = (holidayData.stockingItems || []).filter(x => x.id !== id);
+      saveUserData();
+      renderAll();
+      showToast('Stocking item removed.');
+    }
+
+    // ==========================================
+    // 7. THEME & TOAST & CONFETTI
+    // ==========================================
+    function initTheme() {
+      const saved = localStorage.getItem('avyora_xmas_theme') || 'light';
+      if (saved === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+
+    function toggleAppTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('avyora_xmas_theme', isDark ? 'dark' : 'light');
+    }
+
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const msg = document.getElementById('toast-message');
+      if (!toast || !msg) return;
+      msg.textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      }, 3500);
+    }
+
+    function triggerFestiveConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 30,
+          spread: 60,
+          origin: { y: 0.8 },
+          colors: ['#437D5C', '#C13B38', '#D4AF37', '#FFFFFF', '#6E9E81']
+        });
+      }
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>

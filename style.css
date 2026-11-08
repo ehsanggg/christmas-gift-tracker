@@ -1,0 +1,2278 @@
+/* ==========================================================================
+   AY STUDIOS GIFT TRACKER - DELUXE ETSY EDITION
+   Aesthetic Garland Banner, Fairy Lights, Donut Charts & Glassmorphism Cards
+   ========================================================================== */
+
+:root {
+  /* Light Theme Palette */
+  --bg-main: #f6f3eb;
+  --bg-card: #ffffff;
+  --bg-subtle: #eeea7df;
+  --bg-subtle: #ede8dc;
+  --bg-hover: #e4dfd2;
+  
+  --text-primary: #1c231e;
+  --text-secondary: #5f665e;
+  --text-muted: #8d948c;
+
+  --festive-red: #c02d24;
+  --festive-red-dark: #981f18;
+  --festive-red-hover: #a8241c;
+  --festive-red-subtle: #fbeeed;
+  --festive-red-glow: rgba(192, 45, 36, 0.16);
+  
+  --festive-green: #235c39;
+  --festive-green-dark: #164026;
+  --festive-green-light: #e4f2e9;
+  --festive-green-bar: #337a4c;
+  --festive-green-glow: rgba(35, 92, 57, 0.15);
+  
+  --festive-gold: #c99c47;
+  --festive-gold-bar: #d9ab52;
+  --festive-gold-light: #faf3e3;
+  --festive-gold-glow: rgba(201, 156, 71, 0.16);
+  
+  --border-card: #e5ded2;
+  --border-light: #ece6dc;
+  
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.03);
+  --shadow-card: 0 4px 16px rgba(32, 28, 20, 0.05);
+  --shadow-hover: 0 10px 28px rgba(32, 28, 20, 0.09);
+
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-hand: 'Caveat', cursive, sans-serif;
+}
+
+/* Cosy Dark Mode (Image 5) */
+body.dark-theme {
+  --bg-main: #111713;
+  --bg-card: #18201a;
+  --bg-subtle: #212b23;
+  --bg-hover: #29362c;
+  
+  --text-primary: #f4f6f3;
+  --text-secondary: #a2ab9f;
+  --text-muted: #6e766c;
+
+  --festive-red: #e04338;
+  --festive-red-dark: #b82d24;
+  --festive-red-hover: #f1554a;
+  --festive-red-subtle: #371816;
+  --festive-red-glow: rgba(224, 67, 56, 0.25);
+  
+  --festive-green: #3d8a57;
+  --festive-green-dark: #225734;
+  --festive-green-light: #16291d;
+  --festive-green-bar: #43965f;
+  --festive-green-glow: rgba(61, 138, 87, 0.25);
+  
+  --festive-gold: #e5b967;
+  --festive-gold-bar: #e5b967;
+  --festive-gold-light: #2d2414;
+  --festive-gold-glow: rgba(229, 185, 103, 0.25);
+  
+  --border-card: #27342a;
+  --border-light: #1f2921;
+  
+  --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.45);
+  --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.65);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+  position: relative;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+/* Snowfall Canvas */
+#snowCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.app-layout {
+  max-width: 1280px;
+  width: 96%;
+  margin: 0 auto;
+  padding: 0.85rem 1rem 2.5rem 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+/* ==========================================================================
+   TOP NAVIGATION
+   ========================================================================== */
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 9999px;
+  padding: 0.4rem 0.85rem;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-left: 0.35rem;
+}
+
+.nav-tree-icon {
+  font-size: 1.2rem;
+}
+
+.nav-brand-text {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--text-primary);
+}
+
+.nav-holiday-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--festive-gold-light);
+  color: var(--festive-gold);
+  border: 1px solid var(--festive-gold);
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  margin-left: 0.2rem;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.nav-item {
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  border: none;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.nav-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.nav-item.active {
+  background: var(--festive-red);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(192, 45, 36, 0.4);
+}
+
+.theme-toggle {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-card);
+  color: var(--text-primary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-size: 1.1rem;
+  transition: all 0.25s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-hover);
+  transform: rotate(20deg) scale(1.05);
+}
+
+/* ==========================================================================
+   TAB PANES
+   ========================================================================== */
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   FESTIVE GARLAND HERO BANNER (Deluxe Edition with Hanging Bail & Actions)
+   ========================================================================== */
+
+.garland-hero {
+  background: radial-gradient(circle at 50% 65%, rgba(254, 248, 227, 0.8) 0%, var(--bg-card) 75%);
+  border: 1px solid var(--border-card);
+  border-radius: 20px;
+  padding: 4.1rem 1.25rem 1.25rem 1.25rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(32, 28, 20, 0.05), inset 0 0 0 1px rgba(201, 156, 71, 0.2);
+  margin-bottom: 1rem;
+}
+
+body.dark-theme .garland-hero {
+  background: radial-gradient(circle at 50% 65%, #233025 0%, var(--bg-card) 75%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(229, 185, 103, 0.25);
+}
+
+/* Fairy Twinkle Lights String */
+.fairy-lights-string {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  pointer-events: none;
+  z-index: 8;
+}
+
+.light {
+  width: 6px;
+  height: 9px;
+  border-radius: 50% 50% 40% 40%;
+  position: relative;
+  animation: fairyPulse 2s infinite ease-in-out;
+}
+
+.bulb-red { background: #ff4d4d; box-shadow: 0 0 6px #ff4d4d; animation-delay: 0s; }
+.bulb-gold { background: #ffd166; box-shadow: 0 0 6px #ffd166; animation-delay: 0.5s; }
+.bulb-green { background: #06d6a0; box-shadow: 0 0 6px #06d6a0; animation-delay: 1s; }
+.bulb-blue { background: #118ab2; box-shadow: 0 0 6px #118ab2; animation-delay: 1.5s; }
+
+@keyframes fairyPulse {
+  0%, 100% { opacity: 0.5; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* Hanging Christmas Garland Bail (Pine Swags & Red Bows) */
+.garland-bail-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 85px;
+  pointer-events: none;
+  z-index: 6;
+}
+
+.garland-bail-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Gentle swaying animation for hanging baubles & candy canes */
+.hanging-ornament-svg {
+  transform-origin: top center;
+  animation: baubleSwing 3.5s ease-in-out infinite alternate;
+}
+
+.hanging-ornament-svg:nth-child(even) {
+  animation-duration: 4.2s;
+  animation-delay: -1.8s;
+}
+
+@keyframes baubleSwing {
+  0% { transform: rotate(-3deg); }
+  100% { transform: rotate(3deg); }
+}
+
+/* Golden Corner Bells with Ribbons */
+.corner-bell {
+  position: absolute;
+  top: 6px;
+  font-size: 1.35rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  z-index: 7;
+  animation: bellJingle 4s infinite ease-in-out;
+}
+
+.left-corner-bell {
+  left: 10px;
+}
+
+.right-corner-bell {
+  right: 10px;
+  animation-delay: 2s;
+}
+
+@keyframes bellJingle {
+  0%, 80%, 100% { transform: rotate(0deg); }
+  85% { transform: rotate(12deg); }
+  90% { transform: rotate(-12deg); }
+  95% { transform: rotate(6deg); }
+}
+
+/* Standing Santa with Speech Bubble */
+.garland-santa-figure {
+  position: absolute;
+  right: 28px;
+  top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+  z-index: 7;
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
+
+.garland-santa-figure:hover {
+  transform: scale(1.08) rotate(3deg);
+}
+
+.santa-speech-bubble {
+  background: #ffffff;
+  color: var(--festive-red);
+  font-family: var(--font-hand);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(192, 45, 36, 0.2);
+  margin-bottom: 1px;
+  position: relative;
+  animation: bubbleFloat 3s ease-in-out infinite alternate;
+}
+
+.santa-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px 4px 0;
+  border-style: solid;
+  border-color: #ffffff transparent;
+  display: block;
+  width: 0;
+}
+
+@keyframes bubbleFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-3px); }
+}
+
+.santa-character {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.santa-character-emoji {
+  font-size: 2.3rem;
+  line-height: 1;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+}
+
+.santa-sack-emoji {
+  font-size: 1.2rem;
+  margin-left: -8px;
+  margin-top: 12px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.santa-gift-stack {
+  font-size: 0.95rem;
+  margin-left: -5px;
+  margin-top: 14px;
+}
+
+@media (max-width: 768px) {
+  .garland-santa-figure {
+    right: 14px;
+    top: 24px;
+  }
+  .santa-character-emoji {
+    font-size: 2.2rem;
+  }
+  .santa-sack-emoji, .santa-gift-stack, .santa-speech-bubble {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .garland-santa-figure {
+    display: none;
+  }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-badge-wrap {
+  margin-bottom: 0.35rem;
+}
+
+.hero-subtext {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--festive-gold);
+  letter-spacing: 0.5px;
+}
+
+.hero-season-title {
+  font-family: var(--font-serif);
+  font-size: 1.95rem;
+  font-weight: 900;
+  letter-spacing: -0.4px;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.sparkle-star {
+  font-size: 1.05rem;
+  color: var(--festive-gold);
+  animation: starShimmer 2.5s infinite ease-in-out alternate;
+}
+
+@keyframes starShimmer {
+  0% { transform: scale(0.85) rotate(-10deg); opacity: 0.7; }
+  100% { transform: scale(1.2) rotate(15deg); opacity: 1; }
+}
+
+/* Deluxe Live Running Countdown Clock (Compact & Neat) */
+.hero-clock-wrapper {
+  margin: 0.4rem auto 0.85rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 440px;
+}
+
+.clock-label-top {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: var(--festive-green);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.45rem;
+}
+
+body.dark-theme .clock-label-top {
+  color: var(--festive-gold);
+}
+
+.clock-leaf {
+  font-size: 0.82rem;
+}
+
+.hero-live-clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-bottom: 0.55rem;
+}
+
+.clock-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tile-number-box {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(201, 156, 71, 0.35);
+  border-radius: 10px;
+  min-width: 56px;
+  padding: 0.4rem 0.35rem;
+  box-shadow: 0 3px 12px rgba(32, 28, 20, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+body.dark-theme .tile-number-box {
+  background: rgba(27, 36, 29, 0.88);
+  border-color: rgba(229, 185, 103, 0.3);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.tile-number-box:hover {
+  transform: translateY(-2px);
+  border-color: var(--festive-red);
+}
+
+.sec-tile .tile-number-box {
+  border-color: rgba(192, 45, 36, 0.45);
+  background: rgba(255, 245, 244, 0.92);
+}
+
+body.dark-theme .sec-tile .tile-number-box {
+  background: rgba(45, 24, 23, 0.9);
+  border-color: rgba(224, 67, 56, 0.5);
+}
+
+.clock-val {
+  font-family: 'Outfit', -apple-system, sans-serif;
+  font-size: 1.55rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--festive-red-dark);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+}
+
+body.dark-theme .clock-val {
+  color: #ff766b;
+}
+
+.sec-val {
+  color: var(--festive-red);
+}
+
+.clock-unit {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.clock-colon {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--festive-gold);
+  line-height: 1;
+  margin-bottom: 0.95rem;
+  animation: colonBlink 1s infinite ease-in-out;
+}
+
+@keyframes colonBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.clock-footer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  padding: 0.22rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.target-calendar-icon {
+  font-size: 0.82rem;
+}
+
+@media (max-width: 580px) {
+  .hero-live-clock {
+    gap: 0.3rem;
+  }
+  .tile-number-box {
+    min-width: 48px;
+    padding: 0.35rem 0.25rem;
+  }
+  .clock-val {
+    font-size: 1.35rem;
+  }
+  .clock-colon {
+    font-size: 1.15rem;
+  }
+}
+
+/* Hero Quick Actions (Frosted Glass Pills) */
+.hero-quick-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-action-pill {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-card);
+  color: var(--text-primary);
+  padding: 0.35rem 0.8rem;
+  border-radius: 9999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+body.dark-theme .hero-action-pill {
+  background: rgba(33, 43, 35, 0.75);
+}
+
+.hero-action-pill:hover {
+  background: var(--festive-red);
+  color: #ffffff;
+  border-color: var(--festive-red);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(192, 45, 36, 0.25);
+}
+
+/* ==========================================================================
+   DASHBOARD CONTROLS BAR (State & Budget Actions)
+   ========================================================================== */
+
+.dashboard-controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  padding: 0.45rem 0.85rem;
+  margin-bottom: 0.85rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.controls-left, .controls-right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.control-pill-btn {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-card);
+  color: var(--text-primary);
+  padding: 0.32rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+}
+
+.control-pill-btn:hover {
+  background: var(--bg-hover);
+  transform: translateY(-1px);
+}
+
+.btn-budget-pill {
+  background: var(--festive-gold-light);
+  border-color: var(--festive-gold);
+  color: #825a12;
+}
+
+body.dark-theme .btn-budget-pill {
+  background: #2f2512;
+  color: #ecc374;
+}
+
+.btn-budget-pill:hover {
+  background: var(--festive-gold);
+  color: #ffffff;
+}
+
+.btn-clean-start {
+  color: var(--festive-red);
+  background: var(--festive-red-subtle);
+  border-color: rgba(192, 45, 36, 0.25);
+}
+
+.btn-clean-start:hover {
+  background: var(--festive-red);
+  color: #ffffff;
+}
+
+.btn-reload-sample {
+  color: var(--festive-green);
+  background: var(--festive-green-light);
+  border-color: rgba(35, 92, 57, 0.25);
+}
+
+.btn-reload-sample:hover {
+  background: var(--festive-green);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   4 TOP KPI STAT CARDS (Image 4 Enhanced - Compact)
+   ========================================================================== */
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kpi-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.kpi-card#cardBudgetClickable {
+  cursor: pointer;
+}
+
+.kpi-label-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.kpi-edit-tag {
+  background: var(--festive-gold-light);
+  border: 1px solid var(--festive-gold);
+  color: #8c6012;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 0.08rem 0.35rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+body.dark-theme .kpi-edit-tag {
+  background: #332712;
+  color: #e5b967;
+}
+
+.kpi-edit-tag:hover {
+  background: var(--festive-gold);
+  color: #ffffff;
+}
+
+.kpi-budget:hover { border-color: var(--festive-gold); }
+.kpi-spent:hover { border-color: var(--festive-red); }
+.kpi-left:hover { border-color: var(--festive-green); }
+.kpi-total:hover { border-color: #6366f1; }
+
+.kpi-glow-blob {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(22px);
+  opacity: 0.5;
+}
+
+.kpi-budget .kpi-glow-blob { background: var(--festive-gold-glow); }
+.kpi-spent .kpi-glow-blob { background: var(--festive-red-glow); }
+.kpi-left .kpi-glow-blob { background: var(--festive-green-glow); }
+.kpi-total .kpi-glow-blob { background: rgba(99, 102, 241, 0.15); }
+
+.kpi-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.65px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.kpi-value {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 0.15rem;
+  font-feature-settings: "tnum";
+}
+
+.kpi-subtext {
+  font-size: 0.70rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.text-green {
+  color: var(--festive-green) !important;
+}
+
+.kpi-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--bg-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.kpi-card:hover .kpi-icon-wrap {
+  transform: scale(1.06);
+}
+
+.kpi-icon {
+  font-size: 1.45rem;
+}
+
+/* ==========================================================================
+   3 CIRCULAR DONUT PROGRESS CARDS (Image 2 & 4 Enhanced - Compact)
+   ========================================================================== */
+
+.donuts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .donuts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.donut-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  padding: 1rem 0.85rem 0.85rem 0.85rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.donut-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.donut-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.65rem;
+  width: 100%;
+}
+
+.donut-badge-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.red-badge { background: var(--festive-red-subtle); }
+.gold-badge { background: var(--festive-gold-light); }
+.green-badge { background: var(--festive-green-light); }
+
+.donut-header-text {
+  text-align: left;
+}
+
+.donut-title {
+  font-size: 0.70rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-primary);
+  display: block;
+  line-height: 1.2;
+}
+
+.donut-hint {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.donut-circle-wrap {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 0.65rem;
+}
+
+.donut-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.donut-bg {
+  fill: none;
+  stroke: var(--bg-subtle);
+  stroke-width: 8;
+}
+
+.donut-fill {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.red-fill { stroke: url(#gradRed); filter: drop-shadow(0 2px 4px rgba(192, 45, 36, 0.3)); }
+.gold-fill { stroke: url(#gradGold); filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.3)); }
+.green-fill { stroke: url(#gradGreen); filter: drop-shadow(0 2px 4px rgba(20, 107, 58, 0.3)); }
+
+.donut-inner-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.donut-percent {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.donut-subtext-pill {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  background: var(--bg-subtle);
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-light);
+}
+
+/* ==========================================================================
+   BUDGET VS ACTUAL CHART CARD (Image 2 Enhanced - Compact)
+   ========================================================================== */
+
+.app-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 0.85rem;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.chart-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.chart-icon {
+  font-size: 1.15rem;
+  background: var(--bg-subtle);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.chart-subtitle {
+  font-size: 0.70rem;
+  color: var(--text-muted);
+}
+
+.chart-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.legend-box {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.gold-box { background: linear-gradient(180deg, #e5b967 0%, var(--festive-gold-bar) 100%); }
+.green-box { background: linear-gradient(180deg, #489b65 0%, var(--festive-green-bar) 100%); }
+
+.holly-decor {
+  font-size: 1.15rem;
+}
+
+/* Chart Canvas & Grid Lines */
+.chart-outer-wrap {
+  position: relative;
+  height: 155px;
+  margin-top: 0.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.chart-grid-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px dashed var(--border-light);
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.chart-grid-line span {
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transform: translateY(-50%);
+  background: var(--bg-card);
+  padding-left: 6px;
+}
+
+.line-150 { top: 15px; }
+.line-100 { top: 55px; }
+.line-50 { top: 95px; }
+
+.chart-bars-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 100%;
+  border-bottom: 2px solid var(--border-card);
+  gap: 0.4rem;
+  overflow-x: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.chart-column-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 44px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bars-pair {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 115px;
+  width: 100%;
+  justify-content: center;
+}
+
+.bar {
+  width: 11px;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  cursor: pointer;
+}
+
+.bar:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 105%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.bar-budget {
+  background: linear-gradient(180deg, #ecc579 0%, var(--festive-gold-bar) 100%);
+  box-shadow: 0 -2px 6px rgba(217, 171, 82, 0.2);
+}
+
+.bar-actual {
+  background: linear-gradient(180deg, #489b65 0%, var(--festive-green-bar) 100%);
+  box-shadow: 0 -2px 6px rgba(51, 122, 76, 0.2);
+}
+
+.bar-actual.over {
+  background: linear-gradient(180deg, #ef4444 0%, var(--festive-red) 100%);
+  box-shadow: 0 -2px 6px rgba(192, 45, 36, 0.4);
+}
+
+.bar-person-name {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-top: 0.35rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   DASHBOARD SPLIT GRID: OVER BUDGET & STILL TO BUY
+   ========================================================================== */
+
+.dashboard-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard-split-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.split-card {
+  padding: 1.1rem 1.25rem;
+}
+
+.split-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.split-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.split-badge-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.reindeer-icon { background: var(--festive-red-subtle); }
+.tag-icon { background: var(--festive-gold-light); }
+
+.split-card-header h3 {
+  font-size: 0.90rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.split-subtitle {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.pill-shortcut {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-card);
+  color: var(--text-secondary);
+  font-size: 0.70rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill-shortcut:hover {
+  background: var(--festive-red);
+  color: #fff;
+  border-color: var(--festive-red);
+}
+
+.split-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.split-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.80rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  transition: background 0.2s ease;
+}
+
+.split-row:hover {
+  background: var(--bg-hover);
+}
+
+.split-row-name {
+  color: var(--text-primary);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.over-amount {
+  font-weight: 800;
+  color: var(--festive-red);
+  background: var(--festive-red-subtle);
+  padding: 0.12rem 0.5rem;
+  border-radius: 5px;
+  font-size: 0.74rem;
+}
+
+.buy-amount {
+  font-weight: 700;
+  color: var(--festive-green);
+  background: var(--festive-green-light);
+  padding: 0.12rem 0.5rem;
+  border-radius: 5px;
+  font-size: 0.74rem;
+}
+
+.see-more-link {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 0.4rem;
+  text-align: center;
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 6px;
+  border: 1px dashed var(--border-card);
+  transition: all 0.2s ease;
+}
+
+.see-more-link:hover {
+  color: var(--festive-red);
+  border-color: var(--festive-red);
+  background: var(--festive-red-subtle);
+}
+
+/* ==========================================================================
+   RECIPIENTS GRID: A BUDGET CARD FOR EVERY PERSON (Image 1 - Compact)
+   ========================================================================== */
+
+.pane-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.pane-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.pane-icon {
+  font-size: 1.35rem;
+}
+
+.pane-title-group h2 {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.pane-subtitle {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.counter-badge {
+  background: var(--festive-red-subtle);
+  color: var(--festive-red);
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(192, 45, 36, 0.2);
+}
+
+.btn-action-primary {
+  background: var(--festive-red);
+  color: #ffffff;
+  border: none;
+  padding: 0.42rem 1.05rem;
+  border-radius: 9999px;
+  font-size: 0.80rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(192, 45, 36, 0.3);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-action-primary:hover {
+  background: var(--festive-red-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(192, 45, 36, 0.4);
+}
+
+.recipients-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+}
+
+@media (max-width: 1024px) {
+  .recipients-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .recipients-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .recipients-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Individual Recipient Budget Card */
+.person-budget-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 13px;
+  padding: 0.85rem 1rem 0.8rem 1rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+}
+
+.person-budget-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.person-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.person-name {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.group-tag {
+  font-size: 0.67rem;
+  font-weight: 700;
+  padding: 0.16rem 0.48rem;
+  border-radius: 999px;
+  text-transform: capitalize;
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.tag-family { background: #fdf3e2; color: #7f5517; }
+.tag-friends { background: #e4f4ec; color: #23653b; }
+.tag-kids { background: #fdeeed; color: #aa2c23; }
+.tag-coworkers { background: #eee8f8; color: #583da1; }
+
+.person-spend-info {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 0.55rem;
+}
+
+/* Progress bar inside card */
+.person-progress-bg {
+  width: 100%;
+  height: 7px;
+  background-color: var(--bg-subtle);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.person-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background-color: var(--festive-green-bar);
+  transition: width 0.4s ease;
+}
+
+.person-progress-fill.over-limit {
+  background-color: var(--festive-red);
+}
+
+.person-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--border-light);
+}
+
+.person-btn-action {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.2rem 0.45rem;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.person-btn-action:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.person-btn-action.delete:hover {
+  background: var(--festive-red-subtle);
+  color: var(--festive-red);
+}
+
+.person-festive-icon {
+  font-size: 1.6rem;
+}
+
+/* Budget Modal Shortcuts */
+.budget-calc-shortcuts {
+  display: flex;
+  gap: 0.65rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-calc-shortcut {
+  background: var(--bg-subtle);
+  border: 1px dashed var(--border-card);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-calc-shortcut:hover {
+  background: var(--festive-gold-light);
+  border-color: var(--festive-gold);
+  color: #8c6012;
+}
+
+body.dark-theme .btn-calc-shortcut:hover {
+  background: #332712;
+  color: #e5b967;
+}
+
+.modal-help-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+  display: block;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   GIFTS TABLE VIEW (Exact Match to User Uploaded Image)
+   ========================================================================== */
+
+.table-card {
+  padding: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid #e2dad0;
+  box-shadow: 0 6px 24px rgba(32, 28, 20, 0.05);
+  background: #ffffff;
+}
+
+body.dark-theme .table-card {
+  border-color: #2b382d;
+  background: var(--bg-card);
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-card) transparent;
+}
+
+.table-responsive::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: var(--border-card);
+  border-radius: 999px;
+}
+
+.gifts-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.77rem;
+  text-align: left;
+}
+
+/* Warm Beige/Tan Table Header (Exact from user image) */
+.gifts-table thead tr {
+  background-color: #ece5db;
+}
+
+body.dark-theme .gifts-table thead tr {
+  background-color: #232e25;
+}
+
+.gifts-table th {
+  padding: 0.58rem 0.38rem;
+  color: #4b443c;
+  font-weight: 800;
+  font-size: 0.67rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+  white-space: nowrap;
+}
+
+body.dark-theme .gifts-table th {
+  color: #c9d2c8;
+}
+
+.gifts-table td {
+  padding: 0.45rem 0.38rem;
+  border-bottom: 1px solid #f2ede5;
+  color: var(--text-primary);
+  vertical-align: middle;
+  background-color: #ffffff;
+  transition: background-color 0.15s ease;
+  font-size: 0.78rem;
+}
+
+body.dark-theme .gifts-table td {
+  background-color: var(--bg-card);
+  border-bottom-color: #243026;
+}
+
+/* Column Specific Widths & Layout Guard */
+.th-group { width: 72px; min-width: 68px; }
+.th-recipient { width: 85px; min-width: 80px; }
+.th-gift { min-width: 105px; max-width: 140px; }
+.th-store { width: 85px; max-width: 105px; }
+.th-num { width: 62px; }
+.th-check { width: 46px; }
+.th-delivery { width: 80px; min-width: 76px; }
+.th-action { width: 50px; }
+
+/* Row Hover & Selection Highlight (Warm Tan background as seen on row 3 in user image) */
+.gifts-table tbody tr.gift-table-row:hover td,
+.gifts-table tbody tr.gift-table-row.selected-row td {
+  background-color: #eae3d7 !important;
+}
+
+body.dark-theme .gifts-table tbody tr.gift-table-row:hover td,
+body.dark-theme .gifts-table tbody tr.gift-table-row.selected-row td {
+  background-color: #2b392e !important;
+}
+
+.gifts-table th.text-center, .gifts-table td.text-center {
+  text-align: center;
+}
+
+.gifts-table th.text-right, .gifts-table td.text-right {
+  text-align: right;
+}
+
+/* Recipient & Gift Cell Styling */
+.recipient-cell-name {
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: #1a201c;
+  white-space: nowrap;
+}
+
+body.dark-theme .recipient-cell-name {
+  color: #f1f4f0;
+}
+
+.gift-name-cell {
+  font-weight: 600;
+  color: #2c332e;
+  line-height: 1.25;
+  font-size: 0.78rem;
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body.dark-theme .gift-name-cell {
+  color: #e1e7df;
+}
+
+.store-cell {
+  color: #5d665f;
+  font-size: 0.74rem;
+  max-width: 105px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body.dark-theme .store-cell {
+  color: #a0aba0;
+}
+
+.price-cell {
+  font-feature-settings: "tnum";
+  font-weight: 600;
+  color: #232924;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+body.dark-theme .price-cell {
+  color: #e5ece3;
+}
+
+/* Bold dark Diff cell (Exact matching user screenshot -$10.00 / +$2.00) */
+.diff-cell {
+  font-feature-settings: "tnum";
+  white-space: nowrap;
+}
+
+.diff-cell strong {
+  font-weight: 800;
+  color: #1a201c;
+  font-size: 0.78rem;
+}
+
+body.dark-theme .diff-cell strong {
+  color: #ffffff;
+}
+
+/* Custom Evergreen Checkboxes (Exact matching user screenshot) */
+.custom-check-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.custom-check-container input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.custom-check-box {
+  width: 18px;
+  height: 18px;
+  border: 1.6px solid #a39c91;
+  border-radius: 4px;
+  background-color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-theme .custom-check-box {
+  background-color: #1a241c;
+  border-color: #647366;
+}
+
+.custom-check-container:hover .custom-check-box {
+  border-color: #266e40;
+  transform: scale(1.05);
+}
+
+/* Checked State: Solid Deep Evergreen + Crisp White SVG Checkmark */
+.custom-check-container input:checked + .custom-check-box {
+  background-color: #266e40;
+  border-color: #266e40;
+}
+
+.custom-check-box .check-icon {
+  width: 11px;
+  height: 9px;
+  stroke: #ffffff;
+  stroke-width: 2.2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: none;
+}
+
+.custom-check-container input:checked + .custom-check-box .check-icon {
+  display: block;
+}
+
+/* Soft Neutral Beige Delivery Badge Pill */
+.delivery-badge-pill {
+  font-size: 0.67rem;
+  color: #423c34;
+  font-weight: 700;
+  background: #ece4d8;
+  padding: 0.16rem 0.48rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+body.dark-theme .delivery-badge-pill {
+  background: #2b362c;
+  color: #d1dcd0;
+}
+
+/* Actions Column */
+.btn-table-action {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.76rem;
+  padding: 0.1rem 0.18rem;
+  line-height: 1;
+  border-radius: 4px;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  opacity: 0.7;
+}
+
+.btn-table-action:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+/* Dedicated Gifts Search & Filter Bar - Compact */
+.gifts-filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filter-search-box {
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 10px;
+  padding: 0.38rem 0.75rem;
+  gap: 0.45rem;
+  flex: 1;
+  min-width: 200px;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-search-box .search-icon {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--text-primary);
+}
+
+.filter-dropdowns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filter-select {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 10px;
+  padding: 0.38rem 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Table Footer Summary Strip */
+.table-footer-strip {
+  padding: 0.55rem 0.85rem;
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border-card);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Recipients Page Overview Banner */
+.recipients-overview-banner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .recipients-overview-banner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.rec-stat-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  padding: 0.75rem 0.85rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.rec-stat-label {
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+}
+
+.rec-stat-val {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+/* Recipient Filter Pills */
+.recipient-filter-pills {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.rec-filter-pill {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 999px;
+  padding: 0.4rem 0.95rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.rec-filter-pill:hover {
+  border-color: var(--festive-green);
+  color: var(--festive-green);
+}
+
+.rec-filter-pill.active {
+  background: var(--festive-green);
+  border-color: var(--festive-green);
+  color: #ffffff;
+  box-shadow: 0 2px 8px var(--festive-green-glow);
+}
+
+/* ==========================================================================
+   IDEA BANK & SHOPPING LIST TABS - Compact
+   ========================================================================== */
+
+.ideas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.85rem;
+}
+
+.idea-card {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  padding: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.65rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.shopping-stores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.85rem;
+}
+
+.store-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: var(--shadow-card);
+}
+
+.store-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.65rem;
+  margin-bottom: 0.65rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.store-card-header h3 {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.store-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0;
+  font-size: 0.82rem;
+}
+
+/* ==========================================================================
+   SETTINGS TAB - Compact
+   ========================================================================== */
+
+.settings-card {
+  max-width: 540px;
+}
+
+.settings-group {
+  margin-bottom: 1.15rem;
+}
+
+.settings-group label {
+  display: block;
+  font-size: 0.80rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.settings-inline {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.input-control {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.82rem;
+  outline: none;
+  width: 100%;
+}
+
+.input-control:focus {
+  border-color: var(--festive-red);
+}
+
+.btn-save {
+  background: var(--festive-green);
+  color: #fff;
+  border: none;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  font-size: 0.80rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-secondary {
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+  border: 1px solid var(--border-card);
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.80rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-danger {
+  background: var(--festive-red-subtle);
+  color: var(--festive-red);
+  border: 1px solid var(--festive-red);
+  padding: 0.65rem 1.15rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   MODALS / DIALOGS
+   ========================================================================== */
+
+.ay-modal {
+  border: none;
+  border-radius: 16px;
+  padding: 0;
+  margin: auto;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  max-width: 420px;
+  width: 90%;
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.ay-modal::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  padding: 1.35rem;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-header h3 {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.85rem;
+}
+
+.modal-field label {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+}
+
+.modal-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.15rem;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.app-footer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.footer-pills {
+  display: inline-block;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  padding: 0.45rem 1.15rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  box-shadow: var(--shadow-sm);
+}
+
+.footer-pills span {
+  color: var(--text-secondary);
+}
