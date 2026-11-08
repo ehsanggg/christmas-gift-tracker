@@ -291,139 +291,10 @@
   </div>
 
   <!-- ==================== MAIN APPLICATION SHELL ==================== -->
-  <div id="app-shell" class="hidden flex min-h-screen w-full relative">
+    <div id="app-shell" class="hidden flex flex-col min-h-screen w-full relative bg-[#F7FBF9] dark:bg-[#07130E]">
 
-    <!-- Mobile Sidebar Dark Overlay -->
-    <div id="sidebar-overlay" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden lg:hidden"></div>
-
-    <!-- LEFT FESTIVE SIDEBAR -->
-    <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-56 lg:w-60 bg-white dark:bg-[#0D1C15] border-r border-forest-100 dark:border-forest-900/60 flex flex-col justify-between transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none text-xs">
-      
-      <div class="p-3.5 sm:p-4 flex flex-col min-h-0 flex-1">
-        <!-- Brand Header in Sidebar -->
-        <div class="flex items-center justify-between pb-3 border-b border-forest-100 dark:border-forest-900/60 shrink-0">
-          <div class="flex items-center space-x-2.5 cursor-pointer select-none" onclick="switchView('dashboard')">
-            <img src="logo.jpg" alt="AvyoraCo Logo" class="w-8 h-8 rounded-xl object-cover shadow-xs ring-2 ring-emerald-500/20">
-            <div>
-              <h1 class="text-xs font-extrabold tracking-tight text-forest-900 dark:text-forest-50 leading-tight">AvyoraCo</h1>
-              <span class="text-[9px] font-bold text-forest-500 dark:text-forest-400 block">Christmas Tracker</span>
-            </div>
-          </div>
-          <button onclick="toggleMobileSidebar()" class="p-1 rounded-lg text-forest-400 hover:text-forest-700 dark:hover:text-forest-200 lg:hidden hover:bg-forest-50 dark:hover:bg-forest-900/40">
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
-        </div>
-
-        <!-- Holiday Navigation Menu -->
-        <nav class="mt-4 space-y-1 overflow-y-auto pr-0.5 flex-1">
-          <!-- 1. Dashboard / Recipients -->
-          <button id="nav-dashboard" onclick="switchView('dashboard')" class="nav-item nav-active w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all">
-            <div class="flex items-center space-x-2.5">
-              <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
-              <span>Dashboard</span>
-            </div>
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-          </button>
-
-          <!-- 2. Master Gifts Table (Matching Screenshot) -->
-          <button id="nav-gifts" onclick="switchView('gifts')" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all">
-            <div class="flex items-center space-x-2.5">
-              <i data-lucide="gift" class="w-3.5 h-3.5 text-festiveRed"></i>
-              <span>Gifts Table</span>
-            </div>
-            <span id="sidebar-gifts-badge" class="px-1.5 py-0.5 rounded-full text-[9px] font-extrabold bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-300">
-              0
-            </span>
-          </button>
-
-          <!-- 3. Master Shopping List (New Feature!) -->
-          <button id="nav-shopping" onclick="switchView('shopping')" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all">
-            <div class="flex items-center space-x-2.5">
-              <i data-lucide="shopping-cart" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
-              <span>Shopping List</span>
-            </div>
-            <span id="sidebar-shopping-badge" class="px-1.5 py-0.5 rounded-full text-[9px] font-extrabold bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300">
-              0 To Buy
-            </span>
-          </button>
-
-          <!-- 3. Holiday Cards Section Shortcut -->
-          <button onclick="switchView('dashboard'); scrollToSection('holiday-cards');" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all">
-            <div class="flex items-center space-x-2.5">
-              <i data-lucide="mail" class="w-3.5 h-3.5 text-rose-500"></i>
-              <span>Cards & Mailing</span>
-            </div>
-            <span id="sidebar-cards-badge" class="text-[9px] text-forest-400">💌</span>
-          </button>
-
-          <!-- 4. Stocking Stuffers Shortcut -->
-          <button onclick="switchView('dashboard'); scrollToSection('stocking-stuffers');" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all">
-            <div class="flex items-center space-x-2.5">
-              <i data-lucide="gift" class="w-3.5 h-3.5 text-amber-600"></i>
-              <span>Stocking Stuffers</span>
-            </div>
-            <span class="text-[9px] text-forest-400">🧦</span>
-          </button>
-
-          <!-- 5. Holiday Progress Shortcut -->
-          <button onclick="switchView('dashboard'); scrollToSection('progress');" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all">
-            <div class="flex items-center space-x-2.5">
-              <i data-lucide="trending-up" class="w-3.5 h-3.5 text-emerald-500"></i>
-              <span>Gift Progress</span>
-            </div>
-            <span class="text-[9px] text-forest-400">📊</span>
-          </button>
-
-          <!-- 6. Set Holiday Budget -->
-          <button onclick="openSetBudgetModal()" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all">
-            <div class="flex items-center space-x-2.5">
-              <i data-lucide="wallet" class="w-3.5 h-3.5 text-champagne-gold"></i>
-              <span>Budget Settings</span>
-            </div>
-            <i data-lucide="sliders" class="w-3 h-3 text-forest-400"></i>
-          </button>
-        </nav>
-      </div>
-
-      <!-- Sidebar Footer -->
-      <div class="p-3.5 sm:p-4 pt-0 space-y-2 shrink-0">
-        <!-- Festive Mindfulness Joy Card -->
-        <div onclick="triggerFestiveConfetti()" class="p-2.5 rounded-xl bg-forest-50 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800 flex items-center justify-between cursor-pointer group hover:bg-forest-100 dark:hover:bg-forest-900/70 transition-all" title="Celebrate Holiday Progress!">
-          <div class="flex items-center space-x-2">
-            <div class="w-7 h-7 rounded-full bg-amber-100 dark:bg-amber-950/80 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0 text-xs shadow-xs group-hover:scale-110 transition-transform">
-              🎄
-            </div>
-            <div>
-              <p class="text-[11px] font-bold text-forest-900 dark:text-forest-100 leading-tight">Peaceful Gifting</p>
-              <p class="text-[10px] text-forest-500 dark:text-forest-400">Small Steps ✨</p>
-            </div>
-          </div>
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-champagne-gold group-hover:rotate-12 transition-transform"></i>
-        </div>
-
-        <!-- User Profile Pill & Quick Logout -->
-        <div class="p-2 rounded-xl bg-white dark:bg-forest-950 border border-forest-100 dark:border-forest-900 flex items-center justify-between shadow-xs">
-          <div class="flex items-center space-x-2 min-w-0">
-            <div class="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center font-bold text-xs text-emerald-800 dark:text-emerald-200 shrink-0">
-              🎅
-            </div>
-            <div class="min-w-0">
-              <p id="sidebar-user-name" class="text-[11px] font-bold text-forest-900 dark:text-forest-100 truncate">Holiday Host</p>
-              <p class="text-[9px] text-forest-500 dark:text-forest-400 truncate">Christmas 2026</p>
-            </div>
-          </div>
-          <button onclick="handleLogout()" title="Log Out" class="p-1 rounded-lg text-forest-400 hover:text-festiveRed hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors">
-            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
-          </button>
-        </div>
-      </div>
-    </aside>
-
-    <!-- RIGHT MAIN CONTENT (Padded for Desktop Sidebar: lg:pl-60) -->
-    <div class="flex-1 lg:pl-60 flex flex-col min-w-0 min-h-screen">
-
-      <!-- 1. TOP BOTANICAL CHRISTMAS GARLAND HEADER (With realistic evergreen leaves, berries & pine needles) -->
-      <header class="christmas-garland-wrap pt-2.5 pb-6 px-4 sm:px-6 text-white relative shadow-md">
+    <!-- 1. TOP BOTANICAL CHRISTMAS GARLAND HEADER (With realistic evergreen leaves, berries & pine needles) -->
+      <header id="app-header" class="christmas-garland-wrap w-full pt-2.5 pb-5 px-4 sm:px-8 text-white relative shadow-md shrink-0 z-30">
       
       <!-- Authentic Christmas Tree Evergreen Pine & Fir Garland Layer -->
       <svg class="garland-svg-layer" viewBox="0 0 1440 68" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice">
@@ -668,11 +539,145 @@
       </div>
     </header>
 
+    <!-- 2. WORKSPACE CONTAINER (SIDEBAR UNDER HEADER + EXPANDED WORKSPACE) -->
+    <div class="flex flex-1 w-full min-h-0 relative">
+
+    <!-- Mobile Sidebar Dark Overlay -->
+    <div id="sidebar-overlay" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden lg:hidden"></div>
+
+    <!-- LEFT FESTIVE SIDEBAR -->
+    <aside id="app-sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-56 lg:w-56 bg-white dark:bg-[#0D1C15] border-r border-forest-100 dark:border-forest-900/60 flex flex-col justify-between transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none text-xs shrink-0 self-stretch">
+      
+      <div class="p-3.5 sm:p-4 flex flex-col min-h-0 flex-1">
+        <!-- Brand Header in Sidebar -->
+        <div class="flex items-center justify-between pb-3 border-b border-forest-100 dark:border-forest-900/60 shrink-0">
+          <div class="flex items-center space-x-2.5 cursor-pointer select-none" onclick="switchView('dashboard')">
+            <img src="logo.jpg" alt="AvyoraCo Logo" class="w-8 h-8 rounded-xl object-cover shadow-xs ring-2 ring-emerald-500/20">
+            <div>
+              <h1 class="text-xs font-extrabold tracking-tight text-forest-900 dark:text-forest-50 leading-tight">AvyoraCo</h1>
+              <span class="text-[9px] font-bold text-forest-500 dark:text-forest-400 block">Christmas Tracker</span>
+            </div>
+          </div>
+          <button onclick="toggleMobileSidebar()" class="p-1 rounded-lg text-forest-400 hover:text-forest-700 dark:hover:text-forest-200 lg:hidden hover:bg-forest-50 dark:hover:bg-forest-900/40">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Holiday Navigation Menu -->
+        <nav class="mt-4 space-y-1 overflow-y-auto pr-0.5 flex-1">
+          <!-- 1. Dashboard / Recipients -->
+          <button id="nav-dashboard" onclick="switchView('dashboard')" class="nav-item nav-active w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all">
+            <div class="flex items-center space-x-2.5">
+              <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
+              <span>Dashboard</span>
+            </div>
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          </button>
+
+          <!-- 2. Master Gifts Table (Matching Screenshot) -->
+          <button id="nav-gifts" onclick="switchView('gifts')" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all">
+            <div class="flex items-center space-x-2.5">
+              <i data-lucide="gift" class="w-3.5 h-3.5 text-festiveRed"></i>
+              <span>Gifts Table</span>
+            </div>
+            <span id="sidebar-gifts-badge" class="px-1.5 py-0.5 rounded-full text-[9px] font-extrabold bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-300">
+              0
+            </span>
+          </button>
+
+          <!-- 3. Master Shopping List (New Feature!) -->
+          <button id="nav-shopping" onclick="switchView('shopping')" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all">
+            <div class="flex items-center space-x-2.5">
+              <i data-lucide="shopping-cart" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
+              <span>Shopping List</span>
+            </div>
+            <span id="sidebar-shopping-badge" class="px-1.5 py-0.5 rounded-full text-[9px] font-extrabold bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300">
+              0 To Buy
+            </span>
+          </button>
+
+          <!-- 3. Holiday Cards Section Shortcut -->
+          <button onclick="switchView('dashboard'); scrollToSection('holiday-cards');" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all">
+            <div class="flex items-center space-x-2.5">
+              <i data-lucide="mail" class="w-3.5 h-3.5 text-rose-500"></i>
+              <span>Cards & Mailing</span>
+            </div>
+            <span id="sidebar-cards-badge" class="text-[9px] text-forest-400">💌</span>
+          </button>
+
+          <!-- 4. Stocking Stuffers Shortcut -->
+          <button onclick="switchView('dashboard'); scrollToSection('stocking-stuffers');" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all">
+            <div class="flex items-center space-x-2.5">
+              <i data-lucide="gift" class="w-3.5 h-3.5 text-amber-600"></i>
+              <span>Stocking Stuffers</span>
+            </div>
+            <span class="text-[9px] text-forest-400">🧦</span>
+          </button>
+
+          <!-- 5. Holiday Progress Shortcut -->
+          <button onclick="switchView('dashboard'); scrollToSection('progress');" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all">
+            <div class="flex items-center space-x-2.5">
+              <i data-lucide="trending-up" class="w-3.5 h-3.5 text-emerald-500"></i>
+              <span>Gift Progress</span>
+            </div>
+            <span class="text-[9px] text-forest-400">📊</span>
+          </button>
+
+          <!-- 6. Set Holiday Budget -->
+          <button onclick="openSetBudgetModal()" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all">
+            <div class="flex items-center space-x-2.5">
+              <i data-lucide="wallet" class="w-3.5 h-3.5 text-champagne-gold"></i>
+              <span>Budget Settings</span>
+            </div>
+            <i data-lucide="sliders" class="w-3 h-3 text-forest-400"></i>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="p-3.5 sm:p-4 pt-0 space-y-2 shrink-0">
+        <!-- Festive Mindfulness Joy Card -->
+        <div onclick="triggerFestiveConfetti()" class="p-2.5 rounded-xl bg-forest-50 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800 flex items-center justify-between cursor-pointer group hover:bg-forest-100 dark:hover:bg-forest-900/70 transition-all" title="Celebrate Holiday Progress!">
+          <div class="flex items-center space-x-2">
+            <div class="w-7 h-7 rounded-full bg-amber-100 dark:bg-amber-950/80 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0 text-xs shadow-xs group-hover:scale-110 transition-transform">
+              🎄
+            </div>
+            <div>
+              <p class="text-[11px] font-bold text-forest-900 dark:text-forest-100 leading-tight">Peaceful Gifting</p>
+              <p class="text-[10px] text-forest-500 dark:text-forest-400">Small Steps ✨</p>
+            </div>
+          </div>
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-champagne-gold group-hover:rotate-12 transition-transform"></i>
+        </div>
+
+        <!-- User Profile Pill & Quick Logout -->
+        <div class="p-2 rounded-xl bg-white dark:bg-forest-950 border border-forest-100 dark:border-forest-900 flex items-center justify-between shadow-xs">
+          <div class="flex items-center space-x-2 min-w-0">
+            <div class="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center font-bold text-xs text-emerald-800 dark:text-emerald-200 shrink-0">
+              🎅
+            </div>
+            <div class="min-w-0">
+              <p id="sidebar-user-name" class="text-[11px] font-bold text-forest-900 dark:text-forest-100 truncate">Holiday Host</p>
+              <p class="text-[9px] text-forest-500 dark:text-forest-400 truncate">Christmas 2026</p>
+            </div>
+          </div>
+          <button onclick="handleLogout()" title="Log Out" class="p-1 rounded-lg text-forest-400 hover:text-festiveRed hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors">
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT MAIN CONTENT (Padded for Desktop Sidebar: lg:pl-60) -->
+    <div class="flex-1 flex flex-col min-w-0">
+
+      
+
     <!-- 2. MAIN DASHBOARD CONTENT (PINE FOREST GREEN + SNOW WHITE AESTHETIC) -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-3.5 sm:p-5 lg:p-6 space-y-5">
+    <main class="flex-1 w-full max-w-full px-4 sm:px-6 lg:px-8 py-5 space-y-6">
 
       <!-- TOP NAVIGATION PILL TABS (MATCHING ETSY SCREENSHOT) -->
-      <div class="flex items-center justify-between gap-2.5 flex-wrap no-print pb-0.5">
+      <div class="flex items-center justify-between gap-2.5 flex-wrap no-print pb-3.5 sm:pb-4 border-b border-forest-100 dark:border-forest-900/60">
         <div class="flex items-center space-x-1.5 overflow-x-auto pb-0.5 text-xs font-bold" id="top-pill-navigation">
           <button onclick="switchView('dashboard')" id="pill-nav-dashboard" class="pill-tab-btn px-3.5 py-1.5 rounded-full bg-forest-600 text-white shadow-xs flex items-center space-x-1.5 transition-all">
             <span>🌟</span>
@@ -698,10 +703,10 @@
       </div>
 
       <!-- ==================== VIEW 1: HOLIDAY DASHBOARD ==================== -->
-      <div id="view-dashboard" class="space-y-6">
+      <div id="view-dashboard" class="space-y-6 pt-3 sm:pt-4">
 
         <!-- A. FOUR STAT SUMMARY CARDS -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 -mt-6 relative z-20">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 relative z-20">
         <!-- 1. Total Holiday Budget -->
         <div class="glass-card rounded-2xl p-3.5 sm:p-4 shadow-sm space-y-1.5 border-t-3 border-t-forest-500">
           <div class="flex items-center justify-between text-xs font-semibold text-forest-600 dark:text-forest-300">
@@ -1001,7 +1006,7 @@
       </div> <!-- End #view-dashboard -->
 
       <!-- ==================== VIEW 2: MASTER GIFTS TABLE (EXACT ETSY FORMAT) ==================== -->
-      <div id="view-gifts" class="hidden space-y-6">
+      <div id="view-gifts" class="hidden space-y-6 pt-3 sm:pt-4">
 
         <!-- Gifts Table Hero Bar -->
         <div class="glass-card rounded-2xl p-4 sm:p-5 shadow-sm border border-emerald-100 dark:border-emerald-900/60 relative overflow-hidden space-y-4">
@@ -1126,27 +1131,42 @@
         </div>
 
         <!-- Master Gifts Table (Styling Matching Exactly The Screenshot) -->
-        <div class="glass-card rounded-3xl overflow-hidden shadow-xl border border-forest-100 dark:border-forest-900/60">
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse">
+        <div class="glass-card rounded-2xl overflow-hidden shadow-sm border border-forest-100 dark:border-forest-900/60">
+          <div class="w-full overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse table-fixed">
+              <colgroup>
+                <col class="w-[7%]">     <!-- Group -->
+                <col class="w-[9%]">     <!-- Recipient -->
+                <col class="w-[18%]">    <!-- Gift Item -->
+                <col class="w-[11%]">    <!-- Store / Courier -->
+                <col class="w-[6.5%]">   <!-- Budget -->
+                <col class="w-[6.5%]">   <!-- Actual -->
+                <col class="w-[6.5%]">   <!-- Diff (+/-) -->
+                <col class="w-[14%]">    <!-- Shipping & Status -->
+                <col class="w-[4%]">     <!-- Bought -->
+                <col class="w-[4%]">     <!-- Wrapped -->
+                <col class="w-[4%]">     <!-- Sent -->
+                <col class="w-[7.5%]">   <!-- Delivery -->
+                <col class="w-[7%]">     <!-- Actions -->
+              </colgroup>
               <thead>
                 <tr class="bg-forest-50/90 dark:bg-forest-900/60 border-b border-forest-100 dark:border-forest-900 text-forest-600 dark:text-forest-300 font-bold uppercase tracking-wider text-[9px]">
-                  <th class="py-2 px-2.5">Group</th>
-                  <th class="py-2 px-2.5">Recipient</th>
-                  <th class="py-2 px-3">Gift Item</th>
-                  <th class="py-2 px-2.5">Store / Courier</th>
-                  <th class="py-2 px-2.5 text-right">Budget</th>
-                  <th class="py-2 px-2.5 text-right">Actual</th>
-                  <th class="py-2 px-2.5 text-right">Diff (+/-)</th>
-                  <th class="py-2 px-2.5 text-center">Shipping & Status</th>
-                  <th class="py-2 px-1.5 text-center" title="Bought Checkbox">Bought</th>
-                  <th class="py-2 px-1.5 text-center" title="Wrapped Checkbox">Wrapped</th>
-                  <th class="py-2 px-1.5 text-center" title="Sent / Received Checkbox">Sent</th>
-                  <th class="py-2 px-2.5 text-center">Delivery</th>
-                  <th class="py-2 px-2.5 text-center w-24 no-print">Actions</th>
+                  <th class="py-2 px-1.5 truncate">Group</th>
+                  <th class="py-2 px-1.5 truncate">Recipient</th>
+                  <th class="py-2 px-2 truncate">Gift Item</th>
+                  <th class="py-2 px-1.5 truncate">Store / Courier</th>
+                  <th class="py-2 px-1.5 text-right whitespace-nowrap">Budget</th>
+                  <th class="py-2 px-1.5 text-right whitespace-nowrap">Actual</th>
+                  <th class="py-2 px-1.5 text-right whitespace-nowrap">Diff (+/-)</th>
+                  <th class="py-2 px-1.5 text-center truncate">Status & Tracking</th>
+                  <th class="py-2 px-0.5 text-center" title="Bought Checkbox">Bought</th>
+                  <th class="py-2 px-0.5 text-center" title="Wrapped Checkbox">Wrapped</th>
+                  <th class="py-2 px-0.5 text-center" title="Sent / Received Checkbox">Sent</th>
+                  <th class="py-2 px-1 text-center truncate">Delivery</th>
+                  <th class="py-2 px-1 text-center no-print">Actions</th>
                 </tr>
               </thead>
-              <tbody id="gifts-master-table-body" class="divide-y divide-forest-100/70 dark:divide-forest-900/60 font-medium">
+              <tbody id="gifts-master-table-body" class="divide-y divide-forest-100/70 dark:divide-forest-900/60 font-medium text-[11px]">
                 <!-- Dynamically rendered via renderGiftsTable() -->
               </tbody>
             </table>
@@ -1165,7 +1185,7 @@
       </div> <!-- End #view-gifts -->
 
       <!-- ==================== VIEW 3: MASTER SHOPPING LIST PAGE ==================== -->
-      <div id="view-shopping" class="hidden space-y-6">
+      <div id="view-shopping" class="hidden space-y-6 pt-3 sm:pt-4">
         
         <!-- Shopping Hero Banner -->
         <div class="glass-card rounded-2xl p-4 sm:p-5 shadow-sm border border-emerald-100 dark:border-emerald-900/60 relative overflow-hidden space-y-4">
@@ -1323,7 +1343,8 @@
         <span class="text-[11px] text-forest-400">Automatic Cloud Sync Enabled</span>
       </div>
     </footer>
-  </div> <!-- End Right Main Content lg:pl-72 -->
+      </div> <!-- End Right Main Content -->
+    </div> <!-- End WORKSPACE CONTAINER -->
   </div> <!-- End #app-shell -->
 
   <!-- ==================== MODALS ==================== -->
@@ -2581,102 +2602,102 @@
         return `
           <tr class="hover:bg-forest-50/60 dark:hover:bg-forest-900/40 transition-colors ${isComplete ? 'bg-emerald-50/20 dark:bg-emerald-950/10' : ''}">
             <!-- 1. Group -->
-            <td class="py-2 px-2.5">
-              <span class="inline-block px-2 py-0.5 rounded-lg text-[9px] font-bold ${getGroupPillStyle(item.recipientGroup)}">
+            <td class="py-1.5 px-1 truncate">
+              <span class="inline-block px-1.5 py-0.5 rounded text-[8.5px] font-bold truncate max-w-full ${getGroupPillStyle(item.recipientGroup)}">
                 ${escapeHtml(item.recipientGroup)}
               </span>
             </td>
 
             <!-- 2. Recipient -->
-            <td class="py-2 px-2.5 font-bold text-forest-900 dark:text-forest-100 ${isComplete ? 'line-through opacity-70' : ''}">
+            <td class="py-1.5 px-1 font-bold text-forest-900 dark:text-forest-100 truncate ${isComplete ? 'line-through opacity-70' : ''}">
               ${escapeHtml(item.recipientName)}
             </td>
 
             <!-- 3. Gift Item -->
-            <td class="py-2 px-3">
-              <div class="flex items-center space-x-1.5">
-                <span class="font-semibold text-forest-900 dark:text-forest-100 ${isComplete ? 'line-through opacity-70' : ''}">
+            <td class="py-1.5 px-1.5">
+              <div class="flex items-center space-x-1 min-w-0">
+                <span class="font-semibold text-forest-900 dark:text-forest-100 truncate ${isComplete ? 'line-through opacity-70' : ''}">
                   ${escapeHtml(item.name)}
                 </span>
                 ${item.storeLink && item.storeLink.startsWith('http') ? `
-                  <a href="${escapeHtml(item.storeLink)}" target="_blank" rel="noopener noreferrer" class="text-forest-400 hover:text-forest-700 dark:hover:text-forest-200 inline-block ml-1" title="Open Store URL">
-                    <i data-lucide="external-link" class="w-3 h-3 inline"></i>
+                  <a href="${escapeHtml(item.storeLink)}" target="_blank" rel="noopener noreferrer" class="text-forest-400 hover:text-forest-700 dark:hover:text-forest-200 shrink-0" title="Open Store URL">
+                    <i data-lucide="external-link" class="w-2.5 h-2.5 inline"></i>
                   </a>
                 ` : ''}
               </div>
             </td>
 
             <!-- 4. Store / Courier -->
-            <td class="py-2 px-2.5 text-forest-600 dark:text-forest-400 text-[11px]">
-              <div class="font-semibold text-forest-800 dark:text-forest-200 truncate max-w-[110px]">${escapeHtml(item.store)}</div>
-              ${item.carrier ? `<div class="text-[9px] text-forest-500 font-medium flex items-center space-x-1 mt-0.5"><span class="text-xs">🚚</span><span>${escapeHtml(item.carrier)}</span></div>` : ''}
+            <td class="py-1.5 px-1 text-forest-600 dark:text-forest-400 text-[10px] truncate">
+              <div class="font-semibold text-forest-800 dark:text-forest-200 truncate">${escapeHtml(item.store)}</div>
+              ${item.carrier ? `<div class="text-[8.5px] text-forest-500 font-medium truncate flex items-center space-x-0.5"><span>🚚</span><span class="truncate">${escapeHtml(item.carrier)}</span></div>` : ''}
             </td>
 
             <!-- 5. Budget -->
-            <td class="py-2 px-2.5 text-right font-medium text-forest-700 dark:text-forest-300">
+            <td class="py-1.5 px-1 text-right font-medium text-forest-700 dark:text-forest-300 whitespace-nowrap text-[11px]">
               ${formatMoney(item.budgetPrice)}
             </td>
 
             <!-- 6. Actual -->
-            <td class="py-2 px-2.5 text-right font-bold text-forest-900 dark:text-forest-100">
+            <td class="py-1.5 px-1 text-right font-bold text-forest-900 dark:text-forest-100 whitespace-nowrap text-[11px]">
               ${formatMoney(item.actualPrice)}
             </td>
 
             <!-- 7. Variance (+/-) -->
-            <td class="py-2 px-2.5 text-right text-[11px]">
+            <td class="py-1.5 px-1 text-right text-[10px] whitespace-nowrap">
               ${diffDisplay}
             </td>
 
             <!-- 8. Shipping & Status (Interactive 1-Tap Cycler & Tracking Chip) -->
-            <td class="py-2 px-2.5 text-center">
-              <button onclick="cycleGiftStatus('${item.recipientId}', '${item.id}')" class="px-2 py-0.5 rounded-lg text-[9px] font-bold border transition-all shadow-xs inline-flex items-center space-x-1 hover:scale-105 cursor-pointer ${statusCfg.pillClass}" title="Click to advance status to next stage">
+            <td class="py-1.5 px-1 text-center truncate">
+              <button onclick="cycleGiftStatus('${item.recipientId}', '${item.id}')" class="px-1.5 py-0.5 rounded text-[8.5px] font-bold border transition-all shadow-xs inline-flex items-center space-x-0.5 hover:scale-105 cursor-pointer whitespace-nowrap ${statusCfg.pillClass}" title="Click to advance status to next stage">
                 <span>${statusCfg.icon}</span>
                 <span>${statusCfg.label}</span>
               </button>
               ${item.trackingNumber ? `
-                <div class="mt-1 text-center">
-                  <a href="${trackingUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-[9px] font-mono font-bold text-sky-700 dark:text-sky-300 hover:underline bg-sky-50 dark:bg-sky-950/70 px-1.5 py-0.5 rounded border border-sky-200/60" title="Track with ${escapeHtml(item.carrier || 'carrier')}">
-                    <span>${escapeHtml(item.carrier || 'TRK')} #${escapeHtml(item.trackingNumber.length > 10 ? item.trackingNumber.slice(0, 8) + '…' : item.trackingNumber)}</span>
-                    <i data-lucide="external-link" class="w-2.5 h-2.5 inline"></i>
+                <div class="mt-0.5 text-center">
+                  <a href="${trackingUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-0.5 text-[8px] font-mono font-bold text-sky-700 dark:text-sky-300 hover:underline bg-sky-50 dark:bg-sky-950/70 px-1 py-0.2 rounded border border-sky-200/60 max-w-full truncate" title="Track with ${escapeHtml(item.carrier || 'carrier')}">
+                    <span class="truncate">#${escapeHtml(item.trackingNumber.length > 8 ? item.trackingNumber.slice(0, 6) + '…' : item.trackingNumber)}</span>
+                    <i data-lucide="external-link" class="w-2 h-2 inline shrink-0"></i>
                   </a>
                 </div>
               ` : ''}
-              ${item.expectedDate ? `<div class="text-[9px] text-forest-400 dark:text-forest-500 mt-0.5 text-center font-medium">Est: ${escapeHtml(item.expectedDate)}</div>` : ''}
             </td>
 
             <!-- 9. Bought Checkbox -->
-            <td class="py-2 px-1.5 text-center">
+            <td class="py-1.5 px-0.5 text-center">
               <input type="checkbox" ${item.isBought ? 'checked' : ''} onchange="toggleGiftCheckbox('${item.recipientId}', '${item.id}', 'bought')" class="w-3.5 h-3.5 rounded text-forest-600 focus:ring-forest-500 cursor-pointer accent-forest-600">
             </td>
 
             <!-- 10. Wrapped Checkbox -->
-            <td class="py-2 px-1.5 text-center">
+            <td class="py-1.5 px-0.5 text-center">
               <input type="checkbox" ${item.isWrapped ? 'checked' : ''} onchange="toggleGiftCheckbox('${item.recipientId}', '${item.id}', 'wrapped')" class="w-3.5 h-3.5 rounded text-forest-600 focus:ring-forest-500 cursor-pointer accent-forest-600">
             </td>
 
             <!-- 11. Sent / Received Checkbox -->
-            <td class="py-2 px-1.5 text-center">
+            <td class="py-1.5 px-0.5 text-center">
               <input type="checkbox" ${item.isSent ? 'checked' : ''} onchange="toggleGiftCheckbox('${item.recipientId}', '${item.id}', 'sent')" class="w-3.5 h-3.5 rounded text-forest-600 focus:ring-forest-500 cursor-pointer accent-forest-600">
             </td>
 
             <!-- 12. Delivery Method Toggle -->
-            <td class="py-2 px-2.5 text-center">
-              <button onclick="toggleGiftDeliveryMethod('${item.recipientId}', '${item.id}')" class="px-2 py-0.5 rounded-lg text-[9px] font-bold transition-all shadow-xs ${item.deliveryMethod === 'Mail' ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-200' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200'}" title="Click to toggle between In Person and Mail">
+            <td class="py-1.5 px-1 text-center truncate">
+              <button onclick="toggleGiftDeliveryMethod('${item.recipientId}', '${item.id}')" class="px-1.5 py-0.5 rounded text-[8.5px] font-bold transition-all shadow-xs whitespace-nowrap ${item.deliveryMethod === 'Mail' ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-200' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200'}" title="Click to toggle between In Person and Mail">
                 ${item.deliveryMethod === 'Mail' ? '📦 Mail' : '🤝 In Person'}
               </button>
             </td>
 
             <!-- 13. Actions (Edit & Del) -->
-            <td class="py-2 px-2.5 text-center no-print">
-              <div class="inline-flex items-center space-x-1">
-                <button onclick="openEditGiftModal('${item.recipientId}', '${item.id}')" class="px-2 py-0.5 rounded bg-forest-100 hover:bg-forest-200 dark:bg-forest-900/80 dark:hover:bg-forest-800 text-forest-800 dark:text-forest-200 text-[9px] font-extrabold transition-all border border-forest-200/80 shadow-xs" title="Edit this gift">
+            <td class="py-1.5 px-1 text-center no-print whitespace-nowrap">
+              <div class="inline-flex items-center space-x-1 justify-center">
+                <button onclick="openEditGiftModal('${item.recipientId}', '${item.id}')" class="px-1.5 py-0.5 rounded bg-forest-100 hover:bg-forest-200 dark:bg-forest-900/80 dark:hover:bg-forest-800 text-forest-800 dark:text-forest-200 text-[8.5px] font-extrabold transition-all border border-forest-200/80 shadow-xs whitespace-nowrap" title="Edit this gift">
                   Edit
                 </button>
-                <button onclick="deleteGiftItem('${item.recipientId}', '${item.id}')" class="px-1.5 py-0.5 rounded bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900 text-festiveRed text-[9px] font-bold transition-all border border-rose-200/60 shadow-xs" title="Delete gift">
+                <button onclick="deleteGiftItem('${item.recipientId}', '${item.id}')" class="px-1.5 py-0.5 rounded bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900 text-festiveRed text-[8.5px] font-bold transition-all border border-rose-200/60 shadow-xs whitespace-nowrap" title="Delete gift">
                   Del
                 </button>
               </div>
             </td>
+          </tr>
           </tr>
         `;
       }).join('');
