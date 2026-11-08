@@ -105,7 +105,7 @@
       left: 0;
       right: 0;
       width: 100%;
-      height: 60px;
+      height: 72px;
       pointer-events: none;
       z-index: 10;
     }
@@ -238,100 +238,177 @@
     <!-- 1. TOP BOTANICAL CHRISTMAS GARLAND HEADER (With realistic evergreen leaves, berries & pine needles) -->
     <header class="christmas-garland-wrap pt-3 pb-8 px-4 sm:px-8 text-white relative shadow-lg">
       
-      <!-- Realistic Pine & Holly Botanical Garland Ribbon Layer -->
-      <svg class="garland-svg-layer" viewBox="0 0 1440 64" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <!-- Authentic Christmas Tree Evergreen Pine & Fir Garland Layer -->
+      <svg class="garland-svg-layer" viewBox="0 0 1440 68" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice">
         <defs>
+          <!-- Needle & Foliage Gradients -->
+          <linearGradient id="needleStem" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#5D4037"/>
+            <stop offset="100%" stop-color="#2D1F15"/>
+          </linearGradient>
+          <linearGradient id="needleDark" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#143D27"/>
+            <stop offset="100%" stop-color="#0A2215"/>
+          </linearGradient>
+          <linearGradient id="needleMid" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#287046"/>
+            <stop offset="100%" stop-color="#18482A"/>
+          </linearGradient>
+          <linearGradient id="needleLight" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#4EAA73"/>
+            <stop offset="100%" stop-color="#2A794A"/>
+          </linearGradient>
           <linearGradient id="hollyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#4E8C68"/>
-            <stop offset="50%" stop-color="#2D6343"/>
-            <stop offset="100%" stop-color="#194028"/>
+            <stop offset="0%" stop-color="#3D865B"/>
+            <stop offset="50%" stop-color="#1E5235"/>
+            <stop offset="100%" stop-color="#0E2B1B"/>
           </linearGradient>
-          <linearGradient id="pineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#6DAE87"/>
-            <stop offset="100%" stop-color="#1E4D30"/>
-          </linearGradient>
-          <radialGradient id="berryGrad" cx="35%" cy="35%" r="70%">
-            <stop offset="0%" stop-color="#FF5C59"/>
-            <stop offset="60%" stop-color="#C13B38"/>
-            <stop offset="100%" stop-color="#6E1513"/>
+          <!-- 3D Berry & Bauble Gradients -->
+          <radialGradient id="berry3D" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#FF6B68"/>
+            <stop offset="45%" stop-color="#D32F2F"/>
+            <stop offset="85%" stop-color="#801010"/>
+            <stop offset="100%" stop-color="#450505"/>
           </radialGradient>
+          <radialGradient id="baubleGold" cx="35%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#FFF8E1"/>
+            <stop offset="35%" stop-color="#FFD54F"/>
+            <stop offset="70%" stop-color="#FFA000"/>
+            <stop offset="100%" stop-color="#7A4B00"/>
+          </radialGradient>
+          <radialGradient id="lightGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FFFDE7" stop-opacity="1"/>
+            <stop offset="45%" stop-color="#FFE082" stop-opacity="0.75"/>
+            <stop offset="100%" stop-color="#FFB300" stop-opacity="0"/>
+          </radialGradient>
+
+          <!-- 1. PINE NEEDLE TUFT (Realistic dense spray of Christmas pine needles) -->
+          <g id="pine-tuft">
+            <!-- Shadow Layer Needles -->
+            <path d="M0,0 L-20,15 M0,0 L-14,21 M0,0 L-7,25 M0,0 L0,26 M0,0 L7,25 M0,0 L14,21 M0,0 L20,15" stroke="url(#needleDark)" stroke-width="2.6" stroke-linecap="round"/>
+            <!-- Medium Body Needles -->
+            <path d="M0,0 L-18,12 M0,0 L-11,18 M0,0 L-4,22 M0,0 L3,23 M0,0 L10,20 M0,0 L17,14" stroke="url(#needleMid)" stroke-width="2" stroke-linecap="round"/>
+            <!-- Vibrant Foreground Needle Highlights -->
+            <path d="M0,0 L-14,9 M0,0 L-8,14 M0,0 L-2,17 M0,0 L4,17 M0,0 L9,14 M0,0 L14,9" stroke="url(#needleLight)" stroke-width="1.3" stroke-linecap="round"/>
+            <circle cx="0" cy="0" r="1.5" fill="#3E2723"/>
+          </g>
+
+          <!-- 2. PINE BRANCH BOUGH (LEFT-FACING) -->
+          <g id="fir-bough-left">
+            <path d="M0,0 C15,8 35,16 65,20 C95,24 125,20 145,14" stroke="url(#needleStem)" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+            <use href="#pine-tuft" x="12" y="5" transform="rotate(-30 12 5) scale(0.9)"/>
+            <use href="#pine-tuft" x="35" y="11" transform="rotate(-15 35 11) scale(1)"/>
+            <use href="#pine-tuft" x="65" y="17" transform="rotate(5 65 17) scale(1.1)"/>
+            <use href="#pine-tuft" x="95" y="21" transform="rotate(22 95 21) scale(1.15)"/>
+            <use href="#pine-tuft" x="122" y="18" transform="rotate(40 122 18) scale(1.05)"/>
+            <use href="#pine-tuft" x="145" y="14" transform="rotate(55 145 14) scale(0.95)"/>
+          </g>
+
+          <!-- 3. PINE BRANCH BOUGH (RIGHT-FACING) -->
+          <g id="fir-bough-right">
+            <path d="M0,0 C-15,8 -35,16 -65,20 C-95,24 -125,20 -145,14" stroke="url(#needleStem)" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+            <use href="#pine-tuft" x="-12" y="5" transform="rotate(30 -12 5) scale(0.9)"/>
+            <use href="#pine-tuft" x="-35" y="11" transform="rotate(15 -35 11) scale(1)"/>
+            <use href="#pine-tuft" x="-65" y="17" transform="rotate(-5 -65 17) scale(1.1)"/>
+            <use href="#pine-tuft" x="-95" y="21" transform="rotate(-22 -95 21) scale(1.15)"/>
+            <use href="#pine-tuft" x="-122" y="18" transform="rotate(-40 -122 18) scale(1.05)"/>
+            <use href="#pine-tuft" x="-145" y="14" transform="rotate(-55 -145 14) scale(0.95)"/>
+          </g>
+
+          <!-- 4. NATURAL CHRISTMAS PINECONE -->
+          <g id="pinecone">
+            <path d="M0,-2 C-3,1 -3,5 0,7 C3,5 3,1 0,-2 Z" fill="#3E2723"/>
+            <path d="M-3,2 C-7,4 -7,9 -2,11 C-1,8 -1,5 -3,2 Z" fill="#4E342E"/>
+            <path d="M3,2 C7,4 7,9 2,11 C1,8 1,5 3,2 Z" fill="#4E342E"/>
+            <path d="M-4,7 C-8,10 -7,15 -2,17 C-1,13 -1,10 -4,7 Z" fill="#5D4037"/>
+            <path d="M4,7 C8,10 7,15 2,17 C1,13 1,10 4,7 Z" fill="#5D4037"/>
+            <path d="M0,6 C-4,9 -4,14 0,16 C4,14 4,9 0,6 Z" fill="#6D4C41"/>
+            <path d="M-3,12 C-6,15 -5,20 -1,22 C0,19 0,15 -3,12 Z" fill="#795548"/>
+            <path d="M3,12 C6,15 5,20 1,22 C0,19 0,15 3,12 Z" fill="#795548"/>
+            <path d="M0,13 C-3,16 -3,20 0,22 C3,20 3,16 0,13 Z" fill="#8D6E63"/>
+            <path d="M0,20 C-1,23 0,25 0,26 C0,25 1,23 0,20 Z" fill="#4E342E"/>
+          </g>
+
+          <!-- 5. HOLLY SPRIG WITH CLASSIC SCALLOPED LEAVES & SHINY RED BERRIES -->
+          <g id="holly-sprig">
+            <path d="M0,0 C-3,-5 -7,-5 -8,-1 C-11,-2 -15,1 -13,6 C-17,7 -16,12 -12,14 C-14,18 -9,21 -5,19 C-5,23 -2,24 0,27 C2,24 5,23 5,19 C9,21 14,18 12,14 C16,12 17,7 13,6 C15,1 11,-2 8,-1 C7,-5 3,-5 0,0 Z" fill="url(#hollyGrad)" transform="rotate(-32) scale(0.68)"/>
+            <path d="M0,0 C-3,-5 -7,-5 -8,-1 C-11,-2 -15,1 -13,6 C-17,7 -16,12 -12,14 C-14,18 -9,21 -5,19 C-5,23 -2,24 0,27 C2,24 5,23 5,19 C9,21 14,18 12,14 C16,12 17,7 13,6 C15,1 11,-2 8,-1 C7,-5 3,-5 0,0 Z" fill="url(#hollyGrad)" transform="rotate(38) scale(0.64)"/>
+            <circle cx="-3.5" cy="4" r="3.6" fill="url(#berry3D)"/>
+            <circle cx="3.5" cy="5" r="3.3" fill="url(#berry3D)"/>
+            <circle cx="0" cy="8.5" r="3.7" fill="url(#berry3D)"/>
+            <circle cx="-4.5" cy="2.8" r="0.9" fill="#FFF" opacity="0.85"/>
+            <circle cx="2.5" cy="3.8" r="0.8" fill="#FFF" opacity="0.85"/>
+            <circle cx="-1" cy="7.2" r="0.9" fill="#FFF" opacity="0.85"/>
+          </g>
+
+          <!-- 6. CHRISTMAS TREE RED & GOLD BAUBLE ORNAMENTS -->
+          <g id="ornament-red">
+            <line x1="0" y1="0" x2="0" y2="8" stroke="#DFB76C" stroke-width="1.1"/>
+            <rect x="-2" y="6.8" width="4" height="2.2" rx="0.6" fill="#C5A059"/>
+            <circle cx="0" cy="15" r="6.2" fill="url(#berry3D)"/>
+            <ellipse cx="-2" cy="13" rx="1.8" ry="1.1" fill="#FFFFFF" opacity="0.65" transform="rotate(-35 -2 13)"/>
+          </g>
+
+          <g id="ornament-gold">
+            <line x1="0" y1="0" x2="0" y2="7" stroke="#DFB76C" stroke-width="1.1"/>
+            <rect x="-1.8" y="5.8" width="3.6" height="2" rx="0.6" fill="#C5A059"/>
+            <circle cx="0" cy="13.5" r="5.5" fill="url(#baubleGold)"/>
+            <ellipse cx="-1.7" cy="11.8" rx="1.6" ry="1" fill="#FFFFFF" opacity="0.75" transform="rotate(-35 -1.7 11.8)"/>
+          </g>
+
+          <!-- 7. WARM GLOWING FAIRY LIGHT -->
+          <g id="fairy-bulb">
+            <circle cx="0" cy="0" r="8" fill="url(#lightGlow)"/>
+            <circle cx="0" cy="0" r="2.6" fill="#FFFDE7"/>
+            <circle cx="0" cy="0" r="1.4" fill="#FFFFFF"/>
+          </g>
+
+          <!-- 8. MODULAR CHRISTMAS TREE GARLAND SWAG (240px span) -->
+          <g id="garland-swag-unit">
+            <!-- Lush Deep Evergreen Foliage Arch -->
+            <path d="M-5,0 C35,22 80,33 120,33 C160,33 205,22 245,0" stroke="#081A10" stroke-width="16" stroke-linecap="round" fill="none" opacity="0.85"/>
+            <path d="M0,0 C40,20 80,28 120,28 C160,28 200,20 240,0" stroke="#143D26" stroke-width="10" stroke-linecap="round" fill="none"/>
+
+            <!-- Intertwining Pine Branches with Dense Needle Sprays -->
+            <use href="#fir-bough-left" x="0" y="2"/>
+            <use href="#fir-bough-left" x="40" y="10" transform="rotate(8 40 10) scale(0.95)"/>
+            <use href="#fir-bough-right" x="240" y="2"/>
+            <use href="#fir-bough-right" x="200" y="10" transform="rotate(-8 200 10) scale(0.95)"/>
+
+            <!-- Hanging Center Needle Fans -->
+            <use href="#pine-tuft" x="90" y="23" transform="rotate(18 90 23) scale(1.15)"/>
+            <use href="#pine-tuft" x="120" y="27" transform="scale(1.25)"/>
+            <use href="#pine-tuft" x="150" y="23" transform="rotate(-18 150 23) scale(1.15)"/>
+            <use href="#pine-tuft" x="120" y="35" transform="scale(1.1)"/>
+
+            <!-- Golden Fairy Lights Line & Glowing Orbs -->
+            <path d="M0,8 C40,30 80,42 120,40 C160,42 200,30 240,8" stroke="#DFB76C" stroke-width="1.2" fill="none" opacity="0.8" stroke-dasharray="2.5,1.5"/>
+            <use href="#fairy-bulb" x="35" y="22"/>
+            <use href="#fairy-bulb" x="78" y="36"/>
+            <use href="#fairy-bulb" x="120" y="41"/>
+            <use href="#fairy-bulb" x="162" y="36"/>
+            <use href="#fairy-bulb" x="205" y="22"/>
+
+            <!-- Traditional Christmas Accents (Holly, Pinecone, Ornaments) -->
+            <use href="#holly-sprig" x="15" y="10"/>
+            <use href="#ornament-red" x="65" y="14"/>
+            <use href="#pinecone" x="120" y="23" transform="scale(0.85) translate(-10, 0)"/>
+            <use href="#ornament-gold" x="175" y="14"/>
+            <use href="#holly-sprig" x="225" y="10"/>
+          </g>
         </defs>
 
-        <!-- Swaying vine garland branches across top edge -->
-        <path d="M0,8 Q120,38 240,16 T480,24 T720,18 T960,26 T1200,16 T1440,22" stroke="#163824" stroke-width="5" fill="none" opacity="0.6"/>
-        <path d="M0,12 Q140,42 280,20 T560,28 T840,22 T1120,30 T1440,18" stroke="#255236" stroke-width="3" fill="none" opacity="0.9"/>
+        <!-- Continuous Full-Width Christmas Tree Garland (6 Cascading Swags) -->
+        <use href="#garland-swag-unit" x="0" y="0"/>
+        <use href="#garland-swag-unit" x="240" y="0"/>
+        <use href="#garland-swag-unit" x="480" y="0"/>
+        <use href="#garland-swag-unit" x="720" y="0"/>
+        <use href="#garland-swag-unit" x="960" y="0"/>
+        <use href="#garland-swag-unit" x="1200" y="0"/>
 
-        <!-- Natural Leaf Sprigs, Pine Needles & Red Berries Repeated Across Banner -->
-        <!-- Cluster 1 -->
-        <g transform="translate(40, 2)">
-          <path d="M10,12 C18,2 32,5 34,18 C30,28 16,26 10,12 Z" fill="url(#hollyGrad)"/>
-          <path d="M22,14 C36,8 48,16 46,28 C38,36 26,30 22,14 Z" fill="url(#hollyGrad)"/>
-          <circle cx="20" cy="18" r="4.2" fill="url(#berryGrad)"/>
-          <circle cx="26" cy="22" r="3.8" fill="url(#berryGrad)"/>
-          <circle cx="16" cy="24" r="3.5" fill="url(#berryGrad)"/>
-          <!-- Pine needles -->
-          <line x1="8" y1="10" x2="-2" y2="24" stroke="url(#pineGrad)" stroke-width="1.8"/>
-          <line x1="12" y1="10" x2="4" y2="28" stroke="url(#pineGrad)" stroke-width="1.8"/>
-          <line x1="16" y1="10" x2="14" y2="30" stroke="url(#pineGrad)" stroke-width="1.8"/>
-        </g>
-
-        <!-- Cluster 2 -->
-        <g transform="translate(260, 6)">
-          <path d="M8,14 C16,4 30,7 32,20 C28,30 14,28 8,14 Z" fill="url(#hollyGrad)"/>
-          <path d="M20,16 C34,10 46,18 44,30 C36,38 24,32 20,16 Z" fill="url(#hollyGrad)"/>
-          <circle cx="18" cy="20" r="4" fill="url(#berryGrad)"/>
-          <circle cx="24" cy="24" r="3.5" fill="url(#berryGrad)"/>
-          <!-- Pine needles -->
-          <line x1="6" y1="12" x2="-4" y2="26" stroke="url(#pineGrad)" stroke-width="1.8"/>
-          <line x1="10" y1="12" x2="2" y2="30" stroke="url(#pineGrad)" stroke-width="1.8"/>
-        </g>
-
-        <!-- Cluster 3 -->
-        <g transform="translate(500, 4)">
-          <path d="M12,12 C20,2 34,5 36,18 C32,28 18,26 12,12 Z" fill="url(#hollyGrad)"/>
-          <circle cx="22" cy="18" r="4.5" fill="url(#berryGrad)"/>
-          <circle cx="28" cy="22" r="4" fill="url(#berryGrad)"/>
-          <circle cx="18" cy="24" r="3.5" fill="url(#berryGrad)"/>
-          <line x1="10" y1="10" x2="0" y2="24" stroke="url(#pineGrad)" stroke-width="1.8"/>
-          <line x1="14" y1="10" x2="6" y2="28" stroke="url(#pineGrad)" stroke-width="1.8"/>
-        </g>
-
-        <!-- Cluster 4 -->
-        <g transform="translate(740, 6)">
-          <path d="M10,14 C18,4 32,7 34,20 C30,30 16,28 10,14 Z" fill="url(#hollyGrad)"/>
-          <path d="M22,16 C36,10 48,18 46,30 C38,38 26,32 22,16 Z" fill="url(#hollyGrad)"/>
-          <circle cx="20" cy="20" r="4.2" fill="url(#berryGrad)"/>
-          <circle cx="26" cy="24" r="3.8" fill="url(#berryGrad)"/>
-          <circle cx="16" cy="26" r="3.5" fill="url(#berryGrad)"/>
-          <line x1="8" y1="12" x2="-2" y2="26" stroke="url(#pineGrad)" stroke-width="1.8"/>
-          <line x1="12" y1="12" x2="4" y2="30" stroke="url(#pineGrad)" stroke-width="1.8"/>
-        </g>
-
-        <!-- Cluster 5 -->
-        <g transform="translate(980, 2)">
-          <path d="M10,12 C18,2 32,5 34,18 C30,28 16,26 10,12 Z" fill="url(#hollyGrad)"/>
-          <circle cx="20" cy="18" r="4.2" fill="url(#berryGrad)"/>
-          <circle cx="26" cy="22" r="3.8" fill="url(#berryGrad)"/>
-          <line x1="8" y1="10" x2="-2" y2="24" stroke="url(#pineGrad)" stroke-width="1.8"/>
-          <line x1="12" y1="10" x2="4" y2="28" stroke="url(#pineGrad)" stroke-width="1.8"/>
-        </g>
-
-        <!-- Cluster 6 -->
-        <g transform="translate(1220, 6)">
-          <path d="M10,14 C18,4 32,7 34,20 C30,30 16,28 10,14 Z" fill="url(#hollyGrad)"/>
-          <path d="M22,16 C36,10 48,18 46,30 C38,38 26,32 22,16 Z" fill="url(#hollyGrad)"/>
-          <circle cx="20" cy="20" r="4.2" fill="url(#berryGrad)"/>
-          <circle cx="26" cy="24" r="3.8" fill="url(#berryGrad)"/>
-          <circle cx="16" cy="26" r="3.5" fill="url(#berryGrad)"/>
-          <line x1="8" y1="12" x2="-2" y2="26" stroke="url(#pineGrad)" stroke-width="1.8"/>
-          <line x1="12" y1="12" x2="4" y2="30" stroke="url(#pineGrad)" stroke-width="1.8"/>
-        </g>
-
-        <!-- Cluster 7 -->
-        <g transform="translate(1380, 4)">
-          <path d="M8,12 C16,2 30,5 32,18 C28,28 14,26 8,12 Z" fill="url(#hollyGrad)"/>
-          <circle cx="18" cy="18" r="4" fill="url(#berryGrad)"/>
-        </g>
+        <!-- Boundary Flank Reinforcements for Ultra-Wide Screens -->
+        <use href="#fir-bough-left" x="0" y="0"/>
+        <use href="#fir-bough-right" x="1440" y="0"/>
       </svg>
 
       <!-- Nav & Brand Line -->
