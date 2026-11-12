@@ -1116,21 +1116,20 @@
         <!-- Master Gifts Table (Styling Matching Exactly The Screenshot) -->
         <div class="glass-card rounded-2xl overflow-hidden shadow-sm border border-forest-100 dark:border-forest-900/60">
           <div class="w-full overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse table-fixed min-w-[1040px]">
+            <table class="w-full text-left text-xs border-collapse table-fixed">
               <colgroup>
-                <col class="w-[7%]">      <!-- Group -->
-                <col class="w-[8.5%]">    <!-- Recipient -->
-                <col class="w-[16.5%]">   <!-- Gift Item -->
-                <col class="w-[10%]">     <!-- Store / Courier -->
-                <col class="w-[6%]">      <!-- Budget -->
-                <col class="w-[6%]">      <!-- Actual -->
-                <col class="w-[6%]">      <!-- Diff (+/-) -->
-                <col class="w-[12.5%]">   <!-- Shipping & Status -->
+                <col class="w-[8%]">      <!-- Group -->
+                <col class="w-[10%]">     <!-- Recipient -->
+                <col class="w-[21%]">     <!-- Gift Item -->
+                <col class="w-[13%]">     <!-- Store / Courier -->
+                <col class="w-[7%]">      <!-- Budget -->
+                <col class="w-[7%]">      <!-- Actual -->
+                <col class="w-[7%]">      <!-- Diff (+/-) -->
                 <col class="w-[6%]">      <!-- Bought -->
                 <col class="w-[6.5%]">    <!-- Wrapped -->
-                <col class="w-[5%]">      <!-- Sent -->
-                <col class="w-[5.5%]">    <!-- Delivery -->
-                <col class="w-[5%]">      <!-- Actions -->
+                <col class="w-[5.5%]">    <!-- Sent -->
+                <col class="w-[4.5%]">    <!-- Delivery -->
+                <col class="w-[4.5%]">    <!-- Actions -->
               </colgroup>
               <thead>
                 <tr class="bg-forest-50/90 dark:bg-forest-900/60 border-b border-forest-100 dark:border-forest-900 text-forest-600 dark:text-forest-300 font-bold uppercase tracking-wider text-[9px]">
@@ -1141,7 +1140,6 @@
                   <th class="py-2.5 px-1.5 text-right whitespace-nowrap">Budget</th>
                   <th class="py-2.5 px-1.5 text-right whitespace-nowrap">Actual</th>
                   <th class="py-2.5 px-1.5 text-right whitespace-nowrap">Diff (+/-)</th>
-                  <th class="py-2.5 px-1.5 text-center truncate">Status & Tracking</th>
                   <th class="py-2.5 px-1 text-center whitespace-nowrap" title="Bought Checkbox">Bought</th>
                   <th class="py-2.5 px-1 text-center whitespace-nowrap" title="Wrapped Checkbox">Wrapped</th>
                   <th class="py-2.5 px-1 text-center whitespace-nowrap" title="Sent / Received Checkbox">Sent</th>
@@ -2834,34 +2832,16 @@
             </td>
 
             <!-- 4. Store / Courier -->
-            <td class="py-1.5 px-1 text-forest-600 dark:text-forest-400 text-[10px] truncate">
+            <td class="py-1.5 px-1.5 text-forest-600 dark:text-forest-400 text-[10px] truncate">
               <div class="font-semibold text-forest-800 dark:text-forest-200 truncate">${escapeHtml(item.store)}</div>
-              ${item.carrier ? `<div class="text-[8.5px] text-forest-500 font-medium truncate flex items-center space-x-0.5"><span>🚚</span><span class="truncate">${escapeHtml(item.carrier)}</span></div>` : ''}
-            </td>
-
-            <!-- 5. Budget -->
-            <td class="py-1.5 px-1 text-right font-medium text-forest-700 dark:text-forest-300 whitespace-nowrap text-[11px]">
-              ${formatMoney(item.budgetPrice)}
-            </td>
-
-            <!-- 6. Actual -->
-            <td class="py-1.5 px-1 text-right font-bold text-forest-900 dark:text-forest-100 whitespace-nowrap text-[11px]">
-              ${formatMoney(item.actualPrice)}
-            </td>
-
-            <!-- 7. Variance (+/-) -->
-            <td class="py-1.5 px-1 text-right text-[10px] whitespace-nowrap">
-              ${diffDisplay}
-            </td>
-
-            <!-- 8. Shipping & Status (Interactive 1-Tap Cycler & Tracking Chip) -->
-            <td class="py-1.5 px-1 text-center truncate">
-              <button onclick="cycleGiftStatus('${item.recipientId}', '${item.id}')" class="px-1.5 py-0.5 rounded text-[8.5px] font-bold border transition-all shadow-xs inline-flex items-center space-x-0.5 hover:scale-105 cursor-pointer whitespace-nowrap ${statusCfg.pillClass}" title="Click to advance status to next stage">
-                <span>${statusCfg.icon}</span>
-                <span>${statusCfg.label}</span>
-              </button>
+              ${item.carrier ? `
+                <div class="text-[8.5px] text-forest-500 font-medium truncate flex items-center space-x-0.5 mt-0.5">
+                  <span>🚚</span>
+                  <span class="truncate">${escapeHtml(item.carrier)}</span>
+                </div>
+              ` : ''}
               ${item.trackingNumber ? `
-                <div class="mt-0.5 text-center">
+                <div class="mt-0.5">
                   <a href="${trackingUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-0.5 text-[8px] font-mono font-bold text-sky-700 dark:text-sky-300 hover:underline bg-sky-50 dark:bg-sky-950/70 px-1 py-0.2 rounded border border-sky-200/60 max-w-full truncate" title="Track with ${escapeHtml(item.carrier || 'carrier')}">
                     <span class="truncate">#${escapeHtml(item.trackingNumber.length > 8 ? item.trackingNumber.slice(0, 6) + '…' : item.trackingNumber)}</span>
                     <i data-lucide="external-link" class="w-2 h-2 inline shrink-0"></i>
@@ -2870,31 +2850,54 @@
               ` : ''}
             </td>
 
-            <!-- 9. Bought Checkbox -->
-            <td class="py-1.5 px-0.5 text-center">
+            <!-- 5. Budget -->
+            <td class="py-1.5 px-1.5 text-right font-medium text-forest-700 dark:text-forest-300 whitespace-nowrap text-[11px]">
+              ${formatMoney(item.budgetPrice)}
+            </td>
+
+            <!-- 6. Actual -->
+            <td class="py-1.5 px-1.5 text-right font-bold text-forest-900 dark:text-forest-100 whitespace-nowrap text-[11px]">
+              ${formatMoney(item.actualPrice)}
+            </td>
+
+            <!-- 7. Variance (+/-) -->
+            <td class="py-1.5 px-1.5 text-right text-[10px] whitespace-nowrap">
+              ${diffDisplay}
+            </td>
+
+            <!-- 8. Bought Checkbox -->
+            <td class="py-1.5 px-1 text-center whitespace-nowrap">
               <input type="checkbox" ${item.isBought ? 'checked' : ''} onchange="toggleGiftCheckbox('${item.recipientId}', '${item.id}', 'bought')" class="w-3.5 h-3.5 rounded text-forest-600 focus:ring-forest-500 cursor-pointer accent-forest-600">
             </td>
 
-            <!-- 10. Wrapped Checkbox -->
-            <td class="py-1.5 px-0.5 text-center">
+            <!-- 9. Wrapped Checkbox -->
+            <td class="py-1.5 px-1 text-center whitespace-nowrap">
               <input type="checkbox" ${item.isWrapped ? 'checked' : ''} onchange="toggleGiftCheckbox('${item.recipientId}', '${item.id}', 'wrapped')" class="w-3.5 h-3.5 rounded text-forest-600 focus:ring-forest-500 cursor-pointer accent-forest-600">
             </td>
 
-            <!-- 11. Sent / Received Checkbox -->
-            <td class="py-1.5 px-0.5 text-center">
+            <!-- 10. Sent Checkbox -->
+            <td class="py-1.5 px-1 text-center whitespace-nowrap">
               <input type="checkbox" ${item.isSent ? 'checked' : ''} onchange="toggleGiftCheckbox('${item.recipientId}', '${item.id}', 'sent')" class="w-3.5 h-3.5 rounded text-forest-600 focus:ring-forest-500 cursor-pointer accent-forest-600">
             </td>
 
-            <!-- 12. Delivery Method Toggle -->
-            <td class="py-1.5 px-1 text-center truncate">
+            <!-- 11. Delivery Method Toggle -->
+            <td class="py-1.5 px-1 text-center whitespace-nowrap">
               <button onclick="toggleGiftDeliveryMethod('${item.recipientId}', '${item.id}')" class="px-1.5 py-0.5 rounded text-[8.5px] font-bold transition-all shadow-xs whitespace-nowrap ${item.deliveryMethod === 'Mail' ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-200' : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200'}" title="Click to toggle between In Person and Mail">
                 ${item.deliveryMethod === 'Mail' ? '📦 Mail' : '🤝 In Person'}
               </button>
             </td>
 
-            <!-- 13. Actions (Edit & Del) -->
+            <!-- 12. Actions (Edit & Del) -->
             <td class="py-1.5 px-1 text-center no-print whitespace-nowrap">
               <div class="inline-flex items-center space-x-1 justify-center">
+                <button onclick="openEditGiftModal('${item.recipientId}', '${item.id}')" class="px-1.5 py-0.5 rounded bg-forest-100 hover:bg-forest-200 dark:bg-forest-900/80 dark:hover:bg-forest-800 text-forest-800 dark:text-forest-200 text-[8.5px] font-extrabold transition-all border border-forest-200/80 shadow-xs whitespace-nowrap" title="Edit this gift">
+                  Edit
+                </button>
+                <button onclick="deleteGiftItem('${item.recipientId}', '${item.id}')" class="px-1.5 py-0.5 rounded bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900 text-festiveRed text-[8.5px] font-bold transition-all border border-rose-200/60 shadow-xs whitespace-nowrap" title="Delete gift">
+                  Del
+                </button>
+              </div>
+            </td>
                 <button onclick="openEditGiftModal('${item.recipientId}', '${item.id}')" class="px-1.5 py-0.5 rounded bg-forest-100 hover:bg-forest-200 dark:bg-forest-900/80 dark:hover:bg-forest-800 text-forest-800 dark:text-forest-200 text-[8.5px] font-extrabold transition-all border border-forest-200/80 shadow-xs whitespace-nowrap" title="Edit this gift">
                   Edit
                 </button>
