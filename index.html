@@ -1116,37 +1116,37 @@
         <!-- Master Gifts Table (Styling Matching Exactly The Screenshot) -->
         <div class="glass-card rounded-2xl overflow-hidden shadow-sm border border-forest-100 dark:border-forest-900/60">
           <div class="w-full overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse table-fixed">
+            <table class="w-full text-left text-xs border-collapse table-fixed min-w-[1040px]">
               <colgroup>
-                <col class="w-[7%]">     <!-- Group -->
-                <col class="w-[9%]">     <!-- Recipient -->
-                <col class="w-[18%]">    <!-- Gift Item -->
-                <col class="w-[11%]">    <!-- Store / Courier -->
-                <col class="w-[6.5%]">   <!-- Budget -->
-                <col class="w-[6.5%]">   <!-- Actual -->
-                <col class="w-[6.5%]">   <!-- Diff (+/-) -->
-                <col class="w-[14%]">    <!-- Shipping & Status -->
-                <col class="w-[4%]">     <!-- Bought -->
-                <col class="w-[4%]">     <!-- Wrapped -->
-                <col class="w-[4%]">     <!-- Sent -->
-                <col class="w-[7.5%]">   <!-- Delivery -->
-                <col class="w-[7%]">     <!-- Actions -->
+                <col class="w-[7%]">      <!-- Group -->
+                <col class="w-[8.5%]">    <!-- Recipient -->
+                <col class="w-[16.5%]">   <!-- Gift Item -->
+                <col class="w-[10%]">     <!-- Store / Courier -->
+                <col class="w-[6%]">      <!-- Budget -->
+                <col class="w-[6%]">      <!-- Actual -->
+                <col class="w-[6%]">      <!-- Diff (+/-) -->
+                <col class="w-[12.5%]">   <!-- Shipping & Status -->
+                <col class="w-[6%]">      <!-- Bought -->
+                <col class="w-[6.5%]">    <!-- Wrapped -->
+                <col class="w-[5%]">      <!-- Sent -->
+                <col class="w-[5.5%]">    <!-- Delivery -->
+                <col class="w-[5%]">      <!-- Actions -->
               </colgroup>
               <thead>
                 <tr class="bg-forest-50/90 dark:bg-forest-900/60 border-b border-forest-100 dark:border-forest-900 text-forest-600 dark:text-forest-300 font-bold uppercase tracking-wider text-[9px]">
-                  <th class="py-2 px-1.5 truncate">Group</th>
-                  <th class="py-2 px-1.5 truncate">Recipient</th>
-                  <th class="py-2 px-2 truncate">Gift Item</th>
-                  <th class="py-2 px-1.5 truncate">Store / Courier</th>
-                  <th class="py-2 px-1.5 text-right whitespace-nowrap">Budget</th>
-                  <th class="py-2 px-1.5 text-right whitespace-nowrap">Actual</th>
-                  <th class="py-2 px-1.5 text-right whitespace-nowrap">Diff (+/-)</th>
-                  <th class="py-2 px-1.5 text-center truncate">Status & Tracking</th>
-                  <th class="py-2 px-0.5 text-center" title="Bought Checkbox">Bought</th>
-                  <th class="py-2 px-0.5 text-center" title="Wrapped Checkbox">Wrapped</th>
-                  <th class="py-2 px-0.5 text-center" title="Sent / Received Checkbox">Sent</th>
-                  <th class="py-2 px-1 text-center truncate">Delivery</th>
-                  <th class="py-2 px-1 text-center no-print">Actions</th>
+                  <th class="py-2.5 px-2 truncate">Group</th>
+                  <th class="py-2.5 px-2 truncate">Recipient</th>
+                  <th class="py-2.5 px-2 truncate">Gift Item</th>
+                  <th class="py-2.5 px-2 truncate">Store / Courier</th>
+                  <th class="py-2.5 px-1.5 text-right whitespace-nowrap">Budget</th>
+                  <th class="py-2.5 px-1.5 text-right whitespace-nowrap">Actual</th>
+                  <th class="py-2.5 px-1.5 text-right whitespace-nowrap">Diff (+/-)</th>
+                  <th class="py-2.5 px-1.5 text-center truncate">Status & Tracking</th>
+                  <th class="py-2.5 px-1 text-center whitespace-nowrap" title="Bought Checkbox">Bought</th>
+                  <th class="py-2.5 px-1 text-center whitespace-nowrap" title="Wrapped Checkbox">Wrapped</th>
+                  <th class="py-2.5 px-1 text-center whitespace-nowrap" title="Sent / Received Checkbox">Sent</th>
+                  <th class="py-2.5 px-1 text-center whitespace-nowrap">Delivery</th>
+                  <th class="py-2.5 px-1 text-center no-print whitespace-nowrap">Actions</th>
                 </tr>
               </thead>
               <tbody id="gifts-master-table-body" class="divide-y divide-forest-100/70 dark:divide-forest-900/60 font-medium text-[11px]">
@@ -1401,36 +1401,58 @@
     </div>
   </div>
 
-  <!-- 3. ADD / EDIT GIFT ITEM MODAL -->
+  <!-- 3. ADD GIFT ITEM MODAL -->
   <div id="modal-gift" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-gift')"></div>
-    <div class="w-full max-w-md glass-card rounded-3xl p-6 sm:p-7 shadow-2xl relative z-10 space-y-5">
-      <div class="flex items-center justify-between">
-        <div>
-          <h3 id="gift-modal-title" class="font-bold font-serif-header text-lg text-forest-900 dark:text-forest-50">Add Gift Item</h3>
-          <p id="gift-modal-subtitle" class="text-xs text-forest-500">For Mom</p>
+    <div class="w-full max-w-lg glass-card rounded-3xl p-6 sm:p-7 shadow-2xl relative z-10 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-forest-100 dark:border-forest-900">
+        <div class="flex items-center space-x-2.5">
+          <span class="text-2xl">🎁</span>
+          <div>
+            <h3 id="gift-modal-title" class="font-bold font-serif-header text-lg text-forest-900 dark:text-forest-50">Add Gift Item</h3>
+            <p id="gift-modal-subtitle" class="text-xs text-forest-500">For Recipient</p>
+          </div>
         </div>
-        <button onclick="closeModal('modal-gift')" class="p-1 rounded-lg text-forest-400 hover:text-forest-600">
+        <button onclick="closeModal('modal-gift')" class="p-1 rounded-lg text-forest-400 hover:text-forest-600 dark:hover:text-forest-200">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
+
       <form id="form-gift" onsubmit="handleSaveGiftSubmit(event)" class="space-y-4 text-xs">
         <input type="hidden" id="gift-recipient-id">
         <input type="hidden" id="gift-edit-id">
 
+        <!-- Recipient Selector Dropdown -->
         <div>
-          <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Gift Item Name <span class="text-festiveRed">*</span></label>
-          <input type="text" id="gift-name-input" required placeholder="e.g. Cashmere Scarf, Lego Set, Air Fryer" class="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-forest-500">
+          <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Select Recipient <span class="text-festiveRed">*</span></label>
+          <select id="gift-recipient-select" required onchange="handleGiftRecipientSelectChange(this)" class="w-full px-3.5 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs font-bold text-forest-900 dark:text-forest-100 focus:outline-none focus:ring-2 focus:ring-forest-500">
+            <!-- Populated dynamically via openAddGiftModal -->
+          </select>
         </div>
 
+        <!-- Gift Name -->
+        <div>
+          <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Gift Item Name <span class="text-festiveRed">*</span></label>
+          <input type="text" id="gift-name-input" required placeholder="e.g. Cashmere Scarf, Lego Set, Air Fryer" class="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-forest-500 text-forest-900 dark:text-forest-100">
+        </div>
+
+        <!-- Budget & Actual Prices -->
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Estimated / Actual Price (<span class="currency-label">$</span>)</label>
-            <input type="number" step="0.01" min="0" id="gift-price-input" required placeholder="45.00" class="w-full px-3 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-forest-500">
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Budgeted Price (<span class="currency-label">$</span>) <span class="text-festiveRed">*</span></label>
+            <input type="number" step="0.01" min="0" id="gift-price-input" required placeholder="45.00" class="w-full px-3.5 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-forest-500 text-forest-900 dark:text-forest-100">
           </div>
           <div>
-            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Status</label>
-            <select id="gift-status-select" class="w-full px-3 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-forest-500">
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Actual Paid Price (<span class="currency-label">$</span>)</label>
+            <input type="number" step="0.01" min="0" id="gift-actual-price-input" placeholder="0.00 (optional)" class="w-full px-3.5 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-forest-500 text-forest-900 dark:text-forest-100">
+          </div>
+        </div>
+
+        <!-- Status & Delivery Method -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Gift Status</label>
+            <select id="gift-status-select" class="w-full px-3 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-forest-500 text-forest-900 dark:text-forest-100">
               <option value="idea">💡 Idea / To Buy</option>
               <option value="ordered">🛒 Ordered</option>
               <option value="shipped">🚚 Shipped (In Transit)</option>
@@ -1439,16 +1461,35 @@
               <option value="received">🎉 Received</option>
             </select>
           </div>
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Delivery Method</label>
+            <select id="gift-delivery-select" class="w-full px-3 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-forest-500 text-forest-900 dark:text-forest-100">
+              <option value="In Person">🤝 In Person</option>
+              <option value="Mail">📦 Mail / Courier</option>
+            </select>
+          </div>
         </div>
 
-        <div>
-          <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Store / Website Link (Optional)</label>
-          <input type="url" id="gift-url-input" placeholder="https://amazon.com/... or store name" class="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs focus:outline-none focus:ring-2 focus:ring-forest-500">
+        <!-- Store & Website Link -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Store / Retailer</label>
+            <input type="text" id="gift-store-input" placeholder="e.g. Amazon, Target, Etsy, Macy's" class="w-full px-3.5 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs focus:outline-none focus:ring-2 focus:ring-forest-500 text-forest-900 dark:text-forest-100">
+          </div>
+          <div>
+            <label class="block font-bold text-forest-700 dark:text-forest-300 mb-1">Store / Product Link (Optional)</label>
+            <input type="url" id="gift-url-input" placeholder="https://..." class="w-full px-3.5 py-2.5 rounded-2xl bg-white dark:bg-forest-950 border border-forest-200 dark:border-forest-800 text-xs focus:outline-none focus:ring-2 focus:ring-forest-500 text-forest-900 dark:text-forest-100">
+          </div>
         </div>
 
-        <button type="submit" class="w-full py-3 rounded-2xl bg-forest-600 hover:bg-forest-700 text-white font-bold text-xs transition-colors">
-          Save Gift Item
-        </button>
+        <div class="flex items-center justify-end space-x-2 pt-2 border-t border-forest-100 dark:border-forest-900">
+          <button type="button" onclick="closeModal('modal-gift')" class="px-4 py-2.5 rounded-2xl text-forest-600 dark:text-forest-300 hover:bg-forest-100 dark:hover:bg-forest-900 font-bold transition-colors">
+            Cancel
+          </button>
+          <button type="submit" class="px-6 py-2.5 rounded-2xl bg-forest-600 hover:bg-forest-700 text-white font-bold text-xs transition-colors shadow-md">
+            Save Gift Item 🎁
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -2681,7 +2722,6 @@
               </div>
             </td>
           </tr>
-          </tr>
         `;
       }).join('');
 
@@ -3652,47 +3692,137 @@
       renderAll();
     }
 
-    // Gift Modal
+    // Gift Modal (Add New Gift)
+    function handleGiftRecipientSelectChange(selectEl) {
+      if (!selectEl) return;
+      const rId = selectEl.value;
+      const hiddenInput = document.getElementById('gift-recipient-id');
+      if (hiddenInput) hiddenInput.value = rId;
+      const r = (holidayData.recipients || []).find(x => x.id === rId);
+      const subTitle = document.getElementById('gift-modal-subtitle');
+      if (subTitle && r) {
+        subTitle.textContent = `For ${r.name}`;
+      }
+    }
+
     function openAddGiftModal(recipientId) {
-      const r = (holidayData.recipients || []).find(x => x.id === recipientId);
-      if (!r) return;
-      document.getElementById('gift-modal-title').textContent = 'Add Gift Item';
-      document.getElementById('gift-modal-subtitle').textContent = `For ${r.name}`;
-      document.getElementById('gift-recipient-id').value = r.id;
-      document.getElementById('gift-edit-id').value = '';
-      document.getElementById('form-gift').reset();
+      const recipients = holidayData.recipients || [];
+      if (recipients.length === 0) {
+        showToast('Please add at least one recipient first! 👥');
+        openAddRecipientModal();
+        return;
+      }
+
+      // Populate recipient select
+      const selectEl = document.getElementById('gift-recipient-select');
+      if (selectEl) {
+        selectEl.innerHTML = recipients.map(r => `
+          <option value="${r.id}" ${recipientId && r.id === recipientId ? 'selected' : ''}>
+            ${escapeHtml(r.name)} (${escapeHtml(r.group || 'Family')})
+          </option>
+        `).join('');
+
+        if (recipientId) {
+          selectEl.value = recipientId;
+        } else if (!selectEl.value && recipients.length > 0) {
+          selectEl.value = recipients[0].id;
+        }
+      }
+
+      const activeId = (selectEl && selectEl.value) ? selectEl.value : (recipientId || recipients[0].id);
+      const activeRecip = recipients.find(x => x.id === activeId) || recipients[0];
+
+      const titleEl = document.getElementById('gift-modal-title');
+      const subTitleEl = document.getElementById('gift-modal-subtitle');
+      const hiddenRecipEl = document.getElementById('gift-recipient-id');
+      const hiddenEditEl = document.getElementById('gift-edit-id');
+      const formEl = document.getElementById('form-gift');
+
+      if (titleEl) titleEl.textContent = 'Add Gift Item';
+      if (subTitleEl) subTitleEl.textContent = activeRecip ? `For ${activeRecip.name}` : 'Holiday Gift';
+      if (hiddenRecipEl) hiddenRecipEl.value = activeRecip ? activeRecip.id : '';
+      if (hiddenEditEl) hiddenEditEl.value = '';
+
+      if (formEl) {
+        formEl.reset();
+        // Restore active recipient in dropdown after reset
+        if (selectEl && activeRecip) {
+          selectEl.value = activeRecip.id;
+        }
+      }
+
+      // Default status and delivery
+      const statusSelect = document.getElementById('gift-status-select');
+      if (statusSelect) statusSelect.value = 'idea';
+      const delivSelect = document.getElementById('gift-delivery-select');
+      if (delivSelect) delivSelect.value = 'In Person';
+
       openModal('modal-gift');
     }
+
     function handleSaveGiftSubmit(e) {
       e.preventDefault();
-      const recipientId = document.getElementById('gift-recipient-id').value;
+      const selectEl = document.getElementById('gift-recipient-select');
+      const recipientId = (selectEl && selectEl.value) ? selectEl.value : document.getElementById('gift-recipient-id').value;
       const r = (holidayData.recipients || []).find(x => x.id === recipientId);
-      if (!r) return;
+      if (!r) {
+        showToast('Please select a recipient first! 👥');
+        return;
+      }
 
-      const name = document.getElementById('gift-name-input').value.trim();
-      const price = parseFloat(document.getElementById('gift-price-input').value) || 0;
-      const status = document.getElementById('gift-status-select').value;
-      const storeLink = document.getElementById('gift-url-input').value.trim();
-
+      const nameInput = document.getElementById('gift-name-input');
+      const name = nameInput ? nameInput.value.trim() : '';
       if (!name) return;
-      if (!r.gifts) r.gifts = [];
+
+      const priceInput = document.getElementById('gift-price-input');
+      const budgetPrice = parseFloat(priceInput ? priceInput.value : 0) || 0;
+
+      const actualPriceInput = document.getElementById('gift-actual-price-input');
+      const statusSelect = document.getElementById('gift-status-select');
+      const status = statusSelect ? statusSelect.value : 'idea';
 
       const isBought = (status !== 'idea');
       const isWrapped = (status === 'wrapped' || status === 'received');
       const isSent = (status === 'received');
 
+      let actualPrice = 0;
+      if (actualPriceInput && actualPriceInput.value !== '') {
+        actualPrice = parseFloat(actualPriceInput.value) || 0;
+      } else if (isBought) {
+        actualPrice = budgetPrice;
+      }
+
+      const storeInput = document.getElementById('gift-store-input');
+      let store = storeInput ? storeInput.value.trim() : '';
+
+      const urlInput = document.getElementById('gift-url-input');
+      const storeLink = urlInput ? urlInput.value.trim() : '';
+
+      if (!store && storeLink) {
+        store = storeLink.replace(/^https?:\/\/(www\.)?/, '').split('/')[0];
+      }
+      if (!store) {
+        store = 'Online / Store';
+      }
+
+      const delivSelect = document.getElementById('gift-delivery-select');
+      const deliveryMethod = delivSelect ? delivSelect.value : 'In Person';
+
+      if (!r.gifts) r.gifts = [];
+
       r.gifts.push({
         id: 'g_' + Date.now(),
         name,
-        budgetPrice: price,
-        actualPrice: isBought ? price : 0,
-        price,
+        budgetPrice: budgetPrice,
+        actualPrice: actualPrice,
+        price: budgetPrice,
         status,
         isBought,
         isWrapped,
         isSent,
-        storeLink,
-        deliveryMethod: 'In Person'
+        store: store,
+        storeLink: storeLink,
+        deliveryMethod: deliveryMethod
       });
 
       saveUserData();
