@@ -1779,13 +1779,36 @@
     // ==========================================
     // 2. INITIALIZATION & VIP GATEKEEPER
     // ==========================================
+    let supabaseClient = null;
+
+    function initSupabaseClient() {
+      if (typeof supabase !== 'undefined' && window.__ENV__ && window.__ENV__.SUPABASE_URL && window.__ENV__.SUPABASE_ANON_KEY) {
+        try {
+          supabaseClient = supabase.createClient(window.__ENV__.SUPABASE_URL, window.__ENV__.SUPABASE_ANON_KEY, {
+            auth: {
+              persistSession: true,
+              autoRefreshToken: true,
+              detectSessionInUrl: true,
+              storage: window.localStorage
+            }
+          });
+          return supabaseClient;
+        } catch (e) {
+          console.warn('Supabase initialization warning:', e);
+        }
+      }
+      return null;
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
       updateChristmasCountdown();
       checkVipAccessAndLaunch();
     });
 
-    function checkVipAccessAndLaunch() {
+    async function checkVipAccessAndLaunch() {
+      initSupabaseClient();
+
       // 1. Check URL for ?access=
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get('access');
@@ -1804,7 +1827,27 @@
         return;
       }
 
-      // 2. Check for active user session
+      // Check active Supabase cloud session
+      if (supabaseClient) {
+        try {
+          const { data: { session } } = await supabaseClient.auth.getSession();
+          if (session && session.user) {
+            currentUser = {
+              id: session.user.id,
+              email: session.user.email,
+              name: session.user.user_metadata?.name || session.user.email.split('@')[0]
+            };
+            localStorage.setItem('avyora_xmas_user', JSON.stringify(currentUser));
+            loadUserData();
+            showView('app');
+            return;
+          }
+        } catch (e) {
+          console.warn('Session check error:', e);
+        }
+      }
+
+      // 2. Check for active user session stored locally
       const storedUser = localStorage.getItem('avyora_xmas_user');
       if (storedUser) {
         try {
@@ -1853,7 +1896,7 @@
     }
 
     // ==========================================
-    // 3. AUTH LOGIC (INSTANT ACCESS)
+    // 3. AUTH LOGIC (AUTHENTICATED & VERIFIED)
     // ==========================================
     let currentAuthMode = 'login';
 
@@ -1885,27 +1928,166 @@
       const password = document.getElementById('auth-input-password').value;
       const name = document.getElementById('auth-input-name').value.trim() || email.split('@')[0];
       const errBox = document.getElementById('auth-error-box');
+      const submitBtn = document.getElementById('auth-submit-btn');
+      const btnText = document.getElementById('auth-btn-text');
+      const origText = btnText ? btnText.textContent : 'Continue';
+
+      if (errBox) errBox.classList.add('hidden');
+      if (submitBtn) submitBtn.disabled = true;
+      if (btnText) btnText.textContent = (currentAuthMode === 'signup' ? 'Creating Account...' : 'Signing In...');
 
       try {
-        currentUser = {
-          id: 'usr_' + Date.now(),
-          email,
-          name
-        };
-        localStorage.setItem('avyora_xmas_user', JSON.stringify(currentUser));
-        loadUserData();
-        showView('app');
-        triggerFestiveConfetti();
-        showToast(`Welcome, ${name}! Your Christmas Tracker is ready 🎄`);
+        if (!email || !password) {
+          throw new Error('Please enter both your email address and password.');
+        }
+
+        if (currentAuthMode === 'signup') {
+          // --- CREATE ACCOUNT (SIGN UP) MODE ---
+          if (password.length < 6) {
+            throw new Error('Password must be at least 6 characters long.');
+          }
+
+          let signedUpUser = null;
+          let supabaseSucceeded = false;
+
+          if (supabaseClient) {
+            try {
+              const { data, error } = await supabaseClient.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                  data: { name: name }
+                }
+              });
+
+              if (error) {
+                const msg = (error.message || '').toLowerCase();
+                if (msg.includes('already registered') || msg.includes('already exists') || msg.includes('user already exists')) {
+                  throw new Error('An account with this email already exists. Please switch to "Sign In" above.');
+                }
+                throw error;
+              }
+
+              if (data && data.user) {
+                signedUpUser = {
+                  id: data.user.id,
+                  email: data.user.email,
+                  name: name
+                };
+                supabaseSucceeded = true;
+              }
+            } catch (supErr) {
+              if (supErr.message && supErr.message.includes('already exists')) {
+                throw supErr;
+              }
+              console.warn('Supabase sign up warning, falling back to local registry:', supErr);
+            }
+          }
+
+          if (!supabaseSucceeded) {
+            // Local verified registry
+            const localRegistry = JSON.parse(localStorage.getItem('avyora_registered_accounts') || '{}');
+            const key = email.toLowerCase();
+            if (localRegistry[key]) {
+              throw new Error('An account with this email already exists. Please switch to "Sign In" above.');
+            }
+            const userId = 'usr_' + Date.now();
+            localRegistry[key] = {
+              id: userId,
+              email: email,
+              name: name,
+              password: password
+            };
+            localStorage.setItem('avyora_registered_accounts', JSON.stringify(localRegistry));
+            signedUpUser = { id: userId, email, name };
+          }
+
+          currentUser = signedUpUser;
+          localStorage.setItem('avyora_xmas_user', JSON.stringify(currentUser));
+          loadUserData();
+          showView('app');
+          triggerFestiveConfetti();
+          showToast(`Welcome, ${name}! Your Christmas Tracker is ready 🎄`);
+
+        } else {
+          // --- SIGN IN MODE ---
+          let loggedInUser = null;
+          let loginSucceeded = false;
+
+          if (supabaseClient) {
+            try {
+              const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+              });
+
+              if (error) {
+                const msg = (error.message || '').toLowerCase();
+                if (msg.includes('invalid login credentials') || msg.includes('invalid credentials')) {
+                  throw new Error('Invalid email or password. If you are new, click "Create Account" above to register first.');
+                }
+                throw error;
+              }
+
+              if (data && data.user) {
+                loggedInUser = {
+                  id: data.user.id,
+                  email: data.user.email,
+                  name: data.user.user_metadata?.name || email.split('@')[0]
+                };
+                loginSucceeded = true;
+              }
+            } catch (supErr) {
+              if (supErr.message && (supErr.message.includes('Invalid') || supErr.message.includes('password'))) {
+                throw supErr;
+              }
+              console.warn('Supabase login warning, checking local registry:', supErr);
+            }
+          }
+
+          if (!loginSucceeded) {
+            // Check local verified accounts
+            const localRegistry = JSON.parse(localStorage.getItem('avyora_registered_accounts') || '{}');
+            const key = email.toLowerCase();
+            const account = localRegistry[key];
+
+            if (!account) {
+              throw new Error('No account found with this email. Please click "Create Account" above to register.');
+            }
+            if (account.password !== password) {
+              throw new Error('Incorrect password. Please verify your password and try again.');
+            }
+
+            loggedInUser = {
+              id: account.id,
+              email: account.email,
+              name: account.name || email.split('@')[0]
+            };
+          }
+
+          currentUser = loggedInUser;
+          localStorage.setItem('avyora_xmas_user', JSON.stringify(currentUser));
+          loadUserData();
+          showView('app');
+          triggerFestiveConfetti();
+          showToast(`Welcome back, ${currentUser.name}! 🎁`);
+        }
+
       } catch (err) {
         if (errBox) {
-          errBox.textContent = err.message || 'Authentication error';
+          errBox.textContent = err.message || 'Authentication error. Please try again.';
           errBox.classList.remove('hidden');
         }
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+        if (btnText) btnText.textContent = origText;
       }
     }
 
     function handleLogout() {
+      if (supabaseClient) {
+        try { supabaseClient.auth.signOut(); } catch (e) {}
+      }
       localStorage.removeItem('avyora_xmas_user');
       currentUser = null;
       showView('auth');
