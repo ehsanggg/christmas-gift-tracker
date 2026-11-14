@@ -119,14 +119,18 @@
 
     /* Glass card styles */
     .glass-card {
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(226, 238, 230, 0.9);
+      background: rgba(255, 255, 255, 0.90);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(220, 233, 226, 0.75);
+      box-shadow: 0 4px 20px -2px rgba(14, 41, 26, 0.04);
     }
     .dark .glass-card {
-      background: rgba(20, 46, 31, 0.92);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(34, 76, 51, 0.7);
+      background: rgba(13, 24, 18, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
     }
 
     /* Status badge pill transitions */
@@ -153,33 +157,51 @@
       background: #224C33;
     }
 
-    /* Sidebar Navigation styling */
+    /* Sidebar Navigation styling - Frosted Glass Capsule aesthetic */
     .nav-item {
       cursor: pointer;
+      border-radius: 1rem !important;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .nav-active {
-      background: #143D26;
+      background: rgba(255, 255, 255, 0.18) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.28) !important;
       color: #FFFFFF !important;
-      box-shadow: 0 4px 14px rgba(20, 61, 38, 0.25);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
     }
     .dark .nav-active {
-      background: #235F3E;
+      background: rgba(255, 255, 255, 0.15) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.22) !important;
       color: #FFFFFF !important;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
     }
     .nav-inactive {
-      color: #2D5A3F;
+      background: rgba(255, 255, 255, 0.08) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      color: rgba(255, 255, 255, 0.82) !important;
     }
     .dark .nav-inactive {
-      color: #A3C9B2;
+      background: rgba(255, 255, 255, 0.05) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: rgba(255, 255, 255, 0.78) !important;
     }
     .nav-inactive:hover {
-      background: rgba(20, 61, 38, 0.08);
-      color: #0E291A;
+      background: rgba(255, 255, 255, 0.15) !important;
+      border-color: rgba(255, 255, 255, 0.22) !important;
+      color: #FFFFFF !important;
+      transform: translateY(-1px);
     }
     .dark .nav-inactive:hover {
-      background: rgba(35, 95, 62, 0.2);
-      color: #E8F3EC;
+      background: rgba(255, 255, 255, 0.12) !important;
+      border-color: rgba(255, 255, 255, 0.18) !important;
+      color: #FFFFFF !important;
+      transform: translateY(-1px);
     }
 
     /* Print styling for Shopping List */
@@ -205,10 +227,10 @@
     }
   </style>
 </head>
-<body class="bg-[#F8FAF9] dark:bg-[#0B1711] text-[#1A2E22] dark:text-[#E8F3EC] min-h-screen flex flex-col antialiased transition-colors duration-200">
+<body class="bg-[#F6F8F6] dark:bg-[#07100B] text-[#1A2E22] dark:text-[#E8F3EC] min-h-screen flex flex-col antialiased transition-colors duration-200">
 
   <!-- ==================== RESTRICTED GATEKEEPER VIEW ==================== -->
-  <div id="page-restricted" class="hidden min-h-screen flex items-center justify-center p-4 sm:p-6 bg-[#F8FAF9] dark:bg-[#0B1711] relative overflow-hidden">
+  <div id="page-restricted" class="hidden min-h-screen flex items-center justify-center p-4 sm:p-6 bg-[#F6F8F6] dark:bg-[#07100B] relative overflow-hidden">
     <!-- Festive Botanical Background Garland -->
     <div class="w-full max-w-md glass-card rounded-3xl p-8 sm:p-10 shadow-2xl text-center space-y-6 relative z-10 border border-emerald-100 dark:border-emerald-950">
       <div class="flex justify-center">
@@ -242,7 +264,7 @@
   </div>
 
   <!-- ==================== SIGN IN / SIGN UP MODAL / SCREEN ==================== -->
-  <div id="page-auth" class="hidden min-h-screen flex items-center justify-center p-4 bg-[#F8FAF9] dark:bg-[#0B1711] relative overflow-hidden">
+  <div id="page-auth" class="hidden min-h-screen flex items-center justify-center p-4 bg-[#F6F8F6] dark:bg-[#07100B] relative overflow-hidden">
     <div class="w-full max-w-md glass-card rounded-3xl p-8 sm:p-9 shadow-2xl relative z-10 space-y-6">
       
       <div class="text-center space-y-2">
@@ -549,52 +571,55 @@
     <div id="sidebar-overlay" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden lg:hidden"></div>
 
     <!-- LEFT FESTIVE SIDEBAR -->
-    <aside id="app-sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-56 lg:w-56 bg-white dark:bg-[#0D1C15] border-r border-forest-100 dark:border-forest-900/60 flex flex-col justify-between transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none text-xs shrink-0 self-stretch">
+    <aside id="app-sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-56 lg:w-56 bg-[#0E291A]/95 dark:bg-[#08150E]/95 backdrop-blur-xl border-r border-white/10 dark:border-white/5 flex flex-col justify-between transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none text-xs shrink-0 self-stretch text-white">
       
       <div class="p-3.5 sm:p-4 flex flex-col min-h-0 flex-1">
-        <!-- Brand Header in Sidebar -->
-        <div class="flex items-center justify-between pb-3 border-b border-forest-100 dark:border-forest-900/60 shrink-0">
+        <!-- Brand Header Capsule in Sidebar (Matching Header Pill Style) -->
+        <div class="flex items-center justify-between p-2 rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 transition-all shrink-0 shadow-xs">
           <div class="flex items-center space-x-2.5 cursor-pointer select-none" onclick="switchView('dashboard')">
-            <img src="logo.jpg" alt="AvyoraCo Logo" class="w-8 h-8 rounded-xl object-cover shadow-xs ring-2 ring-emerald-500/20">
+            <img src="logo.jpg" alt="AvyoraCo Logo" class="w-8 h-8 rounded-full object-cover shadow-xs ring-2 ring-emerald-400/40 shrink-0">
             <div>
-              <h1 class="text-xs font-extrabold tracking-tight text-forest-900 dark:text-forest-50 leading-tight">AvyoraCo</h1>
-              <span class="text-[9px] font-bold text-forest-500 dark:text-forest-400 block">Christmas Tracker</span>
+              <div class="flex items-center space-x-1.5">
+                <span class="text-[10px] font-bold tracking-wider uppercase text-emerald-300">AvyoraCo</span>
+                <span class="px-1.5 py-0.2 rounded-full text-[8px] font-extrabold bg-festiveRed text-white">2026</span>
+              </div>
+              <h1 class="text-xs font-bold font-serif-header text-white leading-tight">Christmas Tracker</h1>
             </div>
           </div>
-          <button onclick="toggleMobileSidebar()" class="p-1 rounded-lg text-forest-400 hover:text-forest-700 dark:hover:text-forest-200 lg:hidden hover:bg-forest-50 dark:hover:bg-forest-900/40">
+          <button onclick="toggleMobileSidebar()" class="p-1 rounded-lg text-white/70 hover:text-white lg:hidden hover:bg-white/10">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
         <!-- Holiday Navigation Menu -->
-        <nav class="mt-4 space-y-1 overflow-y-auto pr-0.5 flex-1">
+        <nav class="mt-4 space-y-1.5 overflow-y-auto pr-0.5 flex-1">
           <!-- 1. Dashboard / Recipients -->
-          <button id="nav-dashboard" onclick="switchView('dashboard')" class="nav-item nav-active w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all">
+          <button id="nav-dashboard" onclick="switchView('dashboard')" class="nav-item nav-active w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-bold transition-all">
             <div class="flex items-center space-x-2.5">
               <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
               <span>Dashboard</span>
             </div>
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]"></span>
           </button>
 
           <!-- 2. Master Gifts Table (Matching Screenshot) -->
-          <button id="nav-gifts" onclick="switchView('gifts')" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all">
+          <button id="nav-gifts" onclick="switchView('gifts')" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-semibold transition-all">
             <div class="flex items-center space-x-2.5">
               <i data-lucide="gift" class="w-3.5 h-3.5 text-festiveRed"></i>
               <span>Gifts Table</span>
             </div>
-            <span id="sidebar-gifts-badge" class="px-1.5 py-0.5 rounded-full text-[9px] font-extrabold bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-300">
+            <span id="sidebar-gifts-badge" class="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-festiveRed text-white border border-white/20 shadow-xs">
               0
             </span>
           </button>
 
-          <!-- 3. Master Shopping List (New Feature!) -->
-          <button id="nav-shopping" onclick="switchView('shopping')" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all">
+          <!-- 3. Master Shopping List -->
+          <button id="nav-shopping" onclick="switchView('shopping')" class="nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-semibold transition-all">
             <div class="flex items-center space-x-2.5">
-              <i data-lucide="shopping-cart" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i>
+              <i data-lucide="shopping-cart" class="w-3.5 h-3.5 text-emerald-400"></i>
               <span>Shopping List</span>
             </div>
-            <span id="sidebar-shopping-badge" class="px-1.5 py-0.5 rounded-full text-[9px] font-extrabold bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300">
+            <span id="sidebar-shopping-badge" class="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-amber-500 text-white border border-white/20 shadow-xs">
               0 To Buy
             </span>
           </button>
@@ -603,32 +628,32 @@
 
       <!-- Sidebar Footer -->
       <div class="p-3.5 sm:p-4 pt-0 space-y-2 shrink-0">
-        <!-- Festive Mindfulness Joy Card -->
-        <div onclick="triggerFestiveConfetti()" class="p-2.5 rounded-xl bg-forest-50 dark:bg-forest-900/40 border border-forest-100 dark:border-forest-800 flex items-center justify-between cursor-pointer group hover:bg-forest-100 dark:hover:bg-forest-900/70 transition-all" title="Celebrate Holiday Progress!">
-          <div class="flex items-center space-x-2">
-            <div class="w-7 h-7 rounded-full bg-amber-100 dark:bg-amber-950/80 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0 text-xs shadow-xs group-hover:scale-110 transition-transform">
+        <!-- Festive Mindfulness Joy Card in Matching Frosted Capsule -->
+        <div onclick="triggerFestiveConfetti()" class="p-2.5 rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 flex items-center justify-between cursor-pointer group transition-all text-white shadow-sm" title="Celebrate Holiday Progress!">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-full bg-white/15 border border-white/20 flex items-center justify-center text-amber-300 shrink-0 text-sm shadow-xs group-hover:scale-110 transition-transform">
               🎄
             </div>
             <div>
-              <p class="text-[11px] font-bold text-forest-900 dark:text-forest-100 leading-tight">Peaceful Gifting</p>
-              <p class="text-[10px] text-forest-500 dark:text-forest-400">Small Steps ✨</p>
+              <p class="text-[11px] font-bold text-white leading-tight">Peaceful Gifting</p>
+              <p class="text-[10px] text-emerald-200/80">Small Steps ✨</p>
             </div>
           </div>
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-champagne-gold group-hover:rotate-12 transition-transform"></i>
         </div>
 
-        <!-- User Profile Pill & Quick Logout -->
-        <div class="p-2 rounded-xl bg-white dark:bg-forest-950 border border-forest-100 dark:border-forest-900 flex items-center justify-between shadow-xs">
-          <div class="flex items-center space-x-2 min-w-0">
-            <div class="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center font-bold text-xs text-emerald-800 dark:text-emerald-200 shrink-0">
+        <!-- User Profile Pill & Quick Logout in Matching Frosted Capsule -->
+        <div class="p-2.5 rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 flex items-center justify-between transition-all text-white shadow-sm">
+          <div class="flex items-center space-x-2.5 min-w-0">
+            <div class="w-8 h-8 rounded-full bg-white/15 border border-white/20 flex items-center justify-center font-bold text-sm text-emerald-200 shrink-0">
               🎅
             </div>
             <div class="min-w-0">
-              <p id="sidebar-user-name" class="text-[11px] font-bold text-forest-900 dark:text-forest-100 truncate">Holiday Host</p>
-              <p class="text-[9px] text-forest-500 dark:text-forest-400 truncate">Christmas 2026</p>
+              <p id="sidebar-user-name" class="text-[11px] font-bold text-white truncate">Holiday Host</p>
+              <p class="text-[9px] text-emerald-200/80 truncate">Christmas 2026</p>
             </div>
           </div>
-          <button onclick="handleLogout()" title="Log Out" class="p-1 rounded-lg text-forest-400 hover:text-festiveRed hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors">
+          <button onclick="handleLogout()" title="Log Out" class="p-1.5 rounded-lg text-white/70 hover:text-white hover:bg-festiveRed/80 transition-colors">
             <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
           </button>
         </div>
@@ -1114,9 +1139,9 @@
         </div>
 
         <!-- Master Gifts Table (Styling Matching Exactly The Screenshot) -->
-        <div class="glass-card rounded-2xl overflow-hidden shadow-sm border border-forest-100 dark:border-forest-900/60">
+        <div class="glass-card rounded-2xl overflow-hidden shadow-sm border border-forest-100 dark:border-forest-900/60 max-w-full">
           <div class="w-full overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse table-fixed">
+            <table class="w-full min-w-[850px] text-left text-xs border-collapse table-fixed">
               <colgroup>
                 <col class="w-[8%]">      <!-- Group -->
                 <col class="w-[10%]">     <!-- Recipient -->
@@ -2236,9 +2261,9 @@
       const navGifts = document.getElementById('nav-gifts');
       const navShop = document.getElementById('nav-shopping');
 
-      if (navDash) navDash.className = viewName === 'dashboard' ? 'nav-item nav-active w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all' : 'nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all';
-      if (navGifts) navGifts.className = viewName === 'gifts' ? 'nav-item nav-active w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all' : 'nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all';
-      if (navShop) navShop.className = viewName === 'shopping' ? 'nav-item nav-active w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all' : 'nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all';
+      if (navDash) navDash.className = viewName === 'dashboard' ? 'nav-item nav-active w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-bold transition-all' : 'nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-semibold transition-all';
+      if (navGifts) navGifts.className = viewName === 'gifts' ? 'nav-item nav-active w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-bold transition-all' : 'nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-semibold transition-all';
+      if (navShop) navShop.className = viewName === 'shopping' ? 'nav-item nav-active w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-bold transition-all' : 'nav-item nav-inactive w-full flex items-center justify-between px-3 py-2 rounded-2xl text-xs font-semibold transition-all';
 
       // Top horizontal pill buttons
       const pillDash = document.getElementById('pill-nav-dashboard');
